@@ -1,0 +1,83 @@
+{
+  "n_startups": 49,
+  "n_mentors": 61,
+  "seed": 7,
+  "pairs_excluded_failed_grade": 0,
+  "retrieval": {
+    "old (slogan / bio only)": {
+      "recall@1": 0.7755102040816326,
+      "recall@3": 0.8775510204081632,
+      "recall@5": 0.8979591836734694,
+      "MRR": 0.841572042350775,
+      "median_rank": 1.0
+    },
+    "current (full text recipe)": {
+      "recall@1": 0.7346938775510204,
+      "recall@3": 0.8979591836734694,
+      "recall@5": 0.9387755102040817,
+      "MRR": 0.8226825895193243,
+      "median_rank": 1.0
+    }
+  },
+  "scoring": {
+    "embedding rank only": {
+      "final pick = intended": 0.73
+    },
+    "legacy (Gemini 0-100)": {
+      "final pick = intended": 0.76,
+      "AUC intended vs random": 0.974,
+      "mean intended": 96.5,
+      "mean random": 61.3,
+      "top-3 mean range": 13.9,
+      "top-3 distinct scores": 9
+    },
+    "blend w=0.0": {
+      "final pick = intended": 0.86,
+      "AUC intended vs random": 0.984,
+      "mean intended": 94.8,
+      "mean random": 25.8,
+      "top-3 mean range": 40.9,
+      "top-3 distinct scores": 12
+    },
+    "blend w=0.2": {
+      "final pick = intended": 0.86,
+      "AUC intended vs random": 0.981,
+      "mean intended": 94.7,
+      "mean random": 30.9,
+      "top-3 mean range": 33.6,
+      "top-3 distinct scores": 33
+    },
+    "blend w=0.4 (current)": {
+      "final pick = intended": 0.86,
+      "AUC intended vs random": 0.98,
+      "mean intended": 94.6,
+      "mean random": 35.9,
+      "top-3 mean range": 26.6,
+      "top-3 distinct scores": 41
+    },
+    "blend w=0.6": {
+      "final pick = intended": 0.88,
+      "AUC intended vs random": 0.979,
+      "mean intended": 94.6,
+      "mean random": 41.0,
+      "top-3 mean range": 19.4,
+      "top-3 distinct scores": 38
+    },
+    "blend w=0.8": {
+      "final pick = intended": 0.88,
+      "AUC intended vs random": 0.976,
+      "mean intended": 94.4,
+      "mean random": 46.0,
+      "top-3 mean range": 12.3,
+      "top-3 distinct scores": 30
+    },
+    "blend w=1.0": {
+      "final pick = intended": 0.73,
+      "AUC intended vs random": 0.964,
+      "mean intended": 94.4,
+      "mean random": 51.0,
+      "top-3 mean range": 5.6,
+      "top-3 distinct scores": 23
+    }
+  }
+}

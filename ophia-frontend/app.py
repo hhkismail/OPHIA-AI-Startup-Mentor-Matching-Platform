@@ -677,13 +677,16 @@ def render_dashboard():
                     """, unsafe_allow_html=True)
 
                 with c_badge:
+                    score_detail = match.get("score_detail") or (
+                        f"Semantic: {match.get('semantic_score', 0):.2f} · "
+                        f"Taxonomy: {match.get('taxonomy_score', 0):.2f}"
+                    )
                     st.markdown(f"""
                     <div style="display:flex; flex-direction:column; align-items:flex-end;
                                 justify-content:center; height:100%; gap:0.5rem; padding-top:5px;">
                         <span class="synergy-badge">{match['synergy']}% Synergy</span>
                         <div style="font-size:0.65rem; color:#7a8c82; text-align:right;">
-                            Semantic: {match.get('semantic_score', 0.85):.2f} · 
-                            Taxonomy: {match.get('taxonomy_score', 0.88):.2f}
+                            {score_detail}
                         </div>
                     </div>
                     """, unsafe_allow_html=True)

@@ -185,6 +185,8 @@ def run_pipeline():
 
         mentor = generate_mentor(startup, seen_names)
         if mentor:
+            # Ground truth for eval_scoring.py: the startup this mentor was written for
+            mentor["generated_for"] = startup["company_name"]
             print("    → Embedding mentor bio...")
             mentor["bio_embedding"] = get_embedding(mentor_embedding_text(mentor))
             if mentor["bio_embedding"]:

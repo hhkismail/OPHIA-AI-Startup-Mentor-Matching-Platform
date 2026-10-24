@@ -54,6 +54,20 @@ def _fmt_date(iso: str, with_time: bool = False) -> str:
         return ""
 
 
+def _score_detail(item: dict) -> str:
+    """'Domain 5/5 · Need 4/5 · Market 3/5 · Closer than 97% of pairs'"""
+    parts = []
+    grades = item.get("grades")
+    if grades:
+        parts += [f"{label} {grades[key]}/5" for label, key in
+                  (("Domain", "domain_fit"), ("Need", "need_fit"), ("Market", "market_fit"))]
+    else:
+        parts.append("AI review unavailable")
+    if item.get("similarity_percentile") is not None:
+        parts.append(f"Closer than {round(100 * item['similarity_percentile'])}% of pairs")
+    return " · ".join(parts)
+
+
 def _to_match(item: dict, i: int) -> dict:
     return {
         "key": f"live_match_{i}_{item['startup_name']}",
@@ -66,8 +80,7 @@ def _to_match(item: dict, i: int) -> dict:
         "synergy": int(item.get("synergy", 0)),
         "insight": _esc(item.get("insight")),
         "tags": [_esc(t) for t in item.get("tags", [])],
-        "semantic_score": float(item.get("similarity", 0)),
-        "taxonomy_score": float(item.get("synergy", 0)) / 100,
+        "score_detail": _esc(_score_detail(item)),
         # Raw names for sending back to the API on approve
         "startup_raw": item["startup_name"],
         "mentor_raw": item["mentor_name"],

@@ -26,7 +26,7 @@ for p in (REPO_ROOT, REPO_ROOT / "ophia-nlp", REPO_ROOT / "ophia-data"):
     sys.path.insert(0, str(p))
 
 import database                                   # noqa: E402
-from ai_engine import match_startup               # noqa: E402
+from ai_engine import build_similarity_reference, match_startup  # noqa: E402
 from models import ApproveLinkageRequest          # noqa: E402
 
 app = FastAPI(title="OPHIA Core Orchestration Engine")
@@ -93,6 +93,8 @@ def fetch_pending_linkages(limit: int = 5, refresh: bool = False):
 
     already_matched = {e["startup_name"] for e in _db_call(database.get_all_active_entities)}
     mentor_titles = {m["name"]: m.get("title", "") for m in mentors}
+    # Similarity percentiles relative to the current data, not a stale snapshot
+    reference = build_similarity_reference(startups, mentors) if startups else None
 
     linkages = []
     for startup in startups:
@@ -100,7 +102,8 @@ def fetch_pending_linkages(limit: int = 5, refresh: bool = False):
             break
         if startup["company_name"] in already_matched:
             continue
-        matches = match_startup(startup, mentors, top_n=1)
+        # Grade the top 3 by similarity, keep the best by blended synergy
+        matches = match_startup(startup, mentors, top_n=3, reference=reference)
         if not matches:
             continue
         best = matches[0]

@@ -12,6 +12,9 @@ Clients are created lazily, so importing this module never needs credentials.
 
 import os
 import json
+import random
+import threading
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -35,15 +38,22 @@ GEN_MODEL   = os.getenv("GEN_MODEL", "gemini-3.1-flash-lite")
 GEN_LOCATION = os.getenv("GEN_LOCATION", "global")
 
 _clients = {}
+_clients_lock = threading.Lock()
 _db = None
 
 
 def get_client(location: str = GCP_LOCATION):
-    """Vertex AI client for a location (created on first use)."""
-    if location not in _clients:
-        from google import genai
-        _clients[location] = genai.Client(vertexai=True, project=GCP_PROJECT_ID, location=location)
-    return _clients[location]
+    """Vertex AI client for a location (created once, thread-safe).
+
+    Without the lock, threads racing here each build a client; the extras get
+    garbage-collected, which closes their HTTP connection mid-request
+    ("Cannot send a request, as the client has been closed").
+    """
+    with _clients_lock:
+        if location not in _clients:
+            from google import genai
+            _clients[location] = genai.Client(vertexai=True, project=GCP_PROJECT_ID, location=location)
+        return _clients[location]
 
 
 def get_gen_client():
@@ -59,50 +69,126 @@ def _get_db():
     return _db
 
 
-# ── GEMINI STRUCTURED OUTPUT SCHEMA ──────────────────────────────────────────
-MATCH_SCHEMA = {
+# ── SYNERGY SCORING ──────────────────────────────────────────────────────────
+#
+# synergy (0-100) = SIM_WEIGHT * similarity percentile + (1 - SIM_WEIGHT) * rubric
+#
+# Why not just ask Gemini for a 0-100 number? It gave 95-98 to almost every
+# pair: LLMs are poor at picking calibrated numbers and lean positive when
+# asked "why does this match work". Instead Gemini grades three criteria on a
+# 1-5 scale with written anchors (and reasons first), and the code turns the
+# grades into a number.
+#
+# Why a percentile, not raw cosine? With text-embedding-004 nearly all pairs
+# land in 0.3-0.7 and unrelated pairs still score ~0.4, so raw similarity * 100
+# is meaningless. The percentile says "better than X% of all startup-mentor
+# pairs".
+#
+# SIM_WEIGHT, from eval_scoring.py (49 startups): any weight from 0.2 to 0.8
+# re-ranks the top 3 equally well (final pick = intended mentor 86-88%, vs 73%
+# for embeddings alone and 76% for the old 0-100 prompt). Differences in that
+# range are 1-2 startups, i.e. noise. 0.4 gives the most distinct scores while
+# a random mentor still averages ~36 instead of the old ~61.
+SIM_WEIGHT = 0.4
+
+# Percentiles 0,5,...,100 of cosine similarity over all 3,050 startup x mentor
+# pairs in the seeded data. Used when the caller doesn't pass a fresh reference
+# (build_similarity_reference). Regenerate if the data or EMBED_MODEL changes.
+DEFAULT_SIM_REFERENCE = np.array([
+    0.2403, 0.3232, 0.3429, 0.3541, 0.3628, 0.3704, 0.3777, 0.3845, 0.3902, 0.3976,
+    0.4039, 0.4101, 0.4162, 0.4234, 0.4313, 0.4401, 0.4518, 0.4677, 0.4872, 0.5150,
+    0.7053,
+])
+
+RUBRIC_SCHEMA = {
     "type": "OBJECT",
     "properties": {
-        "synergy": {
-            "type": "INTEGER",
-            "description": "Match synergy score from 0 to 100"
+        "reasoning": {
+            "type": "STRING",
+            "description": "2-4 sentences weighing fit AND gaps, written before grading"
         },
+        "domain_fit": {"type": "INTEGER", "minimum": 1, "maximum": 5},
+        "need_fit": {"type": "INTEGER", "minimum": 1, "maximum": 5},
+        "market_fit": {"type": "INTEGER", "minimum": 1, "maximum": 5},
         "insight": {
             "type": "STRING",
-            "description": "Exactly 2 sentences explaining why this mentor-startup pair works"
+            "description": "Exactly 2 sentences for the programme admin: the main reason for the "
+                           "grade, then the biggest gap or what the mentor can concretely help with"
         },
         "tags": {
             "type": "ARRAY",
             "items": {"type": "STRING"},
-            "description": "2-4 taxonomy overlap tags"
+            "description": "2-4 short tags for the actual overlap"
         },
     },
-    "required": ["synergy", "insight", "tags"]
+    "required": ["reasoning", "domain_fit", "need_fit", "market_fit", "insight", "tags"],
+    # Generate the reasoning before the grades, so the grades follow from it
+    "propertyOrdering": ["reasoning", "domain_fit", "need_fit", "market_fit", "insight", "tags"],
 }
 
-INSIGHT_PROMPT = """
-You are OPHIA, an AI ecosystem orchestrator for an innovation platform.
-
-Evaluate this mentor-startup match and return a structured assessment.
+RUBRIC_PROMPT = """
+You are a strict reviewer for a startup accelerator, checking a proposed
+mentor-startup pairing before an administrator approves it. Most proposed
+pairings are mediocre; only give a 5 when the fit is specific and obvious.
 
 STARTUP:
 - Name: {startup_name}
 - Description: {startup_description}
 - Industry Tags: {startup_tags}
+- Country: {startup_country}
 
 MENTOR:
 - Name: {mentor_name}
 - Title: {mentor_title}
 - Bio: {mentor_bio}
-- Skills: {mentor_skills}
+- Skills / industries: {mentor_skills}
 
-Instructions:
-- synergy: Score from 0-100 reflecting how well this mentor's expertise fits the startup's needs.
-  (90-100 = exceptional alignment, 70-89 = strong, 50-69 = moderate, below 50 = weak)
-- insight: Write EXACTLY 2 sentences. First sentence explains the core expertise alignment.
-  Second sentence explains what specific outcome this mentor can drive for the startup.
-- tags: 2-4 short taxonomy tags that describe the overlap (e.g. "AI/ML", "B2B Sales", "Series A Ready").
+Grade each criterion from 1 to 5:
+
+domain_fit — does the mentor know the startup's industry and technology?
+  5 = has built or run a company in this exact space
+  3 = adjacent industry, or the right industry but a different technology
+  1 = unrelated industry
+
+need_fit — can the mentor's skills solve this startup's most likely problems at its stage?
+  5 = their skills target this startup's biggest current challenge
+  3 = generally useful (fundraising, growth) but not specific to it
+  1 = their skills don't address what this startup needs
+
+market_fit — does the mentor know the startup's customers and region?
+  5 = same customer segment and same region
+  3 = same customer segment or same region, not both
+  1 = neither
+
+First write your reasoning, including any gaps, then grade.
 """
+
+def build_similarity_reference(startups: list[dict], mentors: list[dict]) -> np.ndarray:
+    """Percentiles 0,5,...,100 of cosine similarity over every startup x mentor pair."""
+    a = np.array([s["description_embedding"] for s in startups if s.get("description_embedding")], dtype=float)
+    b = np.array([m["bio_embedding"] for m in mentors if m.get("bio_embedding")], dtype=float)
+    a /= np.linalg.norm(a, axis=1, keepdims=True)
+    b /= np.linalg.norm(b, axis=1, keepdims=True)
+    return np.percentile(a @ b.T, np.arange(0, 101, 5))
+
+
+def similarity_percentile(similarity: float, reference=None) -> float:
+    """0-1: share of startup-mentor pairs this similarity beats."""
+    ref = DEFAULT_SIM_REFERENCE if reference is None else reference
+    return float(np.interp(similarity, ref, np.linspace(0, 1, len(ref))))
+
+
+def rubric_score(grades: dict) -> float:
+    """0-1 from three 1-5 grades."""
+    vals = [max(1, min(5, int(grades[k]))) for k in ("domain_fit", "need_fit", "market_fit")]
+    return (sum(vals) / len(vals) - 1) / 4
+
+
+def blend_synergy(sim_pct: float, rubric: float | None, sim_weight: float = SIM_WEIGHT) -> int:
+    """Final 0-100 synergy. Without a rubric (Gemini failed) it's similarity only."""
+    if rubric is None:
+        return round(100 * sim_pct)
+    return round(100 * (sim_weight * sim_pct + (1 - sim_weight) * rubric))
 
 
 # ── CORE FUNCTIONS ────────────────────────────────────────────────────────────
@@ -145,51 +231,81 @@ def _cosine_similarity(vec_a: list[float], vec_b: list[float]) -> float:
     return float(a @ b / denom) if denom else 0.0
 
 
-def _get_gemini_insight(startup: dict, mentor: dict, similarity: float) -> dict:
+def generate_with_retry(retries: int = 5, **kwargs):
+    """generate_content with exponential backoff on 429 rate limits."""
+    for attempt in range(retries):
+        try:
+            return get_gen_client().models.generate_content(**kwargs)
+        except Exception as e:
+            if "429" not in str(e) or attempt == retries - 1:
+                raise
+            time.sleep(2 ** attempt + random.random())
+
+
+def grade_pair(startup: dict, mentor: dict) -> Optional[dict]:
+    """Gemini's rubric grades + insight + tags for one pair, or None on failure."""
     from google.genai import types
 
-    prompt = INSIGHT_PROMPT.format(
+    prompt = RUBRIC_PROMPT.format(
         startup_name=startup.get("company_name", ""),
-        startup_description=startup.get("description", ""),
+        startup_description=startup_embedding_text(startup),
         startup_tags=", ".join(startup.get("industry_tags", [])),
+        startup_country=startup.get("country", "unknown"),
         mentor_name=mentor.get("name", ""),
         mentor_title=mentor.get("title", ""),
         mentor_bio=mentor.get("bio", ""),
-        mentor_skills=", ".join(mentor.get("skills", []))
+        mentor_skills=", ".join(dict.fromkeys(mentor.get("skills", []) + mentor.get("industry_tags", []))),
     )
     try:
-        response = get_gen_client().models.generate_content(
+        response = generate_with_retry(
             model=GEN_MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",
-                response_schema=MATCH_SCHEMA,
-                temperature=0.3,
+                response_schema=RUBRIC_SCHEMA,
+                temperature=0,
             )
         )
-        data = json.loads(response.text)
-        data["synergy"] = max(0, min(100, int(data.get("synergy", 0))))
-        return data
+        grades = json.loads(response.text)
+        rubric_score(grades)  # validates the three grades are present
+        return grades
     except Exception as e:
-        # Fall back to the embedding score rather than a made-up constant
-        print(f"[ai_engine] Gemini insight error: {e}")
+        print(f"[ai_engine] Gemini grading error: {e}")
+        return None
+
+
+def score_pair(startup: dict, mentor: dict, similarity: float, reference=None) -> dict:
+    """Synergy, insight and tags for one pair. Falls back to similarity only."""
+    sim_pct = similarity_percentile(similarity, reference)
+    grades = grade_pair(startup, mentor)
+    if grades is None:
         return {
-            "synergy": max(0, min(100, round(similarity * 100))),
+            "synergy": blend_synergy(sim_pct, None),
             "insight": (
-                f"{mentor.get('name')}'s background is semantically close to "
-                f"{startup.get('company_name')}'s focus area. "
-                "AI explanation unavailable — score is based on embedding similarity only."
+                f"{mentor.get('name')}'s profile is closer to {startup.get('company_name')} "
+                f"than {round(100 * sim_pct)}% of startup-mentor pairs. "
+                "AI review unavailable — score is based on embedding similarity only."
             ),
-            "tags": startup.get("industry_tags", [])[:3]
+            "tags": startup.get("industry_tags", [])[:3],
+            "grades": None,
         }
+    return {
+        "synergy": blend_synergy(sim_pct, rubric_score(grades)),
+        "insight": grades["insight"],
+        "tags": grades.get("tags", []),
+        "grades": {k: grades[k] for k in ("domain_fit", "need_fit", "market_fit")},
+    }
 
 
-def match_startup(startup: dict, mentors: list[dict], top_n: int = TOP_N_MATCHES) -> list[dict]:
+def match_startup(startup: dict, mentors: list[dict], top_n: int = TOP_N_MATCHES,
+                  reference=None) -> list[dict]:
     """
-    Ranks mentors for one startup by cosine similarity, then asks Gemini to
-    score and explain the top N. Never raises — returns [] on failure.
+    Ranks mentors for one startup by cosine similarity, then has Gemini grade
+    the top N, and sorts them by blended synergy. Never raises — returns [] on
+    failure. `reference` is from build_similarity_reference (default: built-in).
 
-    Each result matches the MatchResult schema plus `similarity` (0-1).
+    Each result matches the MatchResult schema plus `similarity` (raw cosine,
+    0-1) and `grades` (the rubric, or None if Gemini failed).
     """
     startup_vec = startup.get("description_embedding")
     if not startup_vec:
@@ -207,15 +323,17 @@ def match_startup(startup: dict, mentors: list[dict], top_n: int = TOP_N_MATCHES
 
     results = []
     for similarity, mentor in scored[:top_n]:
-        print(f"[ai_engine]  → Gemini insight: {mentor.get('name')}")
-        insight_data = _get_gemini_insight(startup, mentor, similarity)
+        print(f"[ai_engine]  → Gemini grading: {mentor.get('name')}")
+        scored_pair = score_pair(startup, mentor, similarity, reference)
         results.append({
             "startup_name": startup.get("company_name"),
             "mentor_name":  mentor.get("name"),
-            "synergy":      insight_data.get("synergy", 0),
-            "insight":      insight_data.get("insight", ""),
-            "tags":         insight_data.get("tags", []),
+            "synergy":      scored_pair["synergy"],
+            "insight":      scored_pair["insight"],
+            "tags":         scored_pair["tags"],
             "similarity":   round(similarity, 3),
+            "similarity_percentile": round(similarity_percentile(similarity, reference), 3),
+            "grades":       scored_pair["grades"],
         })
     results.sort(key=lambda r: r["synergy"], reverse=True)
     return results
