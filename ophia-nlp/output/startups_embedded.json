@@ -787,7 +787,8 @@
       0.007515352219343185,
       -0.028882013633847237,
       -0.04209071397781372
-    ]
+    ],
+    "long_description": "We are a biotechnology company integrating AI, computation and biological automation to accelerate the design of small molecule and protein therapeutics. Our mission is to decrease the timeline and cost of drug development, while improving the success rate of bring innovative medicines to patients in need.\r\n\r\nWe have two drug discovery engines - ELVIS\u2122 and ROSALYND\u2122 - that enable the design of both small molecule and protein therapeutics, an unmatched capability in the AI drug discovery space. Our therapeutic area-agnostic, end-to-end technology powers the full length of early drug discovery - from novel hit discovery to hit to lead, and lead optimization. \r\n\r\nWe are currently applying our technology to drug discovery programs in several areas including, but not limited to, neuroscience, infectious disease, immunology and oncology."
   },
   {
     "company_name": "Nectar",
@@ -1586,7 +1587,8 @@
       -0.06192239746451378,
       0.08029782027006149,
       0.03126391023397446
-    ]
+    ],
+    "long_description": "Nectar is the middle layer between fragmented data sources and any ESG platform. For example, our software extracts data from any utility bill in the country, structures it, and then inputs it into existing ESG reporting software."
   },
   {
     "company_name": "Konta.com",
@@ -2384,7 +2386,8 @@
       -0.002944416832178831,
       0.09606534242630005,
       0.05910779908299446
-    ]
+    ],
+    "long_description": "Konta.com is a tax filing and accounting platform for small businesses in M\u00e9xico."
   },
   {
     "company_name": "Edoome",
@@ -3178,7 +3181,8 @@
       0.012752671726047993,
       0.03605248034000397,
       0.01147512998431921
-    ]
+    ],
+    "long_description": "Edoome turns the classroom into an online community, so teachers, students and parents can communicate and collaborate in an easy and secure way.\r\n\r\nEdoome is a free service where teachers, students and parents can create or join a course to start collaborating, posting assignments, generating online quizzes and sharing files."
   },
   {
     "company_name": "Mirrorful",
@@ -3978,7 +3982,8 @@
       0.01604546047747135,
       0.013547630980610847,
       -0.02870599366724491
-    ]
+    ],
+    "long_description": "Mirrorful makes it easy for software engineers to implement designs faster. Several companies use Mirrorful to manage their design system \u2014 the \"building blocks\" of their app \u2014 by using our visual editor and developer framework."
   },
   {
     "company_name": "Sero",
@@ -4777,7 +4782,8 @@
       -0.0282960943877697,
       -0.0020427906420081854,
       -0.03807568922638893
-    ]
+    ],
+    "long_description": "Leverage your existing CRM as the source of truth. \r\n\r\nCreate frictionless experiences between customers and internal teams using our shared spaces"
   },
   {
     "company_name": "Filadd",
@@ -5587,7 +5593,8 @@
       -0.010380311869084835,
       0.08642056584358215,
       0.017278973013162613
-    ]
+    ],
+    "long_description": "With online courses, we help students graduate from University, starting from the admissions and throughout their entire college education until they graduate. All our courses include 24/7 interaction with our Tutors and Teachers making 95% of our users reach their desire score. We have prepared more than 10,000 students and in 2021 we have already made 800K which means 6X Year-over-Year growth."
   },
   {
     "company_name": "Fuell",
@@ -6377,7 +6384,8 @@
       -0.06377146393060684,
       0.04736405238509178,
       -0.008605957962572575
-    ]
+    ],
+    "long_description": "Fuell is an expense management software that helps European companies manage card payments and reimbursements. We automatize expense management so that the employees, bookkeepers, and CFOs can save money and time. We're live in Spain and Portugal. We are working toward a future we call \u201cpay and leave.\u201d Where the employee just has to pay and the receipt is directly sent from the merchant to Fuell, without the employee having to do anything.\r\n"
   },
   {
     "company_name": "Bakool",
@@ -7177,7 +7185,8 @@
       0.05177972838282585,
       0.06382239609956741,
       -0.039253611117601395
-    ]
+    ],
+    "long_description": "Bakool is the first group buying platform for fresh produce in Indonesia\u2019s tier 2 cities. Our agent network allows customers to get produces cheaper than retail, delivered"
   },
   {
     "company_name": "Players' Lounge",
@@ -7979,7 +7988,8 @@
       -0.03537990525364876,
       0.028897130861878395,
       0.02677326276898384
-    ]
+    ],
+    "long_description": "Players\u2019 Lounge enables gamers of all skill levels to bet on the outcome of their video game matches and win money. Our mission at Players\u2019 Lounge is to give gamers a monetary return on their gaming time, while adding a new layer of fun and entertainment. \r\n\r\nWe have raised $15m in funding. Investors include: ycombinator, Samsung, Griffin Gaming Partners, Strauss Zelnick, Drake and Myles Garrett.\r\n"
   },
   {
     "company_name": "Logarithm Labs",
@@ -8776,7 +8786,8 @@
       -0.06678460538387299,
       0.04840892180800438,
       0.037844978272914886
-    ]
+    ],
+    "long_description": "Easy button to use data for your daily operations. Power your business workflows with quality data.\r\n\r\nLogarithm Labs helps you turn manual data wrangling and ad-hoc scripts into repeatable pipelines for your operational workflows. Power your workflows with quality data.\r\n\r\nOur product and team of experts do the heavy lifting so that can focus on the business logic that drives your organization.\r\n\r\nTo learn more, contact us at hello@logarithmlabs.com."
   },
   {
     "company_name": "SALT",
@@ -9574,7 +9585,8 @@
       -0.06257930397987366,
       0.041943274438381195,
       -0.021637698635458946
-    ]
+    ],
+    "long_description": "Salt is a neo banking solution stitched together to ease payments and documentation which comes with business banking by moving it to a digital-first and automated end to end platform."
   },
   {
     "company_name": "coil",
@@ -10374,7 +10386,8 @@
       -0.06679148226976395,
       0.011074282228946686,
       0.09110121428966522
-    ]
+    ],
+    "long_description": "We help merchants seamlessly accept bank payments to reduce processing fees and churn."
   },
   {
     "company_name": "Avion",
@@ -11177,7 +11190,8 @@
       -0.010078527964651585,
       0.04796108603477478,
       -0.012997130863368511
-    ]
+    ],
+    "long_description": "Avion designs, builds and operates autonomous drones to deliver vital medical supplies to remote areas. Our drones are designed to carry 10 pounds of payloads to distances as far as 100 miles. Designed on top of our innovative hybrid propulsion system, Avion\u2019s drones provide unparalleled range and vertical take-off and landing capabilities.\r\n\r\nFurthermore, Avion has built a state of the art unmanned aerial vehicle maintenance, operation and repair platform that has a potential to become a revenue generating part of our business as we expand to provide Drone-as-a-Service offerings for corporate customers in various sectors mining, agriculture, mapping and surveillance.\r\n"
   },
   {
     "company_name": "Reverie Labs",
@@ -11975,7 +11989,8 @@
       -0.006126277148723602,
       0.01503172516822815,
       -0.06488805264234543
-    ]
+    ],
+    "long_description": "Reverie Labs is engineering next-generation, brain-penetrant cancer therapies.\r\n"
   },
   {
     "company_name": "Somos",
@@ -12766,7 +12781,8 @@
       -0.0003166866663377732,
       0.07327646762132645,
       -0.025041233748197556
-    ]
+    ],
+    "long_description": "We use cutting-edge radio tech operating in unlicensed spectrum to rapidly build fiber-quality networks (1Gbps ) in the urban developing world."
   },
   {
     "company_name": "The Mercer Club",
@@ -13570,7 +13586,8 @@
       0.018581056967377663,
       0.01264671515673399,
       0.05673203617334366
-    ]
+    ],
+    "long_description": "The Mercer Club is e-commerce's first-ever men\u2019s rental service offering luxury and streetwear fashions at affordable pricing\u2014 think of it as Rent the Runway for men. Founded on the principle that fashion should be affordable and accessible, The Mercer Club aims to deliver an assortment of clothing, shoes and accessories to fulfill all a man's wardrobe needs, helping them stay on trend while considering their budget. Customers can rent pieces from well-known streetwear brands such as Yeezy, Nike and Supreme or luxury designers such as Gucci, Margiela, Acne and Balenciaga for as little as $25 a day or a monthly subscription for $75 a month. With the subscription plan, renters get 2 items at a time and swap out each week for another set of 2 items. The process is seamless from beginning to end\u2014 after placing an order, items arrive in 2-3 days in a custom box with a prepaid return shipping label. Our specialized team takes care of any laundering on your behalf and minor wear and tear is covered by us."
   },
   {
     "company_name": "GoGoGrandparent",
@@ -14367,7 +14384,8 @@
       0.012850478291511536,
       0.007828653790056705,
       -0.03566325083374977
-    ]
+    ],
+    "long_description": "GoGoGrandparent is a virtual retirement community that offers rides, meals, medication and groceries for older adults living at home. All services are accessible via regular phone call (no special technology required) and all service providers are vetted & screened. All requests are monitored for greater than 99% reliability, many of our clients rely on us to live years longer in their home. "
   },
   {
     "company_name": "Gluetrail",
@@ -15166,7 +15184,8 @@
       -0.007569365203380585,
       -0.01121273823082447,
       0.010976324789226055
-    ]
+    ],
+    "long_description": "Gluetrail is a revenue planning SaaS. CROs and Sales leaders use Gluetrail to build their revenue plan and track actuals versus plan targets and hypothesis, such as sales capacity, quotas, pipeline, headcount or ramp up. "
   },
   {
     "company_name": "Plumter",
@@ -15962,7 +15981,8 @@
       -0.06624030321836472,
       0.020661035552620888,
       -0.008179495111107826
-    ]
+    ],
+    "long_description": "We're providing payment rails and APIs to help African merchants and consumers easily move money in and out of Africa."
   },
   {
     "company_name": "Belvo",
@@ -16759,7 +16779,8 @@
       -0.036685340106487274,
       0.08193550258874893,
       0.03956238925457001
-    ]
+    ],
+    "long_description": "We are Belvo, a financial API platform for Latam that enables any company or developer to access and interpret their end-users' financial information, through one easy-to-use API. Think Plaid for Latam.\r\n\r\nOur vision is to power the next generation of financial services in Latam by enabling more inclusive, efficient and empowering offerings through tech and data. Latam is a very exciting and dynamic place to be right now and a great place to build infrastructure for the next generation of financial products for a huge market."
   },
   {
     "company_name": "inSoma Bio",
@@ -17556,7 +17577,8 @@
       0.03363267332315445,
       0.04720047116279602,
       -0.01872444711625576
-    ]
+    ],
+    "long_description": null
   },
   {
     "company_name": "Buoyant Aero",
@@ -18354,7 +18376,8 @@
       -0.0361870601773262,
       0.016323823481798172,
       -0.03811579570174217
-    ]
+    ],
+    "long_description": "Buoyant Aero builds unmanned blimps that move middle-mile air freight at half the cost of a small plane. We're two MIT hardware engineers who've been friends for almost a decade, and we've built satellites and antennas at Astranis, Wafer, and OneWeb. So far, we\u2019ve built and flown four airships - our most recent is 20 feet long and capable of speeds up to 35 miles per hour. We\u2019ve also closed $5 million in LOIs and have two pilot programs planned. We're starting by improving air cargo in remote regions like Alaska and northern Canada, and will expand to move less-than-truckload shipments in low density parts of the world.\r\n"
   },
   {
     "company_name": "Malga",
@@ -19158,7 +19181,8 @@
       -0.07031223922967911,
       0.009783906862139702,
       0.028546171262860298
-    ]
+    ],
+    "long_description": "Malga gives digital businesses access to multiple payments services through a single integration, and the ability to change between them on a transaction to transaction basis without writing code. \r\n"
   },
   {
     "company_name": "Pensil",
@@ -19954,7 +19978,8 @@
       -0.021133510395884514,
       0.031972091645002365,
       0.016247907653450966
-    ]
+    ],
+    "long_description": null
   },
   {
     "company_name": "Cambly",
@@ -20750,7 +20775,8 @@
       -0.054359011352062225,
       0.05167165398597717,
       0.02022007293999195
-    ]
+    ],
+    "long_description": "The Cambly app gives English learners instant 1-on-1 access to friendly native speakers over video chat 24/7. Students get an affordable and convenient way to practice their English and gain confidence. Tutors get to make money helping people from around the world practice English."
   },
   {
     "company_name": "Keylika",
@@ -21550,7 +21576,8 @@
       0.01961101032793522,
       0.003602830693125725,
       -0.038335204124450684
-    ]
+    ],
+    "long_description": "Keylika is an early stage biopharma startup developing metal-based drugs using a platform synthesis technology to treat unmet medical needs. We then administer these drugs using proven delivery technologies to effect the best clinical outcomes. \r\n\r\nOur first product is a small molecule iron drug (new molecular entity) delivered by a wearable skin patch to treat Iron Deficiency Anemia (IDA), with significantly higher safety, efficacy and tolerability over existing treatments. This is poised to be a best-in-class, potentially breakthrough therapy for treating iron deficiency without any GI side-effects (eg. nausea, constipation, diarrhoea, etc.) typically associated with oral iron supplements, and without the risks, costs and side-effects associated with IV iron infusions. When approved, Keylika\u2019s proprietary transdermal iron will be the world's first prescription iron patch. Iron deficiency is a hugely understated problem affecting about 1.6 billion people worldwide and more than 30 million in the US alone, translating to a $17B US market."
   },
   {
     "company_name": "Mobydish",
@@ -22341,7 +22368,8 @@
       0.01725187338888645,
       2.210893580922857e-05,
       -0.03590184822678566
-    ]
+    ],
+    "long_description": "MobyDish, a tech-enabled service, allowing anyone to place a catering order online in less than 3min to feed people from 10 to 1,000 people. We select the best restaurants, hire and train our fleet of drivers who will deliver and setup and we're proud to have the best customer service in the space. We also offer on site catering host and premium service that can be requested in up to 48hours in advance. \r\nWe own our tech from online ordering, to manage and dispatch orders to drivers, and build customer relationship. \r\n\r\nWe're used by top companies in the biggest cities in the US and we help for our customers with any needs from breakfast, lunch, happy hour and dinner. We are known for our flexibility, reliability and provide recurring and last-minute catering orders. "
   },
   {
     "company_name": "Dashworks",
@@ -23138,7 +23166,8 @@
       -0.09171688556671143,
       -0.02086256630718708,
       0.013222073204815388
-    ]
+    ],
+    "long_description": "Dashworks is where work begins. Where all your documents, messages, tickets, and other knowledge scattered across your company's apps and people come together seamlessly. And where you and your team can get on the same page, and get things done."
   },
   {
     "company_name": "ShipBob",
@@ -23935,7 +23964,8 @@
       -0.0332326740026474,
       -0.010358339175581932,
       -0.031238388270139694
-    ]
+    ],
+    "long_description": "Founded in 2014 and based in Chicago, ShipBob is a privately held technology company that offers simple, fast, and affordable fulfillment for e-commerce businesses. As an end-to-end fulfillment solution, ShipBob provides warehousing and package delivery in 1-2 business days, with a network of fulfillment centers across the US. ShipBob\u2019s software combines order and inventory management, customer communication, predictive insights, and optimized shipping for online merchants. ShipBob\u2019s software is also fully integrated with leading e-commerce platforms, including eBay, Shopify, Amazon, Magento, and many more."
   },
   {
     "company_name": "Genecis Bio",
@@ -24728,7 +24758,8 @@
       0.021711772307753563,
       -0.00726568466052413,
       -0.014399031177163124
-    ]
+    ],
+    "long_description": null
   },
   {
     "company_name": "Sleep Reset",
@@ -25522,7 +25553,8 @@
       -0.015261730179190636,
       -0.011951814405620098,
       -0.08476913720369339
-    ]
+    ],
+    "long_description": "Our mission is to improve quality of life for millions of people by providing easy, immediate access to the world\u2019s best sleep care.\r\n\r\nSleep Reset is a digital, personalized sleep clinic, available in a convenient mobile app for iOS and Android. Our program was designed in partnership with leading sleep experts from top sleep clinics and universities. The program improves sleep and reduces sleep anxiety with the most effective methods from sleep clinics, including strategies based on Cognitive Behavioral Therapy for Insomnia (CBT-i) which are proven to be more effective than sleeping pills. Throughout our program, each member is paired with a dedicated sleep coach who personalizes their program. It\u2019s a life-long, sustainable solution to sleep better in weeks, with no pills or melatonin needed \u2013 which means no grogginess, side effects, or dependency.\r\n\r\nSleep Reset has been covered in Forbes, TechCrunch, and INSIDER. The company was founded by Yunha Kim, a serial entrepreneur recognized by Forbes as 30 Under 30 and is backed by top Silicon Valley investors including YCombinator, Foundation Capital, New Enterprise Associates, Stanford University and 20+ founders/executives of leading companies."
   },
   {
     "company_name": "GrowthBook",
@@ -26321,7 +26353,8 @@
       -0.024703374132514,
       -0.020400457084178925,
       0.018633930012583733
-    ]
+    ],
+    "long_description": "GrowthBook is an open source platform to help companies make data-driven product decisions with feature flags and A/B tests.  \r\n\r\nExisting SaaS solutions like LaunchDarkly require a company to send all of their data to them. This results in high costs, data compliance issues, and vendor lock-in.  As a result, many companies end up building their own platforms in-house, which can take thousands of hours of work and lots of headaches.  To solve this, GrowthBook uses a company's existing data infrastructure and business metrics.\r\n\r\nWe believe feature flags and experimentation are the right way to build products at scale and that they will become a standard part of the development process.  GrowthBook is well positioned to be a leader in this growing market."
   },
   {
     "company_name": "Corvus Robotics",
@@ -27119,7 +27152,8 @@
       -0.06282607465982437,
       0.02493892051279545,
       -0.023285361006855965
-    ]
+    ],
+    "long_description": "Our software allows drones to fly indoors and collect analytics, helping warehouses automate inventory collection."
   },
   {
     "company_name": "Mendable",
@@ -27929,7 +27963,8 @@
       -0.03911849483847618,
       0.018794003874063492,
       0.043612636625766754
-    ]
+    ],
+    "long_description": "We\u2019re building a chat-powered search tool that\u2019s embeddable in your docs, product, or community to answer developer questions and reduce their time to hello world.\r\n\r\nPreviously SideGuide."
   },
   {
     "company_name": "PlusIdentity",
@@ -28729,7 +28764,8 @@
       -0.04003510996699333,
       0.01688406802713871,
       0.04131186380982399
-    ]
+    ],
+    "long_description": "At PlusIdentity, we\u2019re building the best password manager for startups, starting with a Slack app. With backgrounds in CS and Econ, we (Channy & Ike) left Harvard to work on this because we noticed that there isn\u2019t a password manager specifically built for startups. We recently launched within the YC community with our Slack app and our users already love how easy we are to set up and use. Our goal is to become every YC company's password manager, then grow with our users to eventually become the security & identity backbone of fast growing tech companies. In 5 years, we are going to be the Okta for startups."
   },
   {
     "company_name": "Elto",
@@ -29529,7 +29565,8 @@
       -0.07056333869695663,
       0.02654089964926243,
       -0.051688555628061295
-    ]
+    ],
+    "long_description": "Elto (elto.ai) is an AI-powered dialer that helps sales reps 10x cold-call volume by calling multiple prospects concurrently, detecting human pickups, and dropping users into the calls immediately. Customers who use Elto save hours of listening to dial tones and voicemails, and spend more time speaking to engaged prospects."
   },
   {
     "company_name": "Mindee",
@@ -30335,7 +30372,8 @@
       -0.05866648256778717,
       0.04102019965648651,
       -0.0013594130286946893
-    ]
+    ],
+    "long_description": "Documents are everywhere. Through all industries, understanding their content is a critical step of many processes that software builders throughout the globe want to automate.\r\n\r\nWe focus on the science, the AI, the deep learning to give these builders the one API they need to automate the understanding of documents and give their software human-like superpowers.\r\n\r\nBased on three pillars:\r\n- A product: a universal self-service platform where builders can train their own models\r\n- A catalog of use-cases: We push critical use cases to the limits of human performances in critical markets such as Accounting software, AP Automation, Expense Management, KYC and many others\r\n- A internal capability to make tailor-made AI: We answer to specific needs from large customers that needs a custom AI of their own to handle their use cases"
   },
   {
     "company_name": "Datlo",
@@ -31133,7 +31171,8 @@
       0.0004227453609928489,
       0.01926160790026188,
       0.038118232041597366
-    ]
+    ],
+    "long_description": "Datlo is a geointelligence platform made for sales and marketing folks. In seconds you can conduct market research, find new customers, and distribution channels for your company. All of that without needing a data scientist or a programmer. \r\n"
   },
   {
     "company_name": "Ribbon Health",
@@ -31932,7 +31971,8 @@
       0.005793195683509111,
       0.03817800432443619,
       0.01592353917658329
-    ]
+    ],
+    "long_description": "Ribbon Health is a health care data platform that provides the critical infrastructure that health insurers, medical providers, and digital health solutions need to enable accurate provider directories, reliable referral management, and efficient care navigation. \r\n\r\nWe offer a seamless API layer that integrates into each health care organization's existing workflow to build connectivity across the industry and continuously improve the accuracy of its data with its spread and use. \r\n\r\nRibbon is the only solution to offer all of these capabilities in one platform, and delivers the most comprehensive data on doctors, insurance plans, and the cost and quality of care culled from thousands of sources. \r\n\r\nBy providing this infrastructure, Ribbon delivers on its mission of making it easy for every health care decision to be high-quality, cost effective, and convenient. "
   },
   {
     "company_name": "Streak",
@@ -32734,7 +32774,8 @@
       0.01658814214169979,
       0.028675640001893044,
       0.023095766082406044
-    ]
+    ],
+    "long_description": "At Streak, we are building a new age personalized & gamified banking solution for teenagers.\r\n\r\nWe are a fast-paced edu-fintech startup working towards redefining children and teenagers' relationship with money."
   },
   {
     "company_name": "Neodocs",
@@ -33538,7 +33579,8 @@
       -0.04210694879293442,
       0.009739002212882042,
       -0.030365435406565666
-    ]
+    ],
+    "long_description": "Neodocs lets you perform instant lab tests on your smartphone. Our users are health optimizers and athletes who want to improve key nutritional markers for better performance.\r\n\r\nYou simply collect your sample, take a picture, and results are instantly generated.\r\n\r\n\r\nWe are the perfect team to build this. Anurag is a 3-time medical entrepreneur who\u2019s built medical devices, Pratik has worked on AI/ML models for leading US banks, and  Nikunj comes from a consulting background at Bain & Co.\r\n\r\nWe\u2019re building your personal lab on your phone."
   },
   {
     "company_name": "Agap\u00e9",
@@ -34334,7 +34376,8 @@
       -0.04530951380729675,
       0.020624561235308647,
       0.003486230270937085
-    ]
+    ],
+    "long_description": "Agap\u00e9 is a relationship wellness app that helps you feel close to your friends, family, or partner, even when apart! We curate daily questions to spark meaningful conversations."
   },
   {
     "company_name": "Ridecell",
@@ -35128,7 +35171,8 @@
       -0.020055552944540977,
       -0.015661275014281273,
       -0.013916071504354477
-    ]
+    ],
+    "long_description": "Ridecell is leading the way in the digital transformation of fleet businesses and operations. Our Fleet Automation and Mobility solutions modernize and monetize fleets by combining data insights with digital vehicle control to turn today\u2019s manual processes into automated workflows. The result is unmatched levels of efficiency and control for leasing, rental,  government, commercial and shared fleets.\r\n\r\nToday Ridecell powers some of the most successful fleet businesses and the leading government fleets in cities across Europe and North America. Our customers and partners include:\r\nPenske  - the largest truck fleet in America with 400,000 trucks\r\nMobility fleets for Toyota, Ford, Daimler, BMW - - the largest OEMs in the world and\r\nBNP Paribas, Arval: 1,500,000 vehicles, the 2nd largest fleet in Europe\r\nAnd  the largest government fleets in the world including San Francisco, New York City, the Belgian Government \r\n\r\nOur platform makes these businesses more intelligent, accessible, efficient and safer by connecting and automating the core technology pillars including vehicle technology like telematics, camera and ADAS system, and enterprise platforms including CRM, commerce and finance systems. \r\n\r\n\r\n\r\n\r\nRidecell is headquartered in San Francisco, California with offices in Madrid, Paris, Berlin and Pune, India."
   },
   {
     "company_name": "Posh",
@@ -35927,7 +35971,8 @@
       -0.11195919662714005,
       0.0469452328979969,
       -0.013354870490729809
-    ]
+    ],
+    "long_description": "We design, develop and manufacture sustainable battery solutions."
   },
   {
     "company_name": "Charityvest",
@@ -36725,7 +36770,8 @@
       0.004982317797839642,
       0.05095815658569336,
       0.04754135385155678
-    ]
+    ],
+    "long_description": "Charityvest is the modern donor-advised fund, for individuals and corporations.\r\n- Make tax-smart contributions of cash, stock, crypto, equity and more to your DAF.\r\n- Invest your charitable balance for tax-free growth with low-cost ETFs.\r\n- Send grants to 1.4 million charities with a few clicks.\r\n- Receive one tax receipt for all of your giving."
   },
   {
     "company_name": "Noya Software",
@@ -37525,7 +37571,8 @@
       -0.042993828654289246,
       0.011695156805217266,
       -0.027173496782779694
-    ]
+    ],
+    "long_description": "Noya is a new kind of product design tool for non-designers. This is our second time co-founding a design tools company \u2013 our first company was acquired by Airbnb in 2017 and we became the design tools team there.\r\n\r\nAt Airbnb, we built the design infrastructure that the entire company relied on to scale design without increasing headcount costs. We did this by letting non-designers (such as marketing, PMs, and engineering) design screens and websites.  Now we're making these tools available to every company."
   },
   {
     "company_name": "Tranch",
@@ -38322,7 +38369,8 @@
       -0.04974622279405594,
       0.021463200449943542,
       0.022409705445170403
-    ]
+    ],
+    "long_description": "Tranch is the modern approach for businesses to be paid upfront, faster and easier. We are the only B2B checkout to offer Pay Now and Pay Later up to 12 months for invoices across the Services sector.\r\n\r\nWe enable Services (law firms, design agencies, etc), software and marketplaces to be paid quicker, upfront and offer their customers flexible payment options including Pay Now and Pay Later from 2 to 12 months.\r\n\r\nBy offering a \u2018Pay with Tranch\u2019 checkout businesses can offer a fast and easy way for their end-customers to pay for invoices on their terms.\r\n\r\nTranch is backed by leading investors including; Global Founders Capital, Soma Capital, FoundersX and Y Combinator."
   },
   {
     "company_name": "True Link",
@@ -39118,7 +39166,8 @@
       -0.012315318919718266,
       0.01947125419974327,
       -0.007764185778796673
-    ]
+    ],
+    "long_description": "True Link exists to provide life-changing financial solutions for people with complex needs and the people who care for them. We founded the company to make life better for our own loved ones, and we\u2019re honored to serve vulnerable elders, people with disabilities, and people in recovery \u2013 and their families and professional caregivers \u2013 day in and day out.\r\n\r\nWe\u2019re a caring, diverse, values-driven company, with customers who say things like, \u201cYour company saved my marriage,\u201d \u201cIf not for True Link my Son would have returned to substance use,\u201d and \u201cThis is the single best product I have ever experienced.\u201d We\u2019re a fast-growing fintech startup that also gets to provide our customers a life-changing solution to some of the most deeply personal, important problems in their lives."
   },
   {
     "company_name": "Breezeful",
@@ -39914,6 +39963,7 @@
       -0.023136194795370102,
       0.004030166659504175,
       -0.022220132872462273
-    ]
+    ],
+    "long_description": "Breezeful gets you the best mortgage online from start to close. Instead of dealing with multiple banks, credit checks and in-person meetings, we\u2019ll use your income, credit score, and other financial data from your application to negotiate with hundreds of lenders on your behalf in seconds. "
   }
 ]

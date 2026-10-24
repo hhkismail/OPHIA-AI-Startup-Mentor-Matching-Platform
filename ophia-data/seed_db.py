@@ -8,7 +8,8 @@
 #              falling back to 3 built-in sample startups
 #   mentors  → ophia-data/data/mentors.json (curated)
 #              + ophia-nlp/output/mentors_embedded.json if present
-# Any record without an embedding is embedded here, so matching works.
+# Every record is (re-)embedded here with ai_engine's text recipes, so all
+# stored vectors are comparable even if the recipe or model changed.
 #
 # Run from the repo root:  python ophia-data/seed_db.py
 
@@ -21,7 +22,7 @@ REPO_ROOT = HERE.parent
 sys.path.insert(0, str(REPO_ROOT / "ophia-nlp"))
 
 from database import get_db          # noqa: E402
-from ai_engine import get_embedding  # noqa: E402
+from ai_engine import get_embedding, mentor_embedding_text, startup_embedding_text  # noqa: E402
 
 CURATED_MENTORS = HERE / "data" / "mentors.json"
 PIPELINE_MENTORS = REPO_ROOT / "ophia-nlp" / "output" / "mentors_embedded.json"
@@ -39,9 +40,8 @@ def _slug(name: str) -> str:
     return "".join(c if c.isalnum() else "_" for c in name.lower()).strip("_")[:50]
 
 
-def _ensure_embedding(record: dict, vec_field: str, text_field: str) -> bool:
-    if not record.get(vec_field):
-        record[vec_field] = get_embedding(record.get(text_field, ""))
+def _embed(record: dict, vec_field: str, text_fn) -> bool:
+    record[vec_field] = get_embedding(text_fn(record))
     return bool(record[vec_field])
 
 
@@ -78,7 +78,7 @@ def load_mentors() -> list:
         if m.get("name") in seen:
             continue
         seen.add(m["name"])
-        if _ensure_embedding(m, "bio_embedding", "bio"):
+        if _embed(m, "bio_embedding", mentor_embedding_text):
             mentors.append(m)
         else:
             print(f"  [seed_db] ⚠️  Skipping mentor without embedding: {m['name']}")
@@ -95,7 +95,7 @@ def load_startups() -> list:
 
     kept = []
     for s in startups:
-        if _ensure_embedding(s, "description_embedding", "description"):
+        if _embed(s, "description_embedding", startup_embedding_text):
             kept.append(s)
         else:
             print(f"  [seed_db] ⚠️  Skipping startup without embedding: {s['company_name']}")

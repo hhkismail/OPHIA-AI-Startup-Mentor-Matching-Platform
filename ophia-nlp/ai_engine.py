@@ -30,18 +30,25 @@ TOP_N_MATCHES  = 3
 # vectors must come from the same model, so everything reads this one value.
 EMBED_MODEL = os.getenv("EMBED_MODEL", "text-embedding-004")
 GEN_MODEL   = os.getenv("GEN_MODEL", "gemini-3.1-flash-lite")
+# Newer Gemini models are only served from the "global" endpoint, while the
+# embedding model is regional — so generation has its own location.
+GEN_LOCATION = os.getenv("GEN_LOCATION", "global")
 
-_client = None
+_clients = {}
 _db = None
 
 
-def get_client():
-    """Vertex AI client (created on first use)."""
-    global _client
-    if _client is None:
+def get_client(location: str = GCP_LOCATION):
+    """Vertex AI client for a location (created on first use)."""
+    if location not in _clients:
         from google import genai
-        _client = genai.Client(vertexai=True, project=GCP_PROJECT_ID, location=GCP_LOCATION)
-    return _client
+        _clients[location] = genai.Client(vertexai=True, project=GCP_PROJECT_ID, location=location)
+    return _clients[location]
+
+
+def get_gen_client():
+    """Vertex AI client for Gemini text generation."""
+    return get_client(GEN_LOCATION)
 
 
 def _get_db():
@@ -100,6 +107,24 @@ Instructions:
 
 # ── CORE FUNCTIONS ────────────────────────────────────────────────────────────
 
+# What gets embedded. A one-line slogan ("Make undruggable targets a thing of
+# the past") carries too little meaning to match on, so include the long
+# description and tags. Stored vectors must be built with these same recipes.
+def startup_embedding_text(startup: dict) -> str:
+    parts = [startup.get("description"), startup.get("long_description")]
+    if startup.get("industry_tags"):
+        parts.append("Industries: " + ", ".join(startup["industry_tags"]))
+    return "\n".join(p for p in parts if p)
+
+
+def mentor_embedding_text(mentor: dict) -> str:
+    parts = [mentor.get("title"), mentor.get("bio")]
+    expertise = list(dict.fromkeys(mentor.get("skills", []) + mentor.get("industry_tags", [])))
+    if expertise:
+        parts.append("Expertise: " + ", ".join(expertise))
+    return "\n".join(p for p in parts if p)
+
+
 def get_embedding(text: str) -> list[float]:
     """Embeds text with EMBED_MODEL. Returns [] on failure."""
     if not text:
@@ -133,7 +158,7 @@ def _get_gemini_insight(startup: dict, mentor: dict, similarity: float) -> dict:
         mentor_skills=", ".join(mentor.get("skills", []))
     )
     try:
-        response = get_client().models.generate_content(
+        response = get_gen_client().models.generate_content(
             model=GEN_MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
@@ -169,7 +194,7 @@ def match_startup(startup: dict, mentors: list[dict], top_n: int = TOP_N_MATCHES
     startup_vec = startup.get("description_embedding")
     if not startup_vec:
         print("[ai_engine] No stored embedding — re-embedding on the fly...")
-        startup_vec = get_embedding(startup.get("description", ""))
+        startup_vec = get_embedding(startup_embedding_text(startup))
     if not startup_vec:
         return []
 

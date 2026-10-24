@@ -81,7 +81,9 @@ def fetch_pending_linkages(limit: int = 5, refresh: bool = False):
     Best mentor for each of up to `limit` active startups that don't already
     have an active workspace. Each item is a MatchResult plus display fields.
     """
-    if not refresh and limit in _linkage_cache:
+    if refresh:
+        _linkage_cache.clear()
+    elif limit in _linkage_cache:
         return _linkage_cache[limit]
 
     startups = _db_call(database.get_active_startups)

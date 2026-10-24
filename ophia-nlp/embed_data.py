@@ -23,7 +23,9 @@ import pandas as pd
 from google import genai
 from google.genai import types
 
-from ai_engine import get_client, get_embedding, GEN_MODEL
+from ai_engine import (
+    GEN_MODEL, get_embedding, get_gen_client, mentor_embedding_text, startup_embedding_text,
+)
 
 # Emoji in log lines would crash print() on a cp1252 Windows console
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -38,7 +40,7 @@ OUT_MENTORS     = HERE / "output/mentors_embedded.json"
 
 # Generation: Gemini API key if provided (free tier), otherwise Vertex AI
 _api_key = os.getenv("GEMINI_API_KEY")
-gen_client = genai.Client(api_key=_api_key) if _api_key else get_client()
+gen_client = genai.Client(api_key=_api_key) if _api_key else get_gen_client()
 print(f"✅ Generation via {'Gemini API key' if _api_key else 'Vertex AI'} ({GEN_MODEL})")
 
 
@@ -73,6 +75,7 @@ def load_startups(csv_path: Path, n: int = SAMPLE_SIZE) -> list[dict]:
         startup = {
             "company_name": str(row["company_name"]),
             "description": str(row["short_description"]),
+            "long_description": str(row["long_description"]) if pd.notna(row["long_description"]) else None,
             "batch": str(row["batch"]) if pd.notna(row["batch"]) else "Unknown",
             "status": str(row["status"]),
             "industry_tags": tags[:5],
@@ -100,10 +103,11 @@ Given this startup:
 
 Generate ONE mentor who would be an excellent match. The mentor should have:
 - Complementary industry expertise (not identical, but relevant)
-- Real-sounding name and title
+- Real-sounding name and title (vary names across cultures and regions)
 - A compelling 2-sentence bio mentioning their background and what they offer startups
 - 3-5 specific skills relevant to this startup's stage and domain
 - Availability of 4-10 hours per month
+- A name that is NOT any of these already-used names: {used_names}
 
 Respond ONLY with a valid JSON object with these exact keys:
 {{
@@ -122,17 +126,20 @@ Do not include any text outside the JSON object.
 """
 
 
-def generate_mentor(startup: dict) -> dict | None:
-    """Returns a generated mentor, or None after MAX_RETRIES failures.
+def generate_mentor(startup: dict, used_names: set) -> dict | None:
+    """Returns a generated mentor with a name not in used_names, or None after
+    MAX_RETRIES failures.
 
     Never substitutes a placeholder mentor: identical placeholders all get the
     same embedding, which makes every startup match the same "mentor".
+    Gemini tends to reuse the same few names, so used names go in the prompt.
     """
     prompt = MENTOR_GEN_PROMPT.format(
         company_name=startup["company_name"],
         description=startup["description"],
         tags=", ".join(startup["industry_tags"]),
-        country=startup["country"]
+        country=startup["country"],
+        used_names=", ".join(sorted(used_names)) or "(none yet)",
     )
     for attempt in range(1, MAX_RETRIES + 1):
         try:
@@ -145,9 +152,11 @@ def generate_mentor(startup: dict) -> dict | None:
                 )
             )
             mentor = json.loads(response.text.strip())
-            if mentor.get("name") and mentor.get("bio"):
-                return mentor
-            raise ValueError("response missing name/bio")
+            if not (mentor.get("name") and mentor.get("bio")):
+                raise ValueError("response missing name/bio")
+            if mentor["name"] in used_names:
+                raise ValueError(f"duplicate name {mentor['name']!r}")
+            return mentor
         except Exception as e:
             print(f"  ⚠️  Mentor gen attempt {attempt}/{MAX_RETRIES} failed for {startup['company_name']}: {e}")
             time.sleep(2 ** attempt)
@@ -168,22 +177,23 @@ def run_pipeline():
         print(f"  [{i+1}/{len(startups)}] {startup['company_name']}")
 
         print("    → Embedding startup description...")
-        startup["description_embedding"] = get_embedding(startup["description"])
+        startup["description_embedding"] = get_embedding(startup_embedding_text(startup))
         if not startup["description_embedding"]:
             print("    ⚠️  Skipping startup (no embedding)")
             continue
         kept_startups.append(startup)
 
-        mentor = generate_mentor(startup)
-        if mentor and mentor["name"] not in seen_names:
+        mentor = generate_mentor(startup, seen_names)
+        if mentor:
             print("    → Embedding mentor bio...")
-            mentor["bio_embedding"] = get_embedding(mentor["bio"])
+            mentor["bio_embedding"] = get_embedding(mentor_embedding_text(mentor))
             if mentor["bio_embedding"]:
                 mentors.append(mentor)
                 seen_names.add(mentor["name"])
 
-        # Rate limit: free tier = 15 req/min, so ~4 sec between iterations
-        time.sleep(4)
+        # Rate limit: Gemini API free tier = 15 req/min, so ~4 sec between
+        # iterations. Vertex AI (paid) doesn't need the wait.
+        time.sleep(4 if _api_key else 0.5)
 
     if len(mentors) < len(startups) // 2:
         raise SystemExit(
