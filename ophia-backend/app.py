@@ -14,6 +14,8 @@ Docs at http://localhost:8000/docs
 import hmac
 import os
 import sys
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Optional
 
@@ -33,10 +35,16 @@ for p in (REPO_ROOT, REPO_ROOT / "ophia-nlp", REPO_ROOT / "ophia-data"):
 import database                                                  # noqa: E402
 import state_machine as sm                                       # noqa: E402
 from ai_engine import build_similarity_reference, match_startup  # noqa: E402
+from assignment import assign_optimal, mentor_capacity           # noqa: E402
 from models import ApproveRequest, RejectRequest                 # noqa: E402
 from repository import FirestoreRepository, NotFound, Repository, new_match  # noqa: E402
 
 app = FastAPI(title="OPHIA Core Orchestration Engine")
+
+# Suggestions below this synergy are not made; the startup waits for capacity
+MIN_SYNERGY = int(os.getenv("MIN_SYNERGY", "50"))
+# Parallel Gemini grading calls when generating a batch of suggestions
+GRADING_WORKERS = int(os.getenv("GRADING_WORKERS", "8"))
 
 _repo = FirestoreRepository(database)
 
@@ -163,11 +171,16 @@ def pending_linkages(limit: int = Query(5, ge=1, le=50), refresh: bool = False,
     matches = _db_call(repo.matches)
     pending = [m for m in matches if m["status"] == sm.MatchStatus.PENDING.value]
     if admin and len(pending) < limit:
-        pending += _suggest(repo, matches, limit - len(pending))
+        pending += _suggest(repo, matches)
     return sorted(pending, key=lambda m: m["created_at"])[:limit]
 
 
-def _suggest(repo: Repository, existing: list[dict], n: int) -> list[dict]:
+def _suggest(repo: Repository, existing: list[dict]) -> list[dict]:
+    """
+    Suggests mentors for every startup without a pending or approved match,
+    jointly, so no mentor is suggested beyond their capacity (assignment.py).
+    Capacity already counts active workspaces and still-pending suggestions.
+    """
     startups = _db_call(repo.active_startups)
     mentors = _db_call(repo.available_mentors)
     if not mentors:
@@ -176,28 +189,43 @@ def _suggest(repo: Repository, existing: list[dict], n: int) -> list[dict]:
     decided = {m["startup_name"] for m in existing if m["status"] != sm.MatchStatus.REJECTED.value}
     rejected = {(m["startup_name"], m["mentor_name"]) for m in existing
                 if m["status"] == sm.MatchStatus.REJECTED.value}
+    eligible = [s for s in startups if s["company_name"] not in decided]
+    if not eligible:
+        return []
+
+    load = Counter(w["mentor_name"] for w in _db_call(repo.workspaces)
+                   if w["status"] == sm.WorkspaceStatus.ACTIVE.value)
+    load.update(m["mentor_name"] for m in existing if m["status"] == sm.MatchStatus.PENDING.value)
+    capacity = {m["name"]: mentor_capacity(m, load[m["name"]]) for m in mentors}
     mentor_titles = {m["name"]: m.get("title", "") for m in mentors}
     # Similarity percentiles relative to the current data, not a stale snapshot
-    reference = build_similarity_reference(startups, mentors) if startups else None
+    reference = build_similarity_reference(startups, mentors)
 
-    new = []
-    for startup in startups:
-        if len(new) >= n:
-            break
+    def candidates(startup):
         name = startup["company_name"]
-        if name in decided:
-            continue
-        candidates = [m for m in mentors if (name, m["name"]) not in rejected]
-        # Grade the top 3 by similarity, keep the best by blended synergy
-        results = match_startup(startup, candidates, top_n=3, reference=reference)
-        if results:
-            new.append(new_match({
-                **results[0],
-                "startup_description": startup.get("description", ""),
-                "startup_batch": startup.get("batch", ""),
-                "startup_country": startup.get("country", ""),
-                "mentor_title": mentor_titles.get(results[0]["mentor_name"], ""),
-            }))
+        allowed = [m for m in mentors if (name, m["name"]) not in rejected and capacity[m["name"]] > 0]
+        # The top 3 by similarity get graded by Gemini; the assignment picks among them
+        return startup, match_startup(startup, allowed, top_n=3, reference=reference)
+
+    with ThreadPoolExecutor(GRADING_WORKERS) as pool:
+        graded = list(pool.map(candidates, eligible))
+
+    results = {(r["startup_name"], r["mentor_name"]): r for _, rs in graded for r in rs}
+    chosen = assign_optimal({pair: r["synergy"] for pair, r in results.items()}, capacity,
+                            min_synergy=MIN_SYNERGY)
+    by_name = {s["company_name"]: s for s, _ in graded}
+
+    new = [new_match({
+        **results[(startup_name, mentor_name)],
+        "startup_description": by_name[startup_name].get("description", ""),
+        "startup_batch": by_name[startup_name].get("batch", ""),
+        "startup_country": by_name[startup_name].get("country", ""),
+        "mentor_title": mentor_titles.get(mentor_name, ""),
+    }) for startup_name, mentor_name in chosen.items()]
+    unassigned = len(eligible) - len(new)
+    if unassigned:
+        print(f"[backend] {unassigned} startup(s) got no suggestion: no candidate mentor with free "
+              f"capacity scored ≥ {MIN_SYNERGY}")
     _db_call(repo.add_matches, new)
     return new
 

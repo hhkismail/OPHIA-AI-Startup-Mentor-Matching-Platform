@@ -18,8 +18,8 @@ API_URL = os.getenv("OPHIA_API_URL", "").rstrip("/")
 # Admin key for approve/reject/milestones and for generating new suggestions.
 # Streamlit runs this on the server, so the key never reaches the browser.
 API_KEY = os.getenv("OPHIA_API_KEY", "")
-# Generating matches calls Gemini once per startup, so allow plenty of time
-TIMEOUT = 120
+# The first batch of suggestions grades every startup with Gemini, so allow plenty of time
+TIMEOUT = 300
 
 last_error = None
 

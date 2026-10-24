@@ -242,8 +242,16 @@ def generate_with_retry(retries: int = 5, **kwargs):
             time.sleep(2 ** attempt + random.random())
 
 
+_grade_cache: dict[str, dict] = {}
+
+
 def grade_pair(startup: dict, mentor: dict) -> Optional[dict]:
-    """Gemini's rubric grades + insight + tags for one pair, or None on failure."""
+    """Gemini's rubric grades + insight + tags for one pair, or None on failure.
+
+    Successful grades are cached per (prompt, model): grading is deterministic
+    (temperature 0), and a startup left unassigned would otherwise be
+    re-graded every time suggestions are topped up.
+    """
     from google.genai import types
 
     prompt = RUBRIC_PROMPT.format(
@@ -256,6 +264,9 @@ def grade_pair(startup: dict, mentor: dict) -> Optional[dict]:
         mentor_bio=mentor.get("bio", ""),
         mentor_skills=", ".join(dict.fromkeys(mentor.get("skills", []) + mentor.get("industry_tags", []))),
     )
+    cache_key = f"{GEN_MODEL}\n{prompt}"
+    if cache_key in _grade_cache:
+        return dict(_grade_cache[cache_key])
     try:
         response = generate_with_retry(
             model=GEN_MODEL,
@@ -268,7 +279,8 @@ def grade_pair(startup: dict, mentor: dict) -> Optional[dict]:
         )
         grades = json.loads(response.text)
         rubric_score(grades)  # validates the three grades are present
-        return grades
+        _grade_cache[cache_key] = grades
+        return dict(grades)
     except Exception as e:
         print(f"[ai_engine] Gemini grading error: {e}")
         return None

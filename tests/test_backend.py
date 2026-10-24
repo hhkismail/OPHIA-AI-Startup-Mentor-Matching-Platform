@@ -151,7 +151,8 @@ def test_approved_startup_gets_no_new_suggestions(client, repo, gemini, provisio
     assert "BioCo" not in pending(client)
 
 
-def test_reject_is_persisted_and_mentor_never_resuggested(client, repo, gemini):
+def test_reject_is_persisted_and_mentor_never_resuggested(monkeypatch, client, repo, gemini):
+    monkeypatch.setattr(backend, "MIN_SYNERGY", 0)  # so BioCo gets *some* new suggestion
     pending(client)
     r = client.post("/api/matches/bioco__dr-bio/reject", json={"reason": "conflict of interest"})
     assert r.json()["status"] == "rejected" and r.json()["reject_reason"] == "conflict of interest"
@@ -297,3 +298,48 @@ def test_legacy_workspaces_are_normalized():
                                "milestones": []}
     ws = repo.get_workspace("old")
     assert ws["status"] == "active" and ws["provisioning_status"] == "succeeded"
+
+
+# ── Capacity-aware suggestions ───────────────────────────────────────────────
+
+@pytest.fixture
+def everyone_wants_dr_bio(monkeypatch):
+    """Dr Bio is the best mentor for every startup; the others are decent."""
+    def grade(startup, mentor):
+        g = 5 if mentor["name"] == "Dr Bio" else 4
+        return {"reasoning": "r", "domain_fit": g, "need_fit": g, "market_fit": g, "insight": "i", "tags": []}
+    monkeypatch.setattr(ai_engine, "grade_pair", grade)
+    monkeypatch.setattr(backend, "MIN_SYNERGY", 0)
+
+
+def test_popular_mentor_is_not_suggested_beyond_capacity(monkeypatch, startups, mentors, everyone_wants_dr_bio):
+    for m in mentors:
+        m["bio_embedding"] = [1.0, 1.0, 1.0]  # every mentor is a candidate for every startup
+    mentors[0]["availability_hours"] = 3   # Dr Bio: capacity 1 at 3h per mentorship
+    repo = InMemoryRepository(startups, mentors)
+    backend.app.dependency_overrides[backend.get_repo] = lambda: repo
+    client = TestClient(backend.app, headers=ADMIN_HEADERS)
+    try:
+        picks = [m["mentor_name"] for m in client.get("/api/linkages?limit=10").json()]
+    finally:
+        backend.app.dependency_overrides.clear()
+    assert picks.count("Dr Bio") == 1 and len(picks) == 3
+
+
+def test_active_workspaces_use_up_capacity(monkeypatch, client, repo, everyone_wants_dr_bio, provisioned):
+    for m in repo._mentors:
+        m["bio_embedding"] = [1.0, 1.0, 1.0]
+        m["availability_hours"] = 3 if m["name"] == "Dr Bio" else 6
+    first = pending(client, limit=10)
+    approved = next(m for m in first.values() if m["mentor_name"] == "Dr Bio")
+    client.post(f"/api/matches/{approved['match_id']}/approve")
+    client.get("/api/linkages?limit=10&refresh=true")
+    # Dr Bio's single slot is taken by the approved workspace
+    assert all(m["mentor_name"] != "Dr Bio" for m in repo.matches("pending"))
+
+
+def test_no_suggestion_rather_than_a_poor_one(monkeypatch, client, repo):
+    def grade(startup, mentor):
+        return {"reasoning": "r", "domain_fit": 1, "need_fit": 1, "market_fit": 1, "insight": "i", "tags": []}
+    monkeypatch.setattr(ai_engine, "grade_pair", grade)
+    assert client.get("/api/linkages?limit=10").json() == []

@@ -94,7 +94,7 @@ Provisioning:  queued ──► succeeded | partial | skipped | failed ──ret
 
 | Endpoint | What it does |
 |---|---|
-| `GET /api/linkages?limit=5&refresh=false` | Pending suggestions, topped up with new ones (stored, so Gemini runs once per startup) |
+| `GET /api/linkages?limit=5&refresh=false` | Pending suggestions. When they run low, all unmatched startups get suggestions at once, assigned jointly so no mentor goes over capacity (stored, so Gemini runs once per startup) |
 | `POST /api/matches/{id}/approve` | Creates the workspace. Idempotent: approving twice returns the same workspace |
 | `POST /api/matches/{id}/reject` | Optional `{"reason": "..."}` |
 | `GET /api/matches?status=approved` | Every decision, i.e. the record of admin choices |

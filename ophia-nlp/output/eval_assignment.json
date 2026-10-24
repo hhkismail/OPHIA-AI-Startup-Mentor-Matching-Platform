@@ -1,0 +1,897 @@
+{
+  "n_startups": 50,
+  "n_mentors": 61,
+  "trials": 5,
+  "seed": 11,
+  "hours_per_mentorship": 3,
+  "top_k": 3,
+  "summary": {
+    "61": {
+      "capacity_slots": 120.0,
+      "independent": {
+        "assigned": 50.0,
+        "total_synergy": 4809.0,
+        "mean_synergy": 96.2,
+        "got_top_choice": 50.0,
+        "mentors_over_capacity": 0.0,
+        "excess_mentorships": 0.0,
+        "max_load": 2.0
+      },
+      "sequential": {
+        "assigned": 50.0,
+        "total_synergy": 4809.0,
+        "mean_synergy": 96.2,
+        "got_top_choice": 50.0,
+        "mentors_over_capacity": 0.0,
+        "excess_mentorships": 0.0,
+        "max_load": 2.0
+      },
+      "optimal": {
+        "assigned": 50.0,
+        "total_synergy": 4809.0,
+        "mean_synergy": 96.2,
+        "got_top_choice": 50.0,
+        "mentors_over_capacity": 0.0,
+        "excess_mentorships": 0.0,
+        "max_load": 2.0
+      }
+    },
+    "30": {
+      "capacity_slots": 59.4,
+      "independent": {
+        "assigned": 50.0,
+        "total_synergy": 4419.6,
+        "mean_synergy": 88.4,
+        "got_top_choice": 50.0,
+        "mentors_over_capacity": 6.8,
+        "excess_mentorships": 12.2,
+        "max_load": 5.0
+      },
+      "sequential": {
+        "assigned": 45.8,
+        "total_synergy": 3856.2,
+        "mean_synergy": 84.2,
+        "got_top_choice": 35.0,
+        "mentors_over_capacity": 0.0,
+        "excess_mentorships": 0.0,
+        "max_load": 2.6
+      },
+      "optimal": {
+        "assigned": 49.4,
+        "total_synergy": 4166.6,
+        "mean_synergy": 84.3,
+        "got_top_choice": 32.4,
+        "mentors_over_capacity": 0.0,
+        "excess_mentorships": 0.0,
+        "max_load": 2.6
+      }
+    },
+    "20": {
+      "capacity_slots": 39.6,
+      "independent": {
+        "assigned": 50.0,
+        "total_synergy": 4249.6,
+        "mean_synergy": 85.0,
+        "got_top_choice": 50.0,
+        "mentors_over_capacity": 7.6,
+        "excess_mentorships": 19.4,
+        "max_load": 7.0
+      },
+      "sequential": {
+        "assigned": 37.6,
+        "total_synergy": 2872.2,
+        "mean_synergy": 76.4,
+        "got_top_choice": 24.6,
+        "mentors_over_capacity": 0.0,
+        "excess_mentorships": 0.0,
+        "max_load": 2.6
+      },
+      "optimal": {
+        "assigned": 39.2,
+        "total_synergy": 3334.2,
+        "mean_synergy": 85.1,
+        "got_top_choice": 27.0,
+        "mentors_over_capacity": 0.0,
+        "excess_mentorships": 0.0,
+        "max_load": 2.6
+      }
+    },
+    "15": {
+      "capacity_slots": 29.0,
+      "independent": {
+        "assigned": 50.0,
+        "total_synergy": 4115.2,
+        "mean_synergy": 82.3,
+        "got_top_choice": 50.0,
+        "mentors_over_capacity": 8.6,
+        "excess_mentorships": 25.6,
+        "max_load": 9.0
+      },
+      "sequential": {
+        "assigned": 28.4,
+        "total_synergy": 2096.6,
+        "mean_synergy": 73.8,
+        "got_top_choice": 18.0,
+        "mentors_over_capacity": 0.0,
+        "excess_mentorships": 0.0,
+        "max_load": 2.0
+      },
+      "optimal": {
+        "assigned": 29.0,
+        "total_synergy": 2509.6,
+        "mean_synergy": 86.5,
+        "got_top_choice": 23.2,
+        "mentors_over_capacity": 0.0,
+        "excess_mentorships": 0.0,
+        "max_load": 2.0
+      }
+    },
+    "10": {
+      "capacity_slots": 20.0,
+      "independent": {
+        "assigned": 50.0,
+        "total_synergy": 3852.0,
+        "mean_synergy": 77.0,
+        "got_top_choice": 50.0,
+        "mentors_over_capacity": 7.8,
+        "excess_mentorships": 32.0,
+        "max_load": 12.8
+      },
+      "sequential": {
+        "assigned": 19.8,
+        "total_synergy": 1344.8,
+        "mean_synergy": 67.9,
+        "got_top_choice": 12.0,
+        "mentors_over_capacity": 0.0,
+        "excess_mentorships": 0.0,
+        "max_load": 2.4
+      },
+      "optimal": {
+        "assigned": 20.0,
+        "total_synergy": 1732.2,
+        "mean_synergy": 86.6,
+        "got_top_choice": 17.4,
+        "mentors_over_capacity": 0.0,
+        "excess_mentorships": 0.0,
+        "max_load": 2.4
+      }
+    }
+  },
+  "runs": [
+    {
+      "pool": 61,
+      "trial": 0,
+      "capacity_slots": 120,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4809.0,
+        "mean_synergy": 96.2,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "sequential": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4809.0,
+        "mean_synergy": 96.2,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4809.0,
+        "mean_synergy": 96.2,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 30,
+      "trial": 0,
+      "capacity_slots": 59,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4395.0,
+        "mean_synergy": 87.9,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 7,
+        "excess_mentorships": 11,
+        "max_load": 4
+      },
+      "sequential": {
+        "assigned": 45,
+        "unassigned": 5,
+        "total_synergy": 3787.0,
+        "mean_synergy": 84.2,
+        "got_top_choice": 34,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4176.0,
+        "mean_synergy": 83.5,
+        "got_top_choice": 31,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 30,
+      "trial": 1,
+      "capacity_slots": 58,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4365.0,
+        "mean_synergy": 87.3,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 8,
+        "excess_mentorships": 17,
+        "max_load": 6
+      },
+      "sequential": {
+        "assigned": 44,
+        "unassigned": 6,
+        "total_synergy": 3668.0,
+        "mean_synergy": 83.4,
+        "got_top_choice": 32,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      },
+      "optimal": {
+        "assigned": 49,
+        "unassigned": 1,
+        "total_synergy": 4057.0,
+        "mean_synergy": 82.8,
+        "got_top_choice": 29,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      }
+    },
+    {
+      "pool": 30,
+      "trial": 2,
+      "capacity_slots": 59,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4470.0,
+        "mean_synergy": 89.4,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 6,
+        "excess_mentorships": 11,
+        "max_load": 5
+      },
+      "sequential": {
+        "assigned": 47,
+        "unassigned": 3,
+        "total_synergy": 3980.0,
+        "mean_synergy": 84.7,
+        "got_top_choice": 38,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      },
+      "optimal": {
+        "assigned": 49,
+        "unassigned": 1,
+        "total_synergy": 4215.0,
+        "mean_synergy": 86.0,
+        "got_top_choice": 34,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      }
+    },
+    {
+      "pool": 30,
+      "trial": 3,
+      "capacity_slots": 61,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4436.0,
+        "mean_synergy": 88.7,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 7,
+        "excess_mentorships": 12,
+        "max_load": 5
+      },
+      "sequential": {
+        "assigned": 45,
+        "unassigned": 5,
+        "total_synergy": 3896.0,
+        "mean_synergy": 86.6,
+        "got_top_choice": 37,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      },
+      "optimal": {
+        "assigned": 49,
+        "unassigned": 1,
+        "total_synergy": 4170.0,
+        "mean_synergy": 85.1,
+        "got_top_choice": 35,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      }
+    },
+    {
+      "pool": 30,
+      "trial": 4,
+      "capacity_slots": 60,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4432.0,
+        "mean_synergy": 88.6,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 6,
+        "excess_mentorships": 10,
+        "max_load": 5
+      },
+      "sequential": {
+        "assigned": 48,
+        "unassigned": 2,
+        "total_synergy": 3950.0,
+        "mean_synergy": 82.3,
+        "got_top_choice": 34,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4215.0,
+        "mean_synergy": 84.3,
+        "got_top_choice": 33,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 20,
+      "trial": 0,
+      "capacity_slots": 39,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4245.0,
+        "mean_synergy": 84.9,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 8,
+        "excess_mentorships": 18,
+        "max_load": 5
+      },
+      "sequential": {
+        "assigned": 38,
+        "unassigned": 12,
+        "total_synergy": 2950.0,
+        "mean_synergy": 77.6,
+        "got_top_choice": 27,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 39,
+        "unassigned": 11,
+        "total_synergy": 3249.0,
+        "mean_synergy": 83.3,
+        "got_top_choice": 26,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 20,
+      "trial": 1,
+      "capacity_slots": 39,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4233.0,
+        "mean_synergy": 84.7,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 7,
+        "excess_mentorships": 19,
+        "max_load": 8
+      },
+      "sequential": {
+        "assigned": 37,
+        "unassigned": 13,
+        "total_synergy": 2841.0,
+        "mean_synergy": 76.8,
+        "got_top_choice": 23,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      },
+      "optimal": {
+        "assigned": 39,
+        "unassigned": 11,
+        "total_synergy": 3363.0,
+        "mean_synergy": 86.2,
+        "got_top_choice": 27,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      }
+    },
+    {
+      "pool": 20,
+      "trial": 2,
+      "capacity_slots": 40,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4206.0,
+        "mean_synergy": 84.1,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 8,
+        "excess_mentorships": 20,
+        "max_load": 7
+      },
+      "sequential": {
+        "assigned": 38,
+        "unassigned": 12,
+        "total_synergy": 2868.0,
+        "mean_synergy": 75.5,
+        "got_top_choice": 26,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      },
+      "optimal": {
+        "assigned": 40,
+        "unassigned": 10,
+        "total_synergy": 3326.0,
+        "mean_synergy": 83.2,
+        "got_top_choice": 25,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      }
+    },
+    {
+      "pool": 20,
+      "trial": 3,
+      "capacity_slots": 40,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4309.0,
+        "mean_synergy": 86.2,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 7,
+        "excess_mentorships": 18,
+        "max_load": 6
+      },
+      "sequential": {
+        "assigned": 37,
+        "unassigned": 13,
+        "total_synergy": 2835.0,
+        "mean_synergy": 76.6,
+        "got_top_choice": 24,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 39,
+        "unassigned": 11,
+        "total_synergy": 3440.0,
+        "mean_synergy": 88.2,
+        "got_top_choice": 30,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 20,
+      "trial": 4,
+      "capacity_slots": 40,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4255.0,
+        "mean_synergy": 85.1,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 8,
+        "excess_mentorships": 22,
+        "max_load": 9
+      },
+      "sequential": {
+        "assigned": 38,
+        "unassigned": 12,
+        "total_synergy": 2867.0,
+        "mean_synergy": 75.4,
+        "got_top_choice": 23,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      },
+      "optimal": {
+        "assigned": 39,
+        "unassigned": 11,
+        "total_synergy": 3293.0,
+        "mean_synergy": 84.4,
+        "got_top_choice": 27,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      }
+    },
+    {
+      "pool": 15,
+      "trial": 0,
+      "capacity_slots": 28,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4128.0,
+        "mean_synergy": 82.6,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 11,
+        "excess_mentorships": 26,
+        "max_load": 7
+      },
+      "sequential": {
+        "assigned": 27,
+        "unassigned": 23,
+        "total_synergy": 1909.0,
+        "mean_synergy": 70.7,
+        "got_top_choice": 16,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 28,
+        "unassigned": 22,
+        "total_synergy": 2422.0,
+        "mean_synergy": 86.5,
+        "got_top_choice": 23,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 15,
+      "trial": 1,
+      "capacity_slots": 30,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4188.0,
+        "mean_synergy": 83.8,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 9,
+        "excess_mentorships": 24,
+        "max_load": 12
+      },
+      "sequential": {
+        "assigned": 30,
+        "unassigned": 20,
+        "total_synergy": 2371.0,
+        "mean_synergy": 79.0,
+        "got_top_choice": 20,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 30,
+        "unassigned": 20,
+        "total_synergy": 2667.0,
+        "mean_synergy": 88.9,
+        "got_top_choice": 25,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 15,
+      "trial": 2,
+      "capacity_slots": 29,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4013.0,
+        "mean_synergy": 80.3,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 10,
+        "excess_mentorships": 25,
+        "max_load": 8
+      },
+      "sequential": {
+        "assigned": 29,
+        "unassigned": 21,
+        "total_synergy": 2123.0,
+        "mean_synergy": 73.2,
+        "got_top_choice": 19,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 29,
+        "unassigned": 21,
+        "total_synergy": 2536.0,
+        "mean_synergy": 87.4,
+        "got_top_choice": 23,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 15,
+      "trial": 3,
+      "capacity_slots": 29,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4068.0,
+        "mean_synergy": 81.4,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 8,
+        "excess_mentorships": 28,
+        "max_load": 9
+      },
+      "sequential": {
+        "assigned": 27,
+        "unassigned": 23,
+        "total_synergy": 2053.0,
+        "mean_synergy": 76.0,
+        "got_top_choice": 19,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 29,
+        "unassigned": 21,
+        "total_synergy": 2428.0,
+        "mean_synergy": 83.7,
+        "got_top_choice": 21,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 15,
+      "trial": 4,
+      "capacity_slots": 29,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4179.0,
+        "mean_synergy": 83.6,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 5,
+        "excess_mentorships": 25,
+        "max_load": 9
+      },
+      "sequential": {
+        "assigned": 29,
+        "unassigned": 21,
+        "total_synergy": 2027.0,
+        "mean_synergy": 69.9,
+        "got_top_choice": 16,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 29,
+        "unassigned": 21,
+        "total_synergy": 2495.0,
+        "mean_synergy": 86.0,
+        "got_top_choice": 24,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 10,
+      "trial": 0,
+      "capacity_slots": 20,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 3946.0,
+        "mean_synergy": 78.9,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 8,
+        "excess_mentorships": 33,
+        "max_load": 11
+      },
+      "sequential": {
+        "assigned": 20,
+        "unassigned": 30,
+        "total_synergy": 1358.0,
+        "mean_synergy": 67.9,
+        "got_top_choice": 12,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 20,
+        "unassigned": 30,
+        "total_synergy": 1728.0,
+        "mean_synergy": 86.4,
+        "got_top_choice": 16,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 10,
+      "trial": 1,
+      "capacity_slots": 20,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 3481.0,
+        "mean_synergy": 69.6,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 7,
+        "excess_mentorships": 34,
+        "max_load": 18
+      },
+      "sequential": {
+        "assigned": 19,
+        "unassigned": 31,
+        "total_synergy": 1263.0,
+        "mean_synergy": 66.5,
+        "got_top_choice": 13,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 20,
+        "unassigned": 30,
+        "total_synergy": 1699.0,
+        "mean_synergy": 85.0,
+        "got_top_choice": 15,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 10,
+      "trial": 2,
+      "capacity_slots": 21,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 3886.0,
+        "mean_synergy": 77.7,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 9,
+        "excess_mentorships": 30,
+        "max_load": 10
+      },
+      "sequential": {
+        "assigned": 21,
+        "unassigned": 29,
+        "total_synergy": 1420.0,
+        "mean_synergy": 67.6,
+        "got_top_choice": 13,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      },
+      "optimal": {
+        "assigned": 21,
+        "unassigned": 29,
+        "total_synergy": 1844.0,
+        "mean_synergy": 87.8,
+        "got_top_choice": 20,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      }
+    },
+    {
+      "pool": 10,
+      "trial": 3,
+      "capacity_slots": 19,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 4054.0,
+        "mean_synergy": 81.1,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 7,
+        "excess_mentorships": 33,
+        "max_load": 14
+      },
+      "sequential": {
+        "assigned": 19,
+        "unassigned": 31,
+        "total_synergy": 1304.0,
+        "mean_synergy": 68.6,
+        "got_top_choice": 10,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      },
+      "optimal": {
+        "assigned": 19,
+        "unassigned": 31,
+        "total_synergy": 1635.0,
+        "mean_synergy": 86.1,
+        "got_top_choice": 17,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 2
+      }
+    },
+    {
+      "pool": 10,
+      "trial": 4,
+      "capacity_slots": 20,
+      "independent": {
+        "assigned": 50,
+        "unassigned": 0,
+        "total_synergy": 3893.0,
+        "mean_synergy": 77.9,
+        "got_top_choice": 50,
+        "mentors_over_capacity": 8,
+        "excess_mentorships": 30,
+        "max_load": 11
+      },
+      "sequential": {
+        "assigned": 20,
+        "unassigned": 30,
+        "total_synergy": 1379.0,
+        "mean_synergy": 69.0,
+        "got_top_choice": 12,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      },
+      "optimal": {
+        "assigned": 20,
+        "unassigned": 30,
+        "total_synergy": 1755.0,
+        "mean_synergy": 87.8,
+        "got_top_choice": 19,
+        "mentors_over_capacity": 0,
+        "excess_mentorships": 0,
+        "max_load": 3
+      }
+    }
+  ]
+}

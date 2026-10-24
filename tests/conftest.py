@@ -67,11 +67,11 @@ def startups():
 def mentors():
     return [
         {"name": "Dr Bio", "title": "Comp bio VP", "bio": "Biology", "skills": ["Drug R&D"],
-         "industry_tags": ["Biotech"], "status": "Available", "bio_embedding": unit([0.9, 0.1, 0])},
+         "industry_tags": ["Biotech"], "status": "Available", "availability_hours": 6, "bio_embedding": unit([0.9, 0.1, 0])},
         {"name": "Ms Pay", "title": "Banking head", "bio": "Banking", "skills": ["Payments"],
-         "industry_tags": ["Fintech"], "status": "Available", "bio_embedding": unit([0.1, 0.9, 0])},
+         "industry_tags": ["Fintech"], "status": "Available", "availability_hours": 6, "bio_embedding": unit([0.1, 0.9, 0])},
         {"name": "Mr Farm", "title": "Logistics COO", "bio": "Logistics", "skills": ["Supply chain"],
-         "industry_tags": ["Retail"], "status": "Available", "bio_embedding": unit([0, 0.2, 0.9])},
+         "industry_tags": ["Retail"], "status": "Available", "availability_hours": 6, "bio_embedding": unit([0, 0.2, 0.9])},
         {"name": "Generalist", "title": "Advisor", "bio": "Everything", "skills": [],
-         "industry_tags": [], "status": "Available", "bio_embedding": unit([1, 1, 1])},
+         "industry_tags": [], "status": "Available", "availability_hours": 6, "bio_embedding": unit([1, 1, 1])},
     ]

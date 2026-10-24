@@ -3,3 +3,4 @@ google-cloud-firestore
 numpy
 pandas
 python-dotenv
+scipy
