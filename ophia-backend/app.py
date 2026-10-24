@@ -19,7 +19,8 @@ from fastapi import BackgroundTasks, FastAPI, HTTPException
 
 # Log lines contain emoji/arrows; on Windows a redirected stdout uses cp1252
 # and print() would crash the request. Never let logging kill a request.
-sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stdout, "reconfigure"):  # not on pytest's captured stdout
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 for p in (REPO_ROOT, REPO_ROOT / "ophia-nlp", REPO_ROOT / "ophia-data"):
@@ -67,6 +68,15 @@ def list_startups():
 @app.get("/api/mentors")
 def list_mentors():
     return [_strip_embeddings(m) for m in _db_call(database.get_all_mentors)]
+
+
+@app.get("/api/stats")
+def stats():
+    """Counts for the dashboard header."""
+    return {
+        "startups": len(_db_call(database.get_active_startups)),
+        "mentors": len(_db_call(database.get_available_mentors)),
+    }
 
 
 @app.get("/api/workspaces")

@@ -1,0 +1,16 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    # Starlette's TestClient nags about httpx2; irrelevant to these tests
+    "ignore:Using .httpx. with .starlette.testclient. is deprecated",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+extend-exclude = [".venv"]
+
+[tool.ruff.lint]
+# Real errors only (syntax, undefined names, unused imports/variables),
+# not style: the goal is catching bugs, not reformatting the team's code.
+select = ["E9", "F"]

@@ -1,9 +1,10 @@
 # OPHIA
-**Ontology-driven Programmable Hub for Innovation Administration**
 
-> *"We aren't a dating app for startups. We are the autonomous operating system for ecosystem administrators."*
+[![CI](https://github.com/hhkismail/OPHIA-AI-Startup-Mentor-Matching-Platform/actions/workflows/ci.yml/badge.svg)](https://github.com/hhkismail/OPHIA-AI-Startup-Mentor-Matching-Platform/actions/workflows/ci.yml)
 
-Built for **GDG KL Build With AI 2026 KL — MyHack** in response to the Cradle Fund problem statement: *Automating Ecosystem Linkages Instead of Manual Coordination.*
+AI mentor matching for startup accelerator programmes.
+
+Built at **GDG KL Build With AI 2026 — MyHack** for the Cradle Fund challenge *"Automating Ecosystem Linkages Instead of Manual Coordination"*. Not affiliated with Cradle Fund.
 
 ---
 
@@ -13,7 +14,7 @@ Ecosystem administrators manually verify participants, guess mentor matches, sen
 
 ## The Solution
 
-OPHIA is an AI-powered orchestration platform built for programme administrators. It matches startups to mentors using Vertex AI embeddings, explains every match with a Gemini-generated insight, and automates everything after approval — intro email, Drive workspace, Calendar invite — in one click.
+OPHIA suggests the best mentor for each startup and explains why. Embeddings shortlist candidates, Gemini grades each one against a rubric, and the admin approves. Approval creates a 90-day workspace and can send the intro email, create a Drive folder and book a Calendar kick-off.
 
 ---
 
@@ -76,6 +77,20 @@ Opens at `localhost:8501` with mock data.
    `cd ophia-frontend && streamlit run app.py`
 
 > If you change `EMBED_MODEL`, re-run steps 4–5: vectors from different models can't be compared.
+
+## Tests
+
+```bash
+pip install -r ophia-backend/requirements.txt -r ophia-frontend/requirements.txt -r requirements-dev.txt
+ruff check .
+pytest
+```
+
+The tests replace Firestore, Vertex AI and Google Workspace with fakes, so they need no
+credentials or network. CI runs them on every push (Python 3.11 and 3.12).
+
+Match quality is measured separately with `python ophia-nlp/eval_scoring.py` (uses real
+Gemini calls; results in `ophia-nlp/output/eval_results.json`).
 
 ---
 

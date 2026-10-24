@@ -27,8 +27,6 @@ from ai_engine import (
     GEN_MODEL, get_embedding, get_gen_client, mentor_embedding_text, startup_embedding_text,
 )
 
-# Emoji in log lines would crash print() on a cp1252 Windows console
-sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
 HERE            = Path(__file__).resolve().parent
@@ -40,8 +38,15 @@ OUT_MENTORS     = HERE / "output/mentors_embedded.json"
 
 # Generation: Gemini API key if provided (free tier), otherwise Vertex AI
 _api_key = os.getenv("GEMINI_API_KEY")
-gen_client = genai.Client(api_key=_api_key) if _api_key else get_gen_client()
-print(f"✅ Generation via {'Gemini API key' if _api_key else 'Vertex AI'} ({GEN_MODEL})")
+_gen_client = None
+
+
+def gen_client():
+    global _gen_client
+    if _gen_client is None:
+        _gen_client = genai.Client(api_key=_api_key) if _api_key else get_gen_client()
+        print(f"✅ Generation via {'Gemini API key' if _api_key else 'Vertex AI'} ({GEN_MODEL})")
+    return _gen_client
 
 
 # ── STEP 1: LOAD & CLEAN STARTUP CSV ─────────────────────────────────────────
@@ -143,7 +148,7 @@ def generate_mentor(startup: dict, used_names: set) -> dict | None:
     )
     for attempt in range(1, MAX_RETRIES + 1):
         try:
-            response = gen_client.models.generate_content(
+            response = gen_client().models.generate_content(
                 model=GEN_MODEL,
                 contents=prompt,
                 config=types.GenerateContentConfig(
@@ -216,6 +221,8 @@ def run_pipeline():
 
 
 if __name__ == "__main__":
+    # Emoji in log lines would crash print() on a cp1252 Windows console
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     if not CSV_PATH.exists():
         raise FileNotFoundError(
             f"CSV not found at: {CSV_PATH}\n"

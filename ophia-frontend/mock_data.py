@@ -1,90 +1,56 @@
 # mock_data.py
-# All mock data for OPHIA demo
-# No real APIs, no real DB — pure demo data
+# Sample data for demo mode (no backend). Nothing here was computed: the
+# matches are hand-written examples in the same shape the live API returns,
+# and approving them saves nothing and sends nothing.
 
-import random
 from datetime import datetime, timedelta
 
 # ═══════════════════════════════════════════════════════════════════════
-# PENDING AI MATCHES (what the AI "computed")
+# PENDING MATCHES (hand-written examples)
 # ═══════════════════════════════════════════════════════════════════════
 
+def _match(key, startup, desc, batch, country, mentor, title, synergy, grades, pct, insight, tags):
+    domain, need, market = grades
+    return {
+        "key": key, "startup": startup, "startup_desc": desc, "startup_batch": batch,
+        "startup_country": country, "mentor": mentor, "mentor_title": title,
+        "synergy": synergy, "insight": insight, "tags": tags,
+        "score_detail": f"Domain {domain}/5 · Need {need}/5 · Market {market}/5 · "
+                        f"Closer than {pct}% of pairs (demo)",
+    }
+
+
 PENDING_MATCHES = [
-    {
-        "key": "chk_match_1",
-        "startup": "DataShield",
-        "startup_desc": "AI-powered fraud detection and cybersecurity for fintech platforms.",
-        "startup_batch": "W23",
-        "startup_country": "Malaysia",
-        "mentor": "Ehtisham Raza",
-        "mentor_title": "AI Security Architect & Serial Founder",
-        "synergy": 96,
-        "insight": "NLP taxonomy match for 'Fraud Detection Models' and 'Security Protocols'. Semantic overlap score of 0.94 on AI Security domain vectors.",
-        "tags": ["'Fraud Detection'", "'AI Architecture'", "'AI Technology'"],
-        "taxonomy_node": "AI_Security",
-        "semantic_score": 0.94,
-        "taxonomy_score": 0.91,
-    },
-    {
-        "key": "chk_match_2",
-        "startup": "GreenLedger",
-        "startup_desc": "ESG compliance and carbon tracking platform for Southeast Asian enterprises.",
-        "startup_batch": "S23",
-        "startup_country": "Singapore",
-        "mentor": "Leong Lai Fong",
-        "mentor_title": "RegTech Advisor & Former Bank Negara Regulatory Lead",
-        "synergy": 88,
-        "insight": "Domain overlap in ESG compliance frameworks and RegTech automation pipelines. Mentor's regulatory background directly addresses startup's compliance gaps.",
-        "tags": ["'RegTech'", "'ESG Compliance'", "'Automation'"],
-        "taxonomy_node": "Financial_Services",
-        "semantic_score": 0.87,
-        "taxonomy_score": 0.89,
-    },
-    {
-        "key": "chk_match_3",
-        "startup": "MediCore AI",
-        "startup_desc": "Clinical ML platform predicting patient outcomes from electronic health records.",
-        "startup_batch": "W23",
-        "startup_country": "Malaysia",
-        "mentor": "Weiyuan Liu",
-        "mentor_title": "Health AI Researcher & Investor",
-        "synergy": 91,
-        "insight": "Shared research background in predictive diagnostics and clinical ML models. Vector embedding similarity of 0.91 on Health AI taxonomy cluster.",
-        "tags": ["'Health AI'", "'ML Diagnostics'", "'Clinical Data'"],
-        "taxonomy_node": "Health_AI",
-        "semantic_score": 0.91,
-        "taxonomy_score": 0.88,
-    },
-    {
-        "key": "chk_match_4",
-        "startup": "SupplySync",
-        "startup_desc": "B2B supply chain automation platform for SMEs in Southeast Asia.",
-        "startup_batch": "S22",
-        "startup_country": "Malaysia",
-        "mentor": "Faiz Hassan",
-        "mentor_title": "B2B SaaS Growth Lead",
-        "synergy": 83,
-        "insight": "Strong alignment on B2B SaaS scaling playbooks. Mentor's ASEAN market expertise maps directly to startup's regional expansion goals.",
-        "tags": ["'B2B Enterprise'", "'Automation'", "'Supply Chain'"],
-        "taxonomy_node": "B2B_Enterprise",
-        "semantic_score": 0.82,
-        "taxonomy_score": 0.85,
-    },
-    {
-        "key": "chk_match_5",
-        "startup": "LeafGrid",
-        "startup_desc": "Clean energy marketplace connecting solar panel owners with grid operators.",
-        "startup_batch": "W24",
-        "startup_country": "Indonesia",
-        "mentor": "Sarah Chen",
-        "mentor_title": "Climate Tech Investor",
-        "synergy": 79,
-        "insight": "Climate taxonomy overlap on renewable energy and carbon market domains. Mentor has directly invested in 3 comparable energy marketplace models.",
-        "tags": ["'Climate Tech'", "'Sustainability'", "'ESG'"],
-        "taxonomy_node": "Climate_Sustainability",
-        "semantic_score": 0.78,
-        "taxonomy_score": 0.81,
-    },
+    _match("demo_match_1", "DataShield", "AI-powered fraud detection and cybersecurity for fintech platforms.",
+           "W23", "Malaysia", "Ehtisham Raza", "AI Security Architect & Serial Founder",
+           96, (5, 5, 5), 99,
+           "Ehtisham has built fraud-detection systems for Southeast Asian fintechs, which is exactly "
+           "DataShield's product. He can help them harden their models for enterprise bank customers.",
+           ["Fraud Detection", "AI Security", "Fintech"]),
+    _match("demo_match_2", "GreenLedger", "ESG compliance and carbon tracking platform for Southeast Asian enterprises.",
+           "S23", "Singapore", "Leong Lai Fong", "RegTech Advisor & Former Central Bank Regulatory Lead",
+           86, (4, 5, 4), 95,
+           "Her regulatory background maps directly onto GreenLedger's compliance product. The gap is "
+           "climate science: she knows reporting rules, not carbon measurement.",
+           ["RegTech", "ESG Compliance"]),
+    _match("demo_match_3", "MediCore AI", "Clinical ML platform predicting patient outcomes from electronic health records.",
+           "W23", "Malaysia", "Weiyuan Liu", "Clinical ML Research Lead",
+           91, (5, 4, 5), 97,
+           "Both work on predictive clinical models from patient records. Weiyuan can help MediCore "
+           "design validation studies that hospitals will accept.",
+           ["Health AI", "Clinical Data"]),
+    _match("demo_match_4", "SupplySync", "B2B supply chain automation platform for SMEs in Southeast Asia.",
+           "S22", "Malaysia", "Faiz Hassan", "B2B SaaS Growth Lead",
+           72, (3, 4, 4), 81,
+           "Faiz knows B2B SaaS sales into ASEAN SMEs, which is SupplySync's go-to-market. He has no "
+           "supply-chain operations background, so he is a sales mentor rather than a product one.",
+           ["B2B SaaS", "SME Sales"]),
+    _match("demo_match_5", "LeafGrid", "Clean energy marketplace connecting solar panel owners with grid operators.",
+           "W24", "Indonesia", "Sarah Chen", "Climate Tech Investor",
+           64, (4, 3, 2), 74,
+           "Sarah invests in climate marketplaces, so she understands LeafGrid's model. Her portfolio is "
+           "in Singapore, not Indonesia, and she is an investor rather than an operator.",
+           ["Climate Tech", "Marketplaces"]),
 ]
 
 
@@ -115,10 +81,6 @@ INITIAL_WORKSPACES = [
     },
 ]
 
-INITIAL_CHECKINS = [
-    {"name": "Yuda Adi Pratama", "detail": "90-day Check-in — Complete"},
-    {"name": "Dr. Poo Kuan Hoong", "detail": "90-day Check-in — Complete"},
-]
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -255,57 +217,24 @@ MENTORS = [
 # ═══════════════════════════════════════════════════════════════════════
 
 def generate_workspace_entity(startup: str, mentor: str, synergy: int) -> dict:
-    """
-    Returns a fake workspace entity dict.
-    Simulates what the real Firestore + Workspace API would return.
-    """
-    startup_slug = startup.lower().replace(" ", "-")
-    mentor_slug = mentor.split()[0].lower()
-    ts = datetime.now().strftime("%Y%m%d%H%M%S")
-
-    workspace_names = ["Project Horizon", "Project Vector", "Project Atlas",
-                       "Project Meridian", "Project Zenith", "Project Apex",
-                       "Project Catalyst", "Project Summit"]
-    name = random.choice(workspace_names)
-
+    """A local-only workspace for demo mode, same shape as api_client._to_workspace.
+    Nothing is saved, emailed or scheduled."""
+    now = datetime.now()
     return {
-        "name": name,
+        "name": f"Project {startup} × {mentor}",
         "startup": startup,
         "mentor": mentor,
         "status": "In Progress",
         "day": 0,
         "synergy": synergy,
-        "drive_url": f"https://drive.google.com/folders/ophia-{startup_slug}-{ts}",
-        "calendar_id": f"ophia_cal_{mentor_slug}_{ts}",
-        "created_at": datetime.now().strftime("%d %b %Y, %H:%M MYT"),
-        "lifecycle_end": (datetime.now() + timedelta(days=90)).strftime("%d %b %Y"),
-        "email_sent_to": f"team@{startup_slug}.io",
+        "drive_url": "Demo mode — no folder created",
+        "calendar_id": "Demo mode — no invite sent",
+        "created_at": now.strftime("%d %b %Y, %H:%M"),
+        "lifecycle_end": (now + timedelta(days=90)).strftime("%d %b %Y"),
+        "email_status": "Demo mode — no email sent",
         "milestones": [
-            {"day": 30, "label": "Establish goals & align on tech stack", "done": False},
-            {"day": 60, "label": "Mid-term audit & course correction", "done": False},
-            {"day": 90, "label": "Final evaluation & programme sign-off", "done": False},
+            {"day": 30, "label": "Establish goals, align on tech stack, first check-in", "done": False},
+            {"day": 60, "label": "Mid-term review — progress audit and course correction", "done": False},
+            {"day": 90, "label": "Final evaluation and programme completion sign-off", "done": False},
         ]
     }
-
-
-# ═══════════════════════════════════════════════════════════════════════
-# MOCK SYNERGY TREND DATA
-# ═══════════════════════════════════════════════════════════════════════
-
-SYNERGY_TREND = [72, 74, 71, 78, 80, 82, 85, 83, 88, 91]
-
-# ═══════════════════════════════════════════════════════════════════════
-# MOCK AI PIPELINE STEPS
-# (Shown during the "approve" animation)
-# ═══════════════════════════════════════════════════════════════════════
-
-PIPELINE_STEPS = [
-    ("🧠", "Fetching startup profiles from Firestore...", 0.4),
-    ("📐", "Running Vertex AI text embeddings...", 0.6),
-    ("🔗", "Computing cosine similarity on 768-dimension vectors...", 0.75),
-    ("🏷️", "Mapping taxonomy nodes via NLP ontology...", 0.85),
-    ("📁", "Provisioning Google Drive workspace folder...", 0.90),
-    ("📧", "Dispatching introduction email via Gmail API...", 0.95),
-    ("📅", "Generating Google Calendar event + Meet link...", 0.98),
-    ("✅", "Programmable entity committed to Firestore.", 1.0),
-]

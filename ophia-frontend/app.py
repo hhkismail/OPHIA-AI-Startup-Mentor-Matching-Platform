@@ -4,16 +4,11 @@
 # otherwise (or if the backend is down) runs on the mock data in mock_data.py.
 
 import streamlit as st
-import time
-import random
 import api_client
 from mock_data import (
     PENDING_MATCHES,
     INITIAL_WORKSPACES,
-    INITIAL_CHECKINS,
     MENTORS,
-    SYNERGY_TREND,
-    PIPELINE_STEPS,
     generate_workspace_entity,
 )
 
@@ -23,24 +18,22 @@ st.set_page_config(page_title="OPHIA — Ophia Orchestrator", layout="wide")
 # ══════════════════════════════════════════════════════════════════════
 # SESSION STATE INITIALISATION
 # ══════════════════════════════════════════════════════════════════════
+def mock_stats() -> dict:
+    startups = {m["startup"] for m in PENDING_MATCHES} | {w["startup"] for w in INITIAL_WORKSPACES}
+    return {"startups": len(startups),
+            "mentors": sum(m["status"] == "Available" for m in MENTORS)}
+
+
 def init_state():
     defaults = {
         "page": "dashboard",
-        "approved": False,
-        "contact_submitted": False,
-        "propose_submitted": None,
-        "approve_running": False,
         "approve_done": False,
-        "approved_entities": [],          # stores newly approved workspace dicts
         "workspaces": INITIAL_WORKSPACES.copy(),
-        "checkins": INITIAL_CHECKINS.copy(),
         "pending_matches": PENDING_MATCHES.copy(),
+        "mentors": MENTORS,
+        "stats": mock_stats(),
         "rejected_keys": [],              # keys of rejected matches
         "last_approved_details": [],      # shown in the success card
-        "pending_proposed": [],           # mentor proposals from mentors page
-        "total_startups": 124,
-        "total_mentors": 45,
-        "active_programmes": 8,
     }
     for k, v in defaults.items():
         if k not in st.session_state:
@@ -53,10 +46,13 @@ def init_state():
             with st.spinner("Loading live matches from the OPHIA backend…"):
                 matches = api_client.fetch_pending_matches()
                 workspaces = api_client.fetch_workspaces()
-            if matches is not None and workspaces is not None:
+                mentors = api_client.fetch_mentors()
+                stats = api_client.fetch_stats()
+            if None not in (matches, workspaces, mentors, stats):
                 st.session_state.pending_matches = matches
                 st.session_state.workspaces = workspaces
-                st.session_state.checkins = []
+                st.session_state.mentors = mentors
+                st.session_state.stats = stats
                 st.session_state.data_source = "live"
 
 init_state()
@@ -289,16 +285,6 @@ div.reject-btn-container > button:hover {
     border-bottom: 1px solid rgba(11,36,22,0.08); margin-bottom: 0.5rem;
 }
 
-/* ── PIPELINE ANIMATION ── */
-.pipeline-step {
-    display: flex; align-items: center; gap: 0.8rem;
-    padding: 0.55rem 0.8rem; border-radius: 10px;
-    background: rgba(46,204,113,0.05); margin-bottom: 0.4rem;
-    border: 1px solid rgba(46,204,113,0.15);
-    font-size: 0.82rem; color: #0b2416;
-}
-.pipeline-icon { font-size: 1.1rem; width: 28px; text-align: center; }
-
 /* ── WORKSPACE ENTITY CARD ── */
 .entity-card {
     background: #0b2416; border: 1.5px solid #2ecc71; border-radius: 16px;
@@ -309,28 +295,6 @@ div.reject-btn-container > button:hover {
 .entity-card-row { display: flex; gap: 0.6rem; align-items: flex-start; margin-bottom: 0.35rem; }
 .entity-card-label { font-size: 0.7rem; color: #7ab898; width: 90px; flex-shrink: 0; font-weight: 600; }
 .entity-card-value { font-size: 0.78rem; color: #d0e8d8; word-break: break-all; }
-
-/* ── CONTACT PAGE ── */
-.contact-card {
-    border: 1px solid rgba(11,36,22,0.13); border-radius: 14px;
-    padding: 1.2rem 1.4rem; background: #ffffff !important; margin-bottom: 0.85rem;
-}
-.contact-card-label {
-    font-size: 0.67rem; text-transform: uppercase; letter-spacing: 1.5px;
-    color: #7a8c82; font-weight: 600; margin-bottom: 0.55rem;
-}
-.contact-card-title { font-size: 0.9rem; font-weight: 700; color: #0b2416; margin-bottom: 3px; }
-.contact-card-value { font-size: 0.82rem; color: #5d6e65; line-height: 1.6; }
-.contact-card-highlight { font-size: 0.82rem; color: #0b2416; font-weight: 600; }
-.contact-form-label {
-    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.2px;
-    color: #7a8c82; font-weight: 600; margin-bottom: 0.4rem; margin-top: 1.1rem;
-}
-.triage-dot {
-    width: 8px; height: 8px; border-radius: 50%; background: #2ecc71;
-    display: inline-block; margin-right: 6px;
-    box-shadow: 0 0 6px rgba(46,204,113,0.6); vertical-align: middle;
-}
 
 /* ── INPUT FIELDS ── */
 .stTextInput div div input, .stTextArea div div textarea {
@@ -359,7 +323,7 @@ def render_topbar(current_page):
     c_left, c_right = st.columns([6, 4])
 
     with c_left:
-        sub_l, sub_d, sub_m, sub_c = st.columns([1.5, 1.2, 1.2, 3.1])
+        sub_l, sub_d, sub_m, _ = st.columns([1.5, 1.2, 1.2, 3.1])
 
         with sub_l:
             st.markdown('<div class="brand-btn-box">', unsafe_allow_html=True)
@@ -384,28 +348,13 @@ def render_topbar(current_page):
                 st.rerun()
             st.markdown('</div>', unsafe_allow_html=True)
 
-        with sub_c:
-            cls = "nav-btn-active" if current_page == "contact" else ""
-            st.markdown(f'<div class="{cls}">', unsafe_allow_html=True)
-            if st.button("Contact", key="nav_contact"):
-                st.session_state.page = "contact"
-                st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
-
     with c_right:
-        st.markdown('''
+        live = st.session_state.data_source == "live"
+        st.markdown(f'''
         <div style="display:flex; gap:0.7rem; align-items:center; justify-content:flex-end;">
-            <div class="pill-outline">Admin: Vaza</div>
-            <div style="position:relative; width:34px; height:34px;
-                        border:1px solid rgba(28,43,36,0.22); border-radius:50%;
-                        display:flex; align-items:center; justify-content:center;
-                        cursor:pointer; font-size:0.95rem;">
-                🔔
-                <span style="position:absolute; top:6px; right:6px; width:6px; height:6px;
-                             background:#2ecc71; border-radius:50%; border:1.5px solid #f8f9f3;
-                             box-shadow:0 0 5px rgba(46,204,113,0.7);"></span>
+            <div class="{'pill-solid' if live else 'pill-outline'}">
+                {'🟢 Live data' if live else 'Demo data'}
             </div>
-            <div class="pill-solid">Sign in ▾</div>
         </div>
         ''', unsafe_allow_html=True)
 
@@ -413,48 +362,13 @@ def render_topbar(current_page):
 
 
 # ══════════════════════════════════════════════════════════════════════
-# APPROVE PIPELINE ANIMATION
-# This is the money shot for the demo
+# APPROVE
 # ══════════════════════════════════════════════════════════════════════
-def run_approve_animation(selected_matches: list):
-    """
-    Shows a step-by-step pipeline animation simulating backend operations.
-    Runs inside a container so it replaces itself with the success card.
-    """
-    anim_container = st.container()
-
-    with anim_container:
-        st.markdown("""
-        <div style="background:#f8f9f3; border:1px solid rgba(11,36,22,0.12);
-                    border-radius:16px; padding:1.2rem 1.4rem; margin-bottom:1rem;">
-            <div style="font-size:0.78rem; font-weight:700; color:#0b2416; 
-                        text-transform:uppercase; letter-spacing:1.5px; margin-bottom:0.8rem;">
-                ⚙️ OPHIA Orchestration Engine — Running
-            </div>
-        """, unsafe_allow_html=True)
-
-        progress_bar = st.progress(0)
-        step_placeholder = st.empty()
-
-        for icon, label, progress in PIPELINE_STEPS:
-            step_placeholder.markdown(f"""
-            <div class="pipeline-step">
-                <span class="pipeline-icon">{icon}</span>
-                <span>{label}</span>
-            </div>
-            """, unsafe_allow_html=True)
-            progress_bar.progress(progress)
-            time.sleep(0.55)
-
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    # Small pause then clear the animation
-    time.sleep(0.3)
-    anim_container.empty()
-
-    # Create workspace entities for each approved match
+def approve_matches(selected_matches: list):
+    """Creates a 90-day workspace per match (backend in live mode, local in demo)."""
     if st.session_state.data_source == "live":
-        new_entities = api_client.approve(selected_matches)
+        with st.spinner("Saving workspaces and queuing intro email, Drive folder and kick-off…"):
+            new_entities = api_client.approve(selected_matches)
         if new_entities is None:
             st.error(f"Approval failed — nothing was created. {api_client.last_error or ''}")
             return
@@ -470,7 +384,6 @@ def run_approve_animation(selected_matches: list):
 
     st.session_state.last_approved_details = new_entities
     st.session_state.approve_done = True
-    st.session_state.approved = True
 
     # Remove approved matches from pending
     approved_keys = [m["key"] for m in selected_matches]
@@ -489,19 +402,19 @@ def render_dashboard():
     st.markdown('<div class="page-eyebrow">Orchestrator Home</div>', unsafe_allow_html=True)
     st.markdown('<h1 class="page-title">Ophia Orchestrator</h1>', unsafe_allow_html=True)
 
-    if st.session_state.data_source == "live":
-        st.caption("🟢 Live data — matches from the OPHIA backend")
-    elif api_client.enabled():
-        st.warning(f"Backend unreachable — showing demo data. {api_client.last_error or ''}")
-    else:
-        st.caption("Demo mode — mock data (set OPHIA_API_URL in .env to use the backend)")
+    if st.session_state.data_source == "mock":
+        if api_client.enabled():
+            st.warning(f"Backend unreachable — showing demo data. {api_client.last_error or ''}")
+        else:
+            st.caption("Demo mode: sample data, nothing is saved. "
+                       "Set OPHIA_API_URL in .env to use the live backend.")
 
     # ── Metrics ──────────────────────────────────────────────────────
-    m1, m2, m3, spacer = st.columns([3, 3, 3, 0.6])
+    m1, m2, m3 = st.columns(3)
     metrics = [
-        (m1, "🚀", str(st.session_state.total_startups), "New Startups"),
-        (m2, "👥", str(st.session_state.total_mentors),  "Mentors Available"),
-        (m3, "📅", str(st.session_state.active_programmes), "Active Programmes"),
+        (m1, "🚀", str(st.session_state.stats["startups"]), "Startups"),
+        (m2, "👥", str(st.session_state.stats["mentors"]), "Mentors Available"),
+        (m3, "📅", str(len(st.session_state.workspaces)), "Active Workspaces"),
     ]
     for col, icon, num, label in metrics:
         with col:
@@ -514,17 +427,6 @@ def render_dashboard():
                 </div>
             </div>
             """, unsafe_allow_html=True)
-
-    with spacer:
-        st.markdown("""
-        <div style="display:flex; justify-content:flex-end; align-items:center;
-                    height:100%; padding-top:2px;">
-            <div style="border:1px solid rgba(11,36,22,0.18); border-radius:10px;
-                        padding:8px 10px; cursor:pointer; font-size:1.05rem; background:#ffffff;">
-                📊
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -559,7 +461,7 @@ def render_dashboard():
                 if st.session_state.get(m["key"], False)
             ]
             if selected:
-                run_approve_animation(selected)
+                approve_matches(selected)
             else:
                 st.markdown("""
                 <div style="background:#fff8e6; border:1.5px solid #f0a500;
@@ -576,10 +478,9 @@ def render_dashboard():
         # ── Success cards (shown after approval) ──────────────────────
         if st.session_state.approve_done and st.session_state.last_approved_details:
             for entity in st.session_state.last_approved_details:
-                startup_slug = entity["startup"].lower().replace(" ", "-")
                 st.markdown(f"""
                 <div class="entity-card">
-                    <div class="entity-card-title">✅ Programmable Entity Active — {entity['name']}</div>
+                    <div class="entity-card-title">✅ Workspace created — {entity['name']}</div>
                     <div class="entity-card-row">
                         <span class="entity-card-label">Match</span>
                         <span class="entity-card-value">{entity['startup']} → {entity['mentor']}</span>
@@ -594,11 +495,11 @@ def render_dashboard():
                     </div>
                     <div class="entity-card-row">
                         <span class="entity-card-label">📧 Email</span>
-                        <span class="entity-card-value">Intro sent → {entity['email_sent_to']}</span>
+                        <span class="entity-card-value">{entity['email_status']}</span>
                     </div>
                     <div class="entity-card-row">
                         <span class="entity-card-label">📅 Kickoff</span>
-                        <span class="entity-card-value">Calendar event + Meet link generated</span>
+                        <span class="entity-card-value">{entity['calendar_id']}</span>
                     </div>
                     <div class="entity-card-row">
                         <span class="entity-card-label">Timeline</span>
@@ -744,46 +645,15 @@ def render_dashboard():
             """, unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Completed Check-ins
-        st.markdown('<div class="sb-card"><div class="sb-section-label">✅ Completed 90-day Check-ins</div>', unsafe_allow_html=True)
-        for ci in st.session_state.checkins:
-            st.markdown(f"""
-            <div style="margin-bottom:0.5rem;">
-                <div class="sb-entry-name">{ci['name']}</div>
-                <div class="sb-entry-sub">{ci['detail']}</div>
-            </div>
-            """, unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        # Synergy trend sparkline
-        st.markdown("""
-        <div class="sb-card">
-            <div class="sb-section-label">📈 Synergy Trend</div>
-            <svg viewBox="0 0 280 52" width="100%" height="52" preserveAspectRatio="none">
-                <path d="M0,44 Q25,28 50,36 T100,14 T155,38 T210,18 T280,24"
-                      fill="none" stroke="#2ecc71" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M0,44 Q25,28 50,36 T100,14 T155,38 T210,18 T280,24 L280,52 L0,52 Z"
-                      fill="rgba(46,204,113,0.07)"/>
-                <circle cx="100" cy="14" r="3" fill="#2ecc71"/>
-                <circle cx="210" cy="18" r="3" fill="#2ecc71"/>
-            </svg>
-            <div style="font-size:0.7rem; color:#7a8c82; margin-top:0.3rem;">
-                Match quality improving over time — feedback loop active
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
         # Dynamic quick stats
         pending_n = len(st.session_state.pending_matches)
         workspace_n = len(st.session_state.workspaces)
-        checkin_n = len(st.session_state.checkins)
         avg_synergy = int(sum(w["synergy"] for w in st.session_state.workspaces) / max(workspace_n, 1))
 
         st.markdown(f"""
         <div class="sb-card">
             <div class="sb-section-label">📊 Quick Stats</div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;">
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.6rem;">
                 <div style="text-align:center; padding:0.5rem;
                             background:rgba(46,204,113,0.06); border-radius:10px;">
                     <div style="font-size:1.2rem; font-weight:700; color:#0b2416;">{pending_n}</div>
@@ -792,17 +662,12 @@ def render_dashboard():
                 <div style="text-align:center; padding:0.5rem;
                             background:rgba(46,204,113,0.06); border-radius:10px;">
                     <div style="font-size:1.2rem; font-weight:700; color:#0b2416;">{avg_synergy}%</div>
-                    <div style="font-size:0.68rem; color:#7a8c82;">Avg Synergy</div>
+                    <div style="font-size:0.68rem; color:#7a8c82;">Avg Workspace Synergy</div>
                 </div>
                 <div style="text-align:center; padding:0.5rem;
                             background:rgba(46,204,113,0.06); border-radius:10px;">
                     <div style="font-size:1.2rem; font-weight:700; color:#0b2416;">{workspace_n}</div>
                     <div style="font-size:0.68rem; color:#7a8c82;">Workspaces</div>
-                </div>
-                <div style="text-align:center; padding:0.5rem;
-                            background:rgba(46,204,113,0.06); border-radius:10px;">
-                    <div style="font-size:1.2rem; font-weight:700; color:#0b2416;">{checkin_n}</div>
-                    <div style="font-size:0.68rem; color:#7a8c82;">Check-ins</div>
                 </div>
             </div>
         </div>
@@ -818,14 +683,15 @@ def render_mentors():
     st.markdown('<div class="page-eyebrow">Ecosystem Overview</div>', unsafe_allow_html=True)
     st.markdown('<h1 class="page-title">Ecosystem Mentors Directory</h1>', unsafe_allow_html=True)
 
-    active_count = sum(1 for m in MENTORS if m["status"] == "Active")
-    total_partnerships = sum(m["partnerships"] for m in MENTORS)
+    mentors = st.session_state.mentors
+    active_count = sum(1 for m in mentors if m["status"] == "Active")
+    total_partnerships = sum(m["partnerships"] for m in mentors)
 
     st.markdown(f"""
     <div class="mentor-metric-banner">
         <div class="mentor-metric-chip">
             <span>👥</span>
-            <span style="font-size:1rem; font-weight:700;">{len(MENTORS)}</span>
+            <span style="font-size:1rem; font-weight:700;">{len(mentors)}</span>
             <span style="font-size:0.8rem; color:#5d6e65; font-weight:400;">Total Mentors</span>
         </div>
         <div class="mentor-metric-sep">|</div>
@@ -850,33 +716,17 @@ def render_mentors():
         label_visibility="collapsed",
     )
 
-    st.markdown("""
-    <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; margin:0.8rem 0 1.4rem;">
-        <span style="font-size:0.72rem; font-weight:600; color:#7a8c82;
-                     text-transform:uppercase; letter-spacing:1.2px; margin-right:0.2rem;">
-            Filters:
-        </span>
-        <span class="tag-pill" style="cursor:pointer;">'Security Protocols'</span>
-        <span class="tag-pill" style="cursor:pointer;">'Machine Learning'</span>
-        <span class="tag-pill" style="cursor:pointer;">'Fraud Detection'</span>
-        <span class="tag-pill" style="cursor:pointer;">'ESG Compliance'</span>
-        <span class="tag-pill" style="cursor:pointer;">'Health AI'</span>
-        <span class="tag-pill" style="cursor:pointer;">'RegTech'</span>
-        <span class="tag-pill" style="cursor:pointer;">'DeFi'</span>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<div style='height:0.8rem'></div>", unsafe_allow_html=True)
 
-    h_name, h_expertise, h_action = st.columns([3, 5, 2])
+    h_name, h_expertise = st.columns([3, 7])
     with h_name:
         st.markdown('<div class="mentor-col-header">Mentor</div>', unsafe_allow_html=True)
     with h_expertise:
         st.markdown('<div class="mentor-col-header">Core Expertise</div>', unsafe_allow_html=True)
-    with h_action:
-        st.markdown('<div class="mentor-col-header" style="text-align:right;">Action</div>', unsafe_allow_html=True)
 
     query = search_query.strip().lower()
     filtered = [
-        m for m in MENTORS
+        m for m in mentors
         if not query
         or query in m["name"].lower()
         or query in m["title"].lower()
@@ -894,11 +744,12 @@ def render_mentors():
         """, unsafe_allow_html=True)
         return
 
-    for i, mentor in enumerate(filtered):
+    for mentor in filtered:
         st.markdown('<div class="mentor-row">', unsafe_allow_html=True)
-        col_name, col_expertise, col_action = st.columns([3, 5, 2])
+        col_name, col_expertise = st.columns([3, 7])
 
         status_cls = "mentor-status-active" if mentor["status"] == "Active" else "mentor-status-available"
+        meta = " · ".join(filter(None, [mentor.get("country"), f"{mentor.get('availability_hours', 0)}h/month"]))
 
         with col_name:
             st.markdown(f"""
@@ -906,7 +757,7 @@ def render_mentors():
                 <div class="mentor-name">{mentor['name']}</div>
                 <div class="mentor-title">{mentor['title']}</div>
                 <div style="font-size:0.7rem; color:#7a8c82; margin-top:3px;">
-                    {mentor.get('country', '')} · {mentor.get('availability_hours', 0)}h/month
+                    {meta}
                 </div>
                 <span class="{status_cls}">{mentor['status']}</span>
             </div>
@@ -926,170 +777,7 @@ def render_mentors():
             </div>
             """, unsafe_allow_html=True)
 
-        with col_action:
-            st.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
-            st.markdown('<div class="action-btn-container">', unsafe_allow_html=True)
-            if st.button("Propose Synergy Linkage", key=f"propose_{i}"):
-                st.session_state.propose_submitted = mentor["name"]
-                # Add to pending queue in session state
-                st.session_state.pending_proposed.append(mentor["name"])
-            st.markdown('</div>', unsafe_allow_html=True)
-
         st.markdown('</div>', unsafe_allow_html=True)
-
-    if st.session_state.propose_submitted:
-        st.markdown(f"""
-        <div style="background:#0b2416; border:1.5px solid #2ecc71;
-                    border-radius:14px; padding:0.9rem 1.3rem;
-                    margin-top:1rem; display:flex; align-items:center; gap:1rem;
-                    box-shadow:0 0 20px rgba(46,204,113,0.18);">
-            <div style="font-size:1.4rem;">🔗</div>
-            <div>
-                <div style="font-size:0.9rem; font-weight:700; color:#2ecc71;">
-                    Synergy Linkage Proposed
-                </div>
-                <div style="font-size:0.78rem; color:#a8c4b0; margin-top:2px;">
-                    Proposal for <strong style="color:#d0e8d8;">
-                    {st.session_state.propose_submitted}</strong> has been queued.
-                    Admin Vaza will review and approve via the dashboard.
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-
-# ══════════════════════════════════════════════════════════════════════
-# PAGE 3 — CONTACT
-# ══════════════════════════════════════════════════════════════════════
-def render_contact():
-    st.markdown('<div class="page-eyebrow">Get In Touch</div>', unsafe_allow_html=True)
-    st.markdown('<h1 class="page-title">Connect with OPHIA Operations</h1>', unsafe_allow_html=True)
-
-    left_col, right_col = st.columns([5, 5], gap="large")
-
-    with left_col:
-        st.markdown("""
-        <div style="font-size:0.82rem; color:#5d6e65; line-height:1.7;
-                    margin-bottom:1.4rem; max-width:420px;">
-            Reach out to the OPHIA operations team for partnership enquiries,
-            programme onboarding, or system triage. All requests are reviewed
-            within one working day.
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("""
-        <div class="contact-card">
-            <div class="contact-card-label">🕐 Office Hours</div>
-            <div class="contact-card-title">Operations Desk</div>
-            <div class="contact-card-value">
-                Monday – Friday &nbsp;·&nbsp; 09:00 – 18:00 MYT<br>
-                Saturday &nbsp;·&nbsp; 10:00 – 14:00 MYT<br>
-                <span style="color:#7a8c82; font-size:0.76rem;">Closed on Public Holidays</span>
-            </div>
-        </div>
-        <div class="contact-card">
-            <div class="contact-card-label">📧 Support Channels</div>
-            <div style="display:flex; flex-direction:column; gap:0.55rem; margin-top:0.3rem;">
-                <div>
-                    <div class="contact-card-title">General Operations</div>
-                    <div class="contact-card-highlight">ops@ophia.ai</div>
-                </div>
-                <div style="border-top:1px solid rgba(11,36,22,0.07); padding-top:0.55rem;">
-                    <div class="contact-card-title">Partnership Enquiries</div>
-                    <div class="contact-card-highlight">partnerships@ophia.ai</div>
-                </div>
-                <div style="border-top:1px solid rgba(11,36,22,0.07); padding-top:0.55rem;">
-                    <div class="contact-card-title">Technical Support</div>
-                    <div class="contact-card-highlight">support@ophia.ai</div>
-                </div>
-            </div>
-        </div>
-        <div class="contact-card">
-            <div class="contact-card-label">⚙️ System Triage — Admin Sarah M.</div>
-            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem;">
-                <span class="triage-dot"></span>
-                <span style="font-size:0.8rem; font-weight:600; color:#0b7a3e;">
-                    All Systems Operational
-                </span>
-            </div>
-            <div class="contact-card-value">
-                Last triage check: <strong style="color:#1c2b24;">Today, 09:15 MYT</strong><br>
-                Pending tickets: <strong style="color:#1c2b24;">2 open</strong> · 14 resolved this week<br>
-                Response SLA: <strong style="color:#1c2b24;">&lt; 4 business hours</strong>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with right_col:
-        st.markdown("""
-        <div style="border-left:1px solid rgba(28,43,36,0.1); padding-left:2rem;">
-            <div style="font-family:'Playfair Display',serif; font-size:1.2rem;
-                        font-weight:700; color:#0b2416; margin-bottom:0.25rem;">
-                Send a Message
-            </div>
-            <div style="font-size:0.78rem; color:#7a8c82; margin-bottom:1.4rem;">
-                Our team typically responds within one business day.
-            </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown('<div class="contact-form-label">Full Name</div>', unsafe_allow_html=True)
-        contact_name = st.text_input("Name", placeholder="e.g. Ahmad Faris", key="contact_name", label_visibility="collapsed")
-
-        st.markdown('<div class="contact-form-label">Email Address</div>', unsafe_allow_html=True)
-        contact_email = st.text_input("Email", placeholder="e.g. ahmad@company.com", key="contact_email", label_visibility="collapsed")
-
-        st.markdown('<div class="contact-form-label">Organisation</div>', unsafe_allow_html=True)
-        contact_org = st.text_input("Org", placeholder="e.g. DataShield Ventures", key="contact_org", label_visibility="collapsed")
-
-        st.markdown('<div class="contact-form-label">Subject</div>', unsafe_allow_html=True)
-        contact_subject = st.text_input("Subject", placeholder="e.g. Partnership Enquiry — MediCore AI", key="contact_subject", label_visibility="collapsed")
-
-        st.markdown('<div class="contact-form-label">Message</div>', unsafe_allow_html=True)
-        contact_message = st.text_area(
-            "Message",
-            placeholder="Describe your enquiry in detail. Include any relevant programme codes or startup names.",
-            height=140, key="contact_message", label_visibility="collapsed",
-        )
-
-        st.markdown("<div style='height:0.8rem'></div>", unsafe_allow_html=True)
-        st.markdown('<div class="action-btn-container">', unsafe_allow_html=True)
-
-        if st.button("Submit Message →", key="contact_submit"):
-            if contact_name and contact_email and contact_message:
-                st.session_state.contact_submitted = True
-            else:
-                st.markdown("""
-                <div style="background:#fff8e6; border:1.5px solid #f0a500;
-                            border-radius:12px; padding:0.75rem 1.1rem;
-                            margin-top:0.5rem; font-size:0.82rem;
-                            font-weight:600; color:#7a4f00;">
-                    ⚠️ Please fill in your name, email, and message before submitting.
-                </div>
-                """, unsafe_allow_html=True)
-
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        if st.session_state.contact_submitted:
-            st.markdown(f"""
-            <div style="background:#0b2416; border:1.5px solid #2ecc71;
-                        border-radius:14px; padding:1rem 1.3rem; margin-top:0.8rem;
-                        display:flex; align-items:center; gap:0.9rem;
-                        box-shadow:0 0 22px rgba(46,204,113,0.2);">
-                <div style="font-size:1.5rem;">✅</div>
-                <div>
-                    <div style="font-size:0.9rem; font-weight:700;
-                                color:#2ecc71; margin-bottom:2px;">
-                        Message Sent Successfully
-                    </div>
-                    <div style="font-size:0.77rem; color:#a8c4b0;">
-                        Hi {contact_name or 'there'} — Admin Sarah M. will review
-                        your enquiry within one business day.
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        st.markdown("</div>", unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -1099,7 +787,5 @@ render_topbar(st.session_state.page)
 
 if st.session_state.page == "mentors":
     render_mentors()
-elif st.session_state.page == "contact":
-    render_contact()
 else:
     render_dashboard()

@@ -101,16 +101,39 @@ def _to_workspace(e: dict) -> dict:
         "status": _esc(e.get("status")),
         "day": day,
         "synergy": int(e.get("synergy_score", 0)),
-        "drive_url": _esc(e.get("drive_folder_url") or "Provisioning…"),
-        "calendar_id": _esc(e.get("calendar_event_id") or "Provisioning…"),
+        "drive_url": _esc(e.get("drive_folder_url") or "Not created yet"),
+        "calendar_id": _esc(e.get("calendar_event_id") or "Not scheduled yet"),
         "created_at": _fmt_date(e.get("lifecycle_start"), with_time=True),
         "lifecycle_end": _fmt_date(e.get("lifecycle_end")),
-        "email_sent_to": "participants" if e.get("intro_email_sent") else "queued",
+        "email_status": "Intro email sent" if e.get("intro_email_sent") else "Not sent yet",
         "milestones": [
             {"day": m["day"], "label": _esc(m["objective"]), "done": m["completed"]}
             for m in e.get("milestones", [])
         ],
     }
+
+
+def _to_mentor(m: dict) -> dict:
+    return {
+        "name": _esc(m.get("name")),
+        "title": _esc(m.get("title")),
+        "bio": _esc(m.get("bio")),
+        "expertise": [_esc(s) for s in (m.get("skills") or m.get("industry_tags") or [])],
+        "status": _esc(m.get("status", "Available")),
+        "partnerships": int(m.get("partnerships", 0)),
+        "availability_hours": int(m.get("availability_hours", 0)),
+        "country": _esc(m.get("country")),
+    }
+
+
+def fetch_mentors():
+    data = _request("GET", "/api/mentors")
+    return None if data is None else [_to_mentor(m) for m in data]
+
+
+def fetch_stats():
+    """{'startups': int, 'mentors': int} — counts for the dashboard header."""
+    return _request("GET", "/api/stats")
 
 
 def fetch_pending_matches(limit: int = 5):
