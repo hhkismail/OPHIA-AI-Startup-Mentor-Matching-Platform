@@ -396,6 +396,11 @@ def approve_matches(selected_matches: list):
     st.rerun()
 
 
+def read_only() -> bool:
+    """Live data but no admin key: the backend would refuse every change."""
+    return st.session_state.data_source == "live" and not api_client.API_KEY
+
+
 def complete_milestone(index: int, day: int):
     """Live: the backend enforces order and completes the workspace after day 90.
     Demo: same rules, applied locally."""
@@ -426,6 +431,9 @@ def render_dashboard():
         else:
             st.caption("Demo mode: sample data, nothing is saved. "
                        "Set OPHIA_API_URL in .env to use the live backend.")
+    elif read_only():
+        st.caption("Read-only: showing live data. Set OPHIA_API_KEY in .env to approve, "
+                   "reject and update workspaces.")
 
     # ── Metrics ──────────────────────────────────────────────────────
     m1, m2, m3 = st.columns(3)
@@ -467,8 +475,9 @@ def render_dashboard():
         with hdr_r:
             st.markdown('<div class="action-btn-container green-cta-btn">', unsafe_allow_html=True)
             approve_clicked = st.button(
-                "Approve Selected & Generate Programmable Entities",
-                key="approve_btn"
+                "Approve Selected & Create Workspaces",
+                key="approve_btn",
+                disabled=read_only(),
             )
             st.markdown('</div>', unsafe_allow_html=True)
 
@@ -623,7 +632,7 @@ def render_dashboard():
                 _, _, reject_col = st.columns([7, 1.5, 1.5])
                 with reject_col:
                     st.markdown('<div class="reject-btn-container">', unsafe_allow_html=True)
-                    if st.button("Reject ✕", key=f"reject_{match['key']}"):
+                    if st.button("Reject ✕", key=f"reject_{match['key']}", disabled=read_only()):
                         live = st.session_state.data_source == "live"
                         if live and not api_client.reject(match):
                             st.error(f"Reject failed. {api_client.last_error or ''}")
@@ -669,7 +678,8 @@ def render_dashboard():
             """, unsafe_allow_html=True)
             next_ms = next((m for m in milestones if not m["done"]), None)
             if next_ms and ws["status"] in ("Active", "In Progress"):
-                if st.button(f"✓ Day {next_ms['day']} milestone done", key=f"ms_{ws.get('doc_id', i)}_{next_ms['day']}"):
+                if st.button(f"✓ Day {next_ms['day']} milestone done", key=f"ms_{ws.get('doc_id', i)}_{next_ms['day']}",
+                             disabled=read_only()):
                     complete_milestone(i, next_ms["day"])
         st.markdown("</div>", unsafe_allow_html=True)
 

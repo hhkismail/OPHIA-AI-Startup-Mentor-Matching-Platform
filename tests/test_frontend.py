@@ -120,6 +120,7 @@ def live_backend(monkeypatch):
         def json(self): return self.d
 
     monkeypatch.setattr(api_client, "API_URL", "http://backend")
+    monkeypatch.setattr(api_client, "API_KEY", "k")  # admin unless a test removes it
     monkeypatch.setattr(requests, "request",
                         lambda method, url, **kw: R(handle(method, url.removeprefix("http://backend"), kw.get("json"))))
     return calls
@@ -167,3 +168,18 @@ def test_demo_milestones_complete_in_order():
     ws = at.session_state.workspaces[1]            # day-60 done, day-90 next
     at.button(key=f"ms_{ws['doc_id']}_90").click().run()
     assert at.session_state.workspaces[1]["status"] == "Completed"
+
+
+def test_live_without_key_is_read_only(live_backend, monkeypatch):
+    monkeypatch.setattr(api_client, "API_KEY", "")
+    at = start()
+    assert "Read-only" in page_text(at)
+    assert at.button(key="approve_btn").disabled
+    assert at.button(key="reject_bioco__dr-bio").disabled
+
+
+def test_live_with_key_can_edit(live_backend, monkeypatch):
+    monkeypatch.setattr(api_client, "API_KEY", "k")
+    at = start()
+    assert "Read-only" not in page_text(at)
+    assert not at.button(key="approve_btn").disabled

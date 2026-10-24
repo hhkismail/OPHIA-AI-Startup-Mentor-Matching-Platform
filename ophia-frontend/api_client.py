@@ -15,6 +15,9 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 API_URL = os.getenv("OPHIA_API_URL", "").rstrip("/")
+# Admin key for approve/reject/milestones and for generating new suggestions.
+# Streamlit runs this on the server, so the key never reaches the browser.
+API_KEY = os.getenv("OPHIA_API_KEY", "")
 # Generating matches calls Gemini once per startup, so allow plenty of time
 TIMEOUT = 120
 
@@ -29,8 +32,9 @@ def _request(method: str, path: str, **kwargs):
     global last_error
     if not enabled():
         return None
+    headers = {"X-API-Key": API_KEY} if API_KEY else {}
     try:
-        resp = requests.request(method, f"{API_URL}{path}", timeout=TIMEOUT, **kwargs)
+        resp = requests.request(method, f"{API_URL}{path}", timeout=TIMEOUT, headers=headers, **kwargs)
         resp.raise_for_status()
         last_error = None
         return resp.json()

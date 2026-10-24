@@ -104,6 +104,13 @@ Provisioning:  queued ──► succeeded | partial | skipped | failed ──ret
 | `POST /api/workspaces/{id}/provision` | Retry email/Drive/Calendar after `partial`, `skipped` or `failed` |
 | `GET /api/stats`, `/api/startups`, `/api/mentors`, `/api/health` | |
 
+**Auth.** Every `POST`, and generating new suggestions, requires the admin key
+(`ADMIN_API_KEY` in `.env`) in an `X-API-Key` header; otherwise `401`. Reads are public,
+and an anonymous `GET /api/linkages` returns only stored suggestions, so visitors can't
+run up Gemini costs. If the server has no key configured, changes are disabled (`503`)
+rather than left open. The dashboard sends `OPHIA_API_KEY` from the server side; without
+it, the dashboard is read-only.
+
 Breaking a lifecycle rule returns `409 Conflict` with the reason; unknown IDs return `404`.
 Approvals run in a Firestore transaction, so concurrent approvals of one match create one workspace.
 

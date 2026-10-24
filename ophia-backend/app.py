@@ -11,13 +11,15 @@ Run (from ophia-backend/):
 Docs at http://localhost:8000/docs
 """
 
+import hmac
 import os
 import sys
 from pathlib import Path
 from typing import Optional
 
-from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Query, Request, Security
 from fastapi.responses import JSONResponse
+from fastapi.security import APIKeyHeader
 
 # Log lines contain emoji/arrows; on Windows a redirected stdout uses cp1252
 # and print() would crash the request. Never let logging kill a request.
@@ -42,6 +44,34 @@ _repo = FirestoreRepository(database)
 def get_repo() -> Repository:
     """Storage dependency; tests override it with an InMemoryRepository."""
     return _repo
+
+
+# ── AUTH ─────────────────────────────────────────────────────────────────────
+# One shared admin key (ADMIN_API_KEY in .env), sent as the X-API-Key header.
+# Everything that changes data, or spends money on Gemini, requires it.
+# Reads stay open so a public demo can show the dashboard.
+
+_api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False,
+                               description="Admin key (ADMIN_API_KEY on the server)")
+
+
+def is_admin(key: Optional[str] = Security(_api_key_header)) -> bool:
+    expected = os.getenv("ADMIN_API_KEY", "")
+    # compare_digest takes the same time whether the first or last character
+    # differs, so the key can't be guessed from response timings
+    return bool(expected and key and hmac.compare_digest(key.encode(), expected.encode()))
+
+
+def require_admin(key: Optional[str] = Security(_api_key_header)):
+    if not os.getenv("ADMIN_API_KEY"):
+        # Fail closed: a server with no key configured accepts no changes
+        raise HTTPException(status_code=503, detail="Server has no ADMIN_API_KEY configured; changes are disabled")
+    if not is_admin(key):
+        raise HTTPException(status_code=401, detail="Missing or invalid X-API-Key",
+                            headers={"WWW-Authenticate": "ApiKey"})
+
+
+ADMIN_ONLY = [Depends(require_admin)]
 
 
 @app.exception_handler(sm.InvalidTransition)
@@ -113,20 +143,26 @@ def list_workspaces(repo: Repository = Depends(get_repo)):
 # ── MATCHING ─────────────────────────────────────────────────────────────────
 
 @app.get("/api/linkages")
-def pending_linkages(limit: int = 5, refresh: bool = False, repo: Repository = Depends(get_repo)):
+def pending_linkages(limit: int = Query(5, ge=1, le=50), refresh: bool = False,
+                     repo: Repository = Depends(get_repo), admin: bool = Depends(is_admin)):
     """
     Pending matches awaiting a decision, topped up to `limit` with new
     suggestions for startups that have no pending or approved match.
     Suggestions are stored, so Gemini runs once per startup, not per page load.
     `refresh=true` discards pending suggestions and generates fresh ones.
     Mentors an admin rejected for a startup are never suggested to it again.
+
+    Without the admin key this only returns stored suggestions: generating
+    new ones costs Gemini calls, so anonymous visitors can't trigger it.
     """
     if refresh:
+        if not admin:
+            require_admin(None)  # raises 401/503
         _db_call(repo.delete_pending_matches)
 
     matches = _db_call(repo.matches)
     pending = [m for m in matches if m["status"] == sm.MatchStatus.PENDING.value]
-    if len(pending) < limit:
+    if admin and len(pending) < limit:
         pending += _suggest(repo, matches, limit - len(pending))
     return sorted(pending, key=lambda m: m["created_at"])[:limit]
 
@@ -168,7 +204,7 @@ def _suggest(repo: Repository, existing: list[dict], n: int) -> list[dict]:
 
 # ── DECISIONS ────────────────────────────────────────────────────────────────
 
-@app.post("/api/matches/{match_id}/approve")
+@app.post("/api/matches/{match_id}/approve", dependencies=ADMIN_ONLY)
 def approve_match(match_id: str, background_tasks: BackgroundTasks,
                   body: Optional[ApproveRequest] = None, repo: Repository = Depends(get_repo)):
     """
@@ -183,14 +219,14 @@ def approve_match(match_id: str, background_tasks: BackgroundTasks,
     return {"workspace": workspace, "created": created}
 
 
-@app.post("/api/matches/{match_id}/reject")
+@app.post("/api/matches/{match_id}/reject", dependencies=ADMIN_ONLY)
 def reject_match(match_id: str, body: Optional[RejectRequest] = None, repo: Repository = Depends(get_repo)):
     return _db_call(repo.reject_match, match_id, body.reason if body else None)
 
 
 # ── WORKSPACES ───────────────────────────────────────────────────────────────
 
-@app.post("/api/workspaces/{workspace_id}/milestones/{day}/complete")
+@app.post("/api/workspaces/{workspace_id}/milestones/{day}/complete", dependencies=ADMIN_ONLY)
 def complete_milestone(workspace_id: str, day: int, repo: Repository = Depends(get_repo)):
     """Milestones complete in order; the last one completes the workspace."""
     def change(ws):
@@ -200,7 +236,7 @@ def complete_milestone(workspace_id: str, day: int, repo: Repository = Depends(g
     return _db_call(repo.update_workspace, workspace_id, change)
 
 
-@app.post("/api/workspaces/{workspace_id}/cancel")
+@app.post("/api/workspaces/{workspace_id}/cancel", dependencies=ADMIN_ONLY)
 def cancel_workspace(workspace_id: str, repo: Repository = Depends(get_repo)):
     def change(ws):
         status = sm.transition_workspace(ws["status"], sm.WorkspaceStatus.CANCELLED)
@@ -208,7 +244,7 @@ def cancel_workspace(workspace_id: str, repo: Repository = Depends(get_repo)):
     return _db_call(repo.update_workspace, workspace_id, change)
 
 
-@app.post("/api/workspaces/{workspace_id}/provision")
+@app.post("/api/workspaces/{workspace_id}/provision", dependencies=ADMIN_ONLY)
 def retry_provisioning(workspace_id: str, background_tasks: BackgroundTasks,
                        body: Optional[ApproveRequest] = None, repo: Repository = Depends(get_repo)):
     """Re-runs email/Drive/Calendar for a workspace whose provisioning didn't fully succeed."""

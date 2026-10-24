@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 
 import ai_engine
 import app as backend
+from conftest import ADMIN_HEADERS
 from repository import InMemoryRepository
 
 
@@ -43,7 +44,8 @@ def provisioned(monkeypatch):
 
 @pytest.fixture
 def client():
-    return TestClient(backend.app)
+    """Authenticated as admin; see test_auth.py for the unauthenticated cases."""
+    return TestClient(backend.app, headers=ADMIN_HEADERS)
 
 
 def pending(client, limit=3):

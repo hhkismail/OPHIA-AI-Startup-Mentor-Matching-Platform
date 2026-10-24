@@ -18,8 +18,12 @@ ROOT = Path(__file__).resolve().parent.parent
 for sub in reversed(("ophia-backend", "ophia-nlp", "ophia-data", "ophia-frontend", "")):
     sys.path.insert(0, str(ROOT / sub))
 
-# Demo mode unless a test opts in; must be set before api_client is imported
-os.environ["OPHIA_API_URL"] = ""
+# Set before any module loads the developer's .env (load_dotenv never
+# overrides existing variables), so tests don't depend on local secrets.
+os.environ["OPHIA_API_URL"] = ""          # demo mode unless a test opts in
+os.environ["OPHIA_API_KEY"] = ""
+os.environ["ADMIN_API_KEY"] = "test-admin-key"
+ADMIN_HEADERS = {"X-API-Key": "test-admin-key"}
 
 
 class NoNetwork(RuntimeError):
