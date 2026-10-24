@@ -84,7 +84,7 @@ def live_backend(monkeypatch):
     import requests
 
     data = {
-        "/api/linkages": [{"startup_name": "BioCo", "mentor_name": "Dr Bio", "synergy": 93,
+        "/api/linkages": [{"match_id": "bioco__dr-bio", "startup_name": "BioCo", "mentor_name": "Dr Bio", "synergy": 93,
                            "insight": "Fits. Helps.", "tags": ["Biotech"], "similarity": 0.6,
                            "similarity_percentile": 0.98,
                            "grades": {"domain_fit": 5, "need_fit": 4, "market_fit": 5},
@@ -95,6 +95,24 @@ def live_backend(monkeypatch):
                           "status": "Available", "availability_hours": 5}],
         "/api/stats": {"startups": 50, "mentors": 61},
     }
+    workspace = {"doc_id": "w1", "workspace_name": "Project BioCo × Dr Bio", "startup_name": "BioCo",
+                 "mentor_name": "Dr Bio", "status": "active", "synergy_score": 93,
+                 "provisioning_status": "queued", "lifecycle_start": "2026-01-01T00:00:00+00:00",
+                 "lifecycle_end": "2026-04-01T00:00:00+00:00",
+                 "milestones": [{"day": d, "objective": "o", "completed": False} for d in (30, 60, 90)]}
+    calls = []
+
+    def handle(method, path, body):
+        calls.append((method, path))
+        if path == "/api/matches/bioco__dr-bio/approve":
+            data["/api/workspaces"] = [workspace]
+            return {"workspace": workspace, "created": True}
+        if path == "/api/matches/bioco__dr-bio/reject":
+            return {"status": "rejected"}
+        if path == "/api/workspaces/w1/milestones/30/complete":
+            workspace["milestones"][0]["completed"] = True
+            return workspace
+        return data[path]
 
     class R:
         def __init__(self, d): self.d = d
@@ -103,7 +121,8 @@ def live_backend(monkeypatch):
 
     monkeypatch.setattr(api_client, "API_URL", "http://backend")
     monkeypatch.setattr(requests, "request",
-                        lambda method, url, **kw: R(data[url.removeprefix("http://backend")]))
+                        lambda method, url, **kw: R(handle(method, url.removeprefix("http://backend"), kw.get("json"))))
+    return calls
 
 
 def test_live_mode_shows_backend_data(live_backend):
@@ -119,3 +138,32 @@ def test_unreachable_backend_falls_back_to_demo_with_warning(monkeypatch):
     at = start()
     assert at.session_state.data_source == "mock"
     assert "Backend unreachable" in page_text(at)
+
+
+def test_live_approve_then_complete_milestone(live_backend):
+    at = start()
+    at.checkbox[0].check().run()
+    at.button(key="approve_btn").click().run()
+    assert not at.exception
+    assert ("POST", "/api/matches/bioco__dr-bio/approve") in live_backend
+    assert at.session_state.pending_matches == []
+    [ws] = at.session_state.workspaces
+    assert ws["email_status"] == "In progress…"
+
+    at.button(key="ms_w1_30").click().run()
+    assert ("POST", "/api/workspaces/w1/milestones/30/complete") in live_backend
+    assert at.session_state.workspaces[0]["milestones"][0]["done"] is True
+
+
+def test_live_reject_is_sent_to_backend(live_backend):
+    at = start()
+    at.button(key="reject_bioco__dr-bio").click().run()
+    assert ("POST", "/api/matches/bioco__dr-bio/reject") in live_backend
+    assert at.session_state.pending_matches == []
+
+
+def test_demo_milestones_complete_in_order():
+    at = start()
+    ws = at.session_state.workspaces[1]            # day-60 done, day-90 next
+    at.button(key=f"ms_{ws['doc_id']}_90").click().run()
+    assert at.session_state.workspaces[1]["status"] == "Completed"

@@ -42,8 +42,8 @@ class MatchResult(BaseModel):
     insight: str = Field(..., description="Exactly 2 sentences explaining the match")
     tags: List[str] = Field(..., description="Taxonomy overlap tags")
 
-class ApproveLinkageRequest(BaseModel):
-    startup_name: str
-    mentor_name: str
-    synergy: int = Field(..., ge=0, le=100)
+class ApproveRequest(BaseModel):
     contact_email: Optional[str] = Field(default=None, description="Who gets the intro email + invite")
+
+class RejectRequest(BaseModel):
+    reason: Optional[str] = Field(default=None, max_length=500, description="Why the admin rejected it")

@@ -32,7 +32,6 @@ def init_state():
         "pending_matches": PENDING_MATCHES.copy(),
         "mentors": MENTORS,
         "stats": mock_stats(),
-        "rejected_keys": [],              # keys of rejected matches
         "last_approved_details": [],      # shown in the success card
     }
     for k, v in defaults.items():
@@ -370,9 +369,11 @@ def approve_matches(selected_matches: list):
         with st.spinner("Saving workspaces and queuing intro email, Drive folder and kick-off…"):
             new_entities = api_client.approve(selected_matches)
         if new_entities is None:
-            st.error(f"Approval failed — nothing was created. {api_client.last_error or ''}")
+            st.error(f"Approval failed. {api_client.last_error or ''}")
             return
-        st.session_state.workspaces.extend(new_entities)
+        # Re-read rather than append: approval is idempotent, so a workspace
+        # may already exist (e.g. approved from another tab)
+        st.session_state.workspaces = api_client.fetch_workspaces() or st.session_state.workspaces
     else:
         new_entities = []
         for match in selected_matches:
@@ -392,6 +393,23 @@ def approve_matches(selected_matches: list):
         if m["key"] not in approved_keys
     ]
 
+    st.rerun()
+
+
+def complete_milestone(index: int, day: int):
+    """Live: the backend enforces order and completes the workspace after day 90.
+    Demo: same rules, applied locally."""
+    ws = st.session_state.workspaces[index]
+    if st.session_state.data_source == "live":
+        updated = api_client.complete_milestone(ws["doc_id"], day)
+        if updated is None:
+            st.error(f"Could not update milestone. {api_client.last_error or ''}")
+            return
+    else:
+        milestones = [dict(m, done=m["done"] or m["day"] == day) for m in ws["milestones"]]
+        updated = dict(ws, milestones=milestones,
+                       status="Completed" if all(m["done"] for m in milestones) else ws["status"])
+    st.session_state.workspaces[index] = updated
     st.rerun()
 
 
@@ -606,12 +624,15 @@ def render_dashboard():
                 with reject_col:
                     st.markdown('<div class="reject-btn-container">', unsafe_allow_html=True)
                     if st.button("Reject ✕", key=f"reject_{match['key']}"):
-                        st.session_state.pending_matches = [
-                            m for m in st.session_state.pending_matches
-                            if m["key"] != match["key"]
-                        ]
-                        st.session_state.rejected_keys.append(match["key"])
-                        st.rerun()
+                        live = st.session_state.data_source == "live"
+                        if live and not api_client.reject(match):
+                            st.error(f"Reject failed. {api_client.last_error or ''}")
+                        else:
+                            st.session_state.pending_matches = [
+                                m for m in st.session_state.pending_matches
+                                if m["key"] != match["key"]
+                            ]
+                            st.rerun()
                     st.markdown('</div>', unsafe_allow_html=True)
 
                 st.markdown('</div>', unsafe_allow_html=True)
@@ -631,18 +652,25 @@ def render_dashboard():
         """, unsafe_allow_html=True)
 
         # Active Workspaces — dynamically updated
-        st.markdown('<div class="sb-card"><div class="sb-section-label">📁 Active Workspaces</div>', unsafe_allow_html=True)
-        for ws in st.session_state.workspaces:
+        st.markdown('<div class="sb-card"><div class="sb-section-label">📁 Workspaces</div>', unsafe_allow_html=True)
+        for i, ws in enumerate(st.session_state.workspaces):
             day_label = f"Day {ws.get('day', 0)} / 90" if ws.get('day', 0) > 0 else "Day 0 — Just started"
+            milestones = ws.get("milestones", [])
+            done = sum(m["done"] for m in milestones)
+            progress = f" · Milestones {done}/{len(milestones)}" if milestones else ""
             st.markdown(f"""
-            <div style="margin-bottom:0.6rem;">
+            <div style="margin-bottom:0.3rem;">
                 <div class="sb-entry-name"><span class="sb-dot"></span>{ws['name']}</div>
                 <div class="sb-entry-sub" style="padding-left:13px;">
                     {ws['startup']} × {ws['mentor']}<br>
-                    Status: {ws['status']} · {day_label}
+                    Status: {ws['status']} · {day_label}{progress}
                 </div>
             </div>
             """, unsafe_allow_html=True)
+            next_ms = next((m for m in milestones if not m["done"]), None)
+            if next_ms and ws["status"] in ("Active", "In Progress"):
+                if st.button(f"✓ Day {next_ms['day']} milestone done", key=f"ms_{ws.get('doc_id', i)}_{next_ms['day']}"):
+                    complete_milestone(i, next_ms["day"])
         st.markdown("</div>", unsafe_allow_html=True)
 
         # Dynamic quick stats

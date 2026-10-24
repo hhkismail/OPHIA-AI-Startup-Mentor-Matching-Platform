@@ -2,8 +2,9 @@
 OPHIA Core Orchestration Engine — FastAPI backend.
 
 Connects the pieces:
-  Firestore (ophia-data/database.py)  →  AI matching (ophia-nlp/ai_engine.py)
-  →  admin approval  →  Gmail/Drive/Calendar (ophia-data/workspace_trigger.py)
+  Firestore (repository.py)  →  AI matching (ophia-nlp/ai_engine.py)
+  →  admin approve/reject (state_machine.py)  →  Gmail/Drive/Calendar
+  (ophia-data/workspace_trigger.py)
 
 Run (from ophia-backend/):
   uvicorn app:app --reload        # or: python app.py
@@ -13,9 +14,10 @@ Docs at http://localhost:8000/docs
 import os
 import sys
 from pathlib import Path
-from typing import List
+from typing import Optional
 
-from fastapi import BackgroundTasks, FastAPI, HTTPException
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
 
 # Log lines contain emoji/arrows; on Windows a redirected stdout uses cp1252
 # and print() would crash the request. Never let logging kill a request.
@@ -26,21 +28,38 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 for p in (REPO_ROOT, REPO_ROOT / "ophia-nlp", REPO_ROOT / "ophia-data"):
     sys.path.insert(0, str(p))
 
-import database                                   # noqa: E402
+import database                                                  # noqa: E402
+import state_machine as sm                                       # noqa: E402
 from ai_engine import build_similarity_reference, match_startup  # noqa: E402
-from models import ApproveLinkageRequest          # noqa: E402
+from models import ApproveRequest, RejectRequest                 # noqa: E402
+from repository import FirestoreRepository, NotFound, Repository, new_match  # noqa: E402
 
 app = FastAPI(title="OPHIA Core Orchestration Engine")
 
-# Gemini calls are slow and cost money, so pending matches are cached until
-# ?refresh=true or until something is approved.
-_linkage_cache: dict[int, list] = {}
+_repo = FirestoreRepository(database)
+
+
+def get_repo() -> Repository:
+    """Storage dependency; tests override it with an InMemoryRepository."""
+    return _repo
+
+
+@app.exception_handler(sm.InvalidTransition)
+def invalid_transition(request: Request, exc: sm.InvalidTransition):
+    return JSONResponse(status_code=409, content={"detail": str(exc)})
+
+
+@app.exception_handler(NotFound)
+def not_found(request: Request, exc: NotFound):
+    return JSONResponse(status_code=404, content={"detail": exc.args[0]})
 
 
 def _db_call(fn, *args):
-    """Runs a database function, turning connection problems into a clear 503."""
+    """Runs a storage call, turning connection problems into a clear 503."""
     try:
         return fn(*args)
+    except (sm.InvalidTransition, NotFound):
+        raise
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"Firestore unavailable: {e}")
 
@@ -49,7 +68,7 @@ def _strip_embeddings(record: dict) -> dict:
     return {k: v for k, v in record.items() if not k.endswith("_embedding")}
 
 
-# ── ROUTES ────────────────────────────────────────────────────────────────────
+# ── READ ─────────────────────────────────────────────────────────────────────
 
 @app.get("/api/health")
 def health():
@@ -61,114 +80,184 @@ def health():
 
 
 @app.get("/api/startups")
-def list_startups():
-    return [_strip_embeddings(s) for s in _db_call(database.get_all_startups)]
+def list_startups(repo: Repository = Depends(get_repo)):
+    return [_strip_embeddings(s) for s in _db_call(repo.all_startups)]
 
 
 @app.get("/api/mentors")
-def list_mentors():
-    return [_strip_embeddings(m) for m in _db_call(database.get_all_mentors)]
+def list_mentors(repo: Repository = Depends(get_repo)):
+    return [_strip_embeddings(m) for m in _db_call(repo.all_mentors)]
 
 
 @app.get("/api/stats")
-def stats():
+def stats(repo: Repository = Depends(get_repo)):
     """Counts for the dashboard header."""
     return {
-        "startups": len(_db_call(database.get_active_startups)),
-        "mentors": len(_db_call(database.get_available_mentors)),
+        "startups": len(_db_call(repo.active_startups)),
+        "mentors": len(_db_call(repo.available_mentors)),
     }
 
 
-@app.get("/api/workspaces")
-def list_workspaces():
-    """Approved matches (90-day programmable entities)."""
-    return _db_call(database.get_all_active_entities)
+@app.get("/api/matches")
+def list_matches(status: Optional[sm.MatchStatus] = None, repo: Repository = Depends(get_repo)):
+    """Every suggested match with its decision — the record of admin choices."""
+    return _db_call(repo.matches, status.value if status else None)
 
+
+@app.get("/api/workspaces")
+def list_workspaces(repo: Repository = Depends(get_repo)):
+    """Approved matches: 90-day workspaces (active, completed or cancelled)."""
+    return _db_call(repo.workspaces)
+
+
+# ── MATCHING ─────────────────────────────────────────────────────────────────
 
 @app.get("/api/linkages")
-def fetch_pending_linkages(limit: int = 5, refresh: bool = False):
+def pending_linkages(limit: int = 5, refresh: bool = False, repo: Repository = Depends(get_repo)):
     """
-    Best mentor for each of up to `limit` active startups that don't already
-    have an active workspace. Each item is a MatchResult plus display fields.
+    Pending matches awaiting a decision, topped up to `limit` with new
+    suggestions for startups that have no pending or approved match.
+    Suggestions are stored, so Gemini runs once per startup, not per page load.
+    `refresh=true` discards pending suggestions and generates fresh ones.
+    Mentors an admin rejected for a startup are never suggested to it again.
     """
     if refresh:
-        _linkage_cache.clear()
-    elif limit in _linkage_cache:
-        return _linkage_cache[limit]
+        _db_call(repo.delete_pending_matches)
 
-    startups = _db_call(database.get_active_startups)
-    mentors = _db_call(database.get_available_mentors)
+    matches = _db_call(repo.matches)
+    pending = [m for m in matches if m["status"] == sm.MatchStatus.PENDING.value]
+    if len(pending) < limit:
+        pending += _suggest(repo, matches, limit - len(pending))
+    return sorted(pending, key=lambda m: m["created_at"])[:limit]
+
+
+def _suggest(repo: Repository, existing: list[dict], n: int) -> list[dict]:
+    startups = _db_call(repo.active_startups)
+    mentors = _db_call(repo.available_mentors)
     if not mentors:
         raise HTTPException(status_code=404, detail="No available mentors — run ophia-data/seed_db.py")
 
-    already_matched = {e["startup_name"] for e in _db_call(database.get_all_active_entities)}
+    decided = {m["startup_name"] for m in existing if m["status"] != sm.MatchStatus.REJECTED.value}
+    rejected = {(m["startup_name"], m["mentor_name"]) for m in existing
+                if m["status"] == sm.MatchStatus.REJECTED.value}
     mentor_titles = {m["name"]: m.get("title", "") for m in mentors}
     # Similarity percentiles relative to the current data, not a stale snapshot
     reference = build_similarity_reference(startups, mentors) if startups else None
 
-    linkages = []
+    new = []
     for startup in startups:
-        if len(linkages) >= limit:
+        if len(new) >= n:
             break
-        if startup["company_name"] in already_matched:
+        name = startup["company_name"]
+        if name in decided:
             continue
+        candidates = [m for m in mentors if (name, m["name"]) not in rejected]
         # Grade the top 3 by similarity, keep the best by blended synergy
-        matches = match_startup(startup, mentors, top_n=3, reference=reference)
-        if not matches:
-            continue
-        best = matches[0]
-        linkages.append({
-            **best,
-            "startup_description": startup.get("description", ""),
-            "startup_batch": startup.get("batch", ""),
-            "startup_country": startup.get("country", ""),
-            "mentor_title": mentor_titles.get(best["mentor_name"], ""),
-        })
-
-    _linkage_cache[limit] = linkages
-    return linkages
+        results = match_startup(startup, candidates, top_n=3, reference=reference)
+        if results:
+            new.append(new_match({
+                **results[0],
+                "startup_description": startup.get("description", ""),
+                "startup_batch": startup.get("batch", ""),
+                "startup_country": startup.get("country", ""),
+                "mentor_title": mentor_titles.get(results[0]["mentor_name"], ""),
+            }))
+    _db_call(repo.add_matches, new)
+    return new
 
 
-def _provision_workspace(entity_id: str, req: ApproveLinkageRequest):
-    """Background task: email + Drive + Calendar, then store the results."""
+# ── DECISIONS ────────────────────────────────────────────────────────────────
+
+@app.post("/api/matches/{match_id}/approve")
+def approve_match(match_id: str, background_tasks: BackgroundTasks,
+                  body: Optional[ApproveRequest] = None, repo: Repository = Depends(get_repo)):
+    """
+    Approves a pending match and creates its 90-day workspace, then runs the
+    Google Workspace automation in the background. Idempotent: approving an
+    approved match returns the existing workspace (created=false).
+    """
+    workspace, created = _db_call(repo.approve_match, match_id)
+    if created:
+        background_tasks.add_task(_provision_workspace, repo, workspace["doc_id"],
+                                  body.contact_email if body else None)
+    return {"workspace": workspace, "created": created}
+
+
+@app.post("/api/matches/{match_id}/reject")
+def reject_match(match_id: str, body: Optional[RejectRequest] = None, repo: Repository = Depends(get_repo)):
+    return _db_call(repo.reject_match, match_id, body.reason if body else None)
+
+
+# ── WORKSPACES ───────────────────────────────────────────────────────────────
+
+@app.post("/api/workspaces/{workspace_id}/milestones/{day}/complete")
+def complete_milestone(workspace_id: str, day: int, repo: Repository = Depends(get_repo)):
+    """Milestones complete in order; the last one completes the workspace."""
+    def change(ws):
+        milestones, status = sm.complete_milestone(ws["status"], ws["milestones"], day)
+        return {"milestones": milestones, "status": status.value,
+                "active": status == sm.WorkspaceStatus.ACTIVE}
+    return _db_call(repo.update_workspace, workspace_id, change)
+
+
+@app.post("/api/workspaces/{workspace_id}/cancel")
+def cancel_workspace(workspace_id: str, repo: Repository = Depends(get_repo)):
+    def change(ws):
+        status = sm.transition_workspace(ws["status"], sm.WorkspaceStatus.CANCELLED)
+        return {"status": status.value, "active": False}
+    return _db_call(repo.update_workspace, workspace_id, change)
+
+
+@app.post("/api/workspaces/{workspace_id}/provision")
+def retry_provisioning(workspace_id: str, background_tasks: BackgroundTasks,
+                       body: Optional[ApproveRequest] = None, repo: Repository = Depends(get_repo)):
+    """Re-runs email/Drive/Calendar for a workspace whose provisioning didn't fully succeed."""
+    def change(ws):
+        status = sm.transition_provisioning(ws["provisioning_status"], sm.ProvisioningStatus.QUEUED)
+        return {"provisioning_status": status.value, "provisioning_errors": []}
+    workspace = _db_call(repo.update_workspace, workspace_id, change)
+    background_tasks.add_task(_provision_workspace, repo, workspace_id, body.contact_email if body else None)
+    return workspace
+
+
+def _provision_workspace(repo: Repository, workspace_id: str, contact_email: Optional[str]):
+    """Background task: email + Drive + Calendar, then record the outcome."""
     from workspace_trigger import TOKEN_PATH, trigger_workspace_automation
+
+    def finish(outcome: sm.ProvisioningStatus, **fields):
+        def change(ws):
+            status = sm.transition_provisioning(ws["provisioning_status"], outcome)
+            return {"provisioning_status": status.value, **fields}
+        repo.update_workspace(workspace_id, change)
 
     # The first Google login opens a browser, which can't happen inside the
     # server. Run `python ophia-data/workspace_trigger.py` once to create it.
     if not os.path.exists(TOKEN_PATH):
-        print(f"[backend] Skipping Workspace automation for {entity_id}: no {TOKEN_PATH}. "
+        print(f"[backend] Skipping Workspace automation for {workspace_id}: no {TOKEN_PATH}. "
               "Run `python ophia-data/workspace_trigger.py` once to log in.")
+        finish(sm.ProvisioningStatus.SKIPPED, provisioning_errors=["Google Workspace not connected"])
         return
 
-    result = trigger_workspace_automation(
-        startup_name=req.startup_name,
-        mentor_name=req.mentor_name,
-        synergy_score=req.synergy,
-        contact_email=req.contact_email,
+    ws = repo.get_workspace(workspace_id)
+    try:
+        result = trigger_workspace_automation(
+            startup_name=ws["startup_name"],
+            mentor_name=ws["mentor_name"],
+            synergy_score=ws["synergy_score"],
+            contact_email=contact_email,
+        )
+    except Exception as e:
+        finish(sm.ProvisioningStatus.FAILED, provisioning_errors=[str(e)])
+        return
+
+    finish(
+        sm.provisioning_outcome(result.get("email_sent"), result.get("drive_folder_url"),
+                                result.get("calendar_event_id")),
+        intro_email_sent=bool(result.get("email_sent")),
+        drive_folder_url=result.get("drive_folder_url") or ws.get("drive_folder_url"),
+        calendar_event_id=result.get("calendar_event_id") or ws.get("calendar_event_id"),
+        provisioning_errors=result.get("errors", []),
     )
-    database.update_entity_workspace_urls(
-        entity_id,
-        drive_url=result.get("drive_folder_url"),
-        calendar_event_id=result.get("calendar_event_id"),
-        email_sent=result.get("email_sent", False),
-    )
-
-
-@app.post("/api/linkages/approve")
-def approve_linkages(payloads: List[ApproveLinkageRequest], background_tasks: BackgroundTasks):
-    """
-    Creates a 90-day active entity in Firestore for each approved match, then
-    runs the Google Workspace automation in the background.
-    """
-    created = []
-    for req in payloads:
-        entity_id = _db_call(database.create_active_entity, req.startup_name, req.mentor_name, req.synergy)
-        background_tasks.add_task(_provision_workspace, entity_id, req)
-        created.append({"entity_id": entity_id, "startup_name": req.startup_name,
-                        "mentor_name": req.mentor_name})
-
-    _linkage_cache.clear()
-    return {"message": "Success", "provisioned_entities": created}
 
 
 if __name__ == "__main__":

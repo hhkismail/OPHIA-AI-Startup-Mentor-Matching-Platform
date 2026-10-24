@@ -68,9 +68,9 @@ def _score_detail(item: dict) -> str:
     return " · ".join(parts)
 
 
-def _to_match(item: dict, i: int) -> dict:
+def _to_match(item: dict) -> dict:
     return {
-        "key": f"live_match_{i}_{item['startup_name']}",
+        "key": item["match_id"],
         "startup": _esc(item["startup_name"]),
         "startup_desc": _esc(item.get("startup_description")),
         "startup_batch": _esc(item.get("startup_batch")),
@@ -81,10 +81,14 @@ def _to_match(item: dict, i: int) -> dict:
         "insight": _esc(item.get("insight")),
         "tags": [_esc(t) for t in item.get("tags", [])],
         "score_detail": _esc(_score_detail(item)),
-        # Raw names for sending back to the API on approve
-        "startup_raw": item["startup_name"],
-        "mentor_raw": item["mentor_name"],
     }
+
+
+PROVISIONING_LABELS = {
+    "queued": "In progress…",
+    "skipped": "Skipped — Google Workspace not connected",
+    "failed": "Failed — retry from the API",
+}
 
 
 def _to_workspace(e: dict) -> dict:
@@ -93,19 +97,20 @@ def _to_workspace(e: dict) -> dict:
         day = max(0, (datetime.now(timezone.utc) - start).days)
     except (KeyError, TypeError, ValueError):
         day = 0
+    pending = PROVISIONING_LABELS.get(e.get("provisioning_status"))
     return {
         "doc_id": e.get("doc_id"),
         "name": _esc(e.get("workspace_name")),
         "startup": _esc(e.get("startup_name")),
         "mentor": _esc(e.get("mentor_name")),
-        "status": _esc(e.get("status")),
+        "status": _esc(str(e.get("status", "")).capitalize()),
         "day": day,
         "synergy": int(e.get("synergy_score", 0)),
-        "drive_url": _esc(e.get("drive_folder_url") or "Not created yet"),
-        "calendar_id": _esc(e.get("calendar_event_id") or "Not scheduled yet"),
+        "drive_url": _esc(e.get("drive_folder_url") or pending or "Not created"),
+        "calendar_id": _esc(e.get("calendar_event_id") or pending or "Not scheduled"),
         "created_at": _fmt_date(e.get("lifecycle_start"), with_time=True),
         "lifecycle_end": _fmt_date(e.get("lifecycle_end")),
-        "email_status": "Intro email sent" if e.get("intro_email_sent") else "Not sent yet",
+        "email_status": "Intro email sent" if e.get("intro_email_sent") else (pending or "Not sent"),
         "milestones": [
             {"day": m["day"], "label": _esc(m["objective"]), "done": m["completed"]}
             for m in e.get("milestones", [])
@@ -138,7 +143,7 @@ def fetch_stats():
 
 def fetch_pending_matches(limit: int = 5):
     data = _request("GET", "/api/linkages", params={"limit": limit})
-    return None if data is None else [_to_match(item, i) for i, item in enumerate(data)]
+    return None if data is None else [_to_match(item) for item in data]
 
 
 def fetch_workspaces():
@@ -147,14 +152,22 @@ def fetch_workspaces():
 
 
 def approve(matches: list):
-    """Approves matches; returns the newly created workspaces, or None on failure."""
-    payload = [
-        {"startup_name": m["startup_raw"], "mentor_name": m["mentor_raw"], "synergy": m["synergy"]}
-        for m in matches
-    ]
-    result = _request("POST", "/api/linkages/approve", json=payload)
-    if result is None:
-        return None
-    new_ids = {e["entity_id"] for e in result["provisioned_entities"]}
-    workspaces = fetch_workspaces() or []
-    return [w for w in workspaces if w["doc_id"] in new_ids]
+    """Approves each match; returns their workspaces (existing ones for matches
+    approved before), or None if any approval failed (see last_error)."""
+    workspaces = []
+    for m in matches:
+        result = _request("POST", f"/api/matches/{m['key']}/approve")
+        if result is None:
+            return None
+        workspaces.append(_to_workspace(result["workspace"]))
+    return workspaces
+
+
+def reject(match: dict, reason: str | None = None) -> bool:
+    return _request("POST", f"/api/matches/{match['key']}/reject", json={"reason": reason}) is not None
+
+
+def complete_milestone(workspace_id: str, day: int):
+    """Marks a milestone done; returns the updated workspace or None (see last_error)."""
+    data = _request("POST", f"/api/workspaces/{workspace_id}/milestones/{day}/complete")
+    return None if data is None else _to_workspace(data)

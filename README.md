@@ -44,7 +44,7 @@ ophia-frontend (Streamlit) ◄──► ophia-backend/app.py (FastAPI) ◄──
 |---|---|
 | `ophia-nlp/` | `embed_data.py` builds startups (from the YC CSV) + AI-generated mentors with embeddings. `ai_engine.py` ranks mentors by cosine similarity and has Gemini score/explain the top matches. |
 | `ophia-data/` | `database.py` Firestore CRUD, `seed_db.py` loads data into Firestore, `workspace_trigger.py` sends the intro email, creates the Drive folder + milestone doc, and books the Calendar kick-off. |
-| `ophia-backend/` | FastAPI server: `GET /api/linkages`, `POST /api/linkages/approve`, `GET /api/workspaces`, `/api/startups`, `/api/mentors`, `/api/health`. Docs at `/docs`. |
+| `ophia-backend/` | FastAPI server (`app.py`), lifecycle rules (`state_machine.py`) and storage (`repository.py`: Firestore with transactions, or in-memory for tests). API below; interactive docs at `/docs`. |
 | `ophia-frontend/` | Streamlit admin dashboard. Uses the backend when `OPHIA_API_URL` is set, otherwise mock data. |
 | `models.py` | Shared Pydantic schemas. |
 
@@ -77,6 +77,35 @@ Opens at `localhost:8501` with mock data.
    `cd ophia-frontend && streamlit run app.py`
 
 > If you change `EMBED_MODEL`, re-run steps 4–5: vectors from different models can't be compared.
+
+## Lifecycle and API
+
+```
+Match:         pending ──approve──► approved (creates a workspace)
+                  └─────reject───► rejected (that mentor is never suggested to that startup again)
+
+Workspace:     active ──day-90 milestone done──► completed
+                  └──────────cancel────────────► cancelled
+               (milestones 30 → 60 → 90 must be completed in order)
+
+Provisioning:  queued ──► succeeded | partial | skipped | failed ──retry──► queued
+               (intro email + Drive folder + Calendar kick-off, run in the background)
+```
+
+| Endpoint | What it does |
+|---|---|
+| `GET /api/linkages?limit=5&refresh=false` | Pending suggestions, topped up with new ones (stored, so Gemini runs once per startup) |
+| `POST /api/matches/{id}/approve` | Creates the workspace. Idempotent: approving twice returns the same workspace |
+| `POST /api/matches/{id}/reject` | Optional `{"reason": "..."}` |
+| `GET /api/matches?status=approved` | Every decision, i.e. the record of admin choices |
+| `GET /api/workspaces` | All workspaces with milestones and provisioning status |
+| `POST /api/workspaces/{id}/milestones/{day}/complete` | Next milestone; the last one completes the workspace |
+| `POST /api/workspaces/{id}/cancel` | |
+| `POST /api/workspaces/{id}/provision` | Retry email/Drive/Calendar after `partial`, `skipped` or `failed` |
+| `GET /api/stats`, `/api/startups`, `/api/mentors`, `/api/health` | |
+
+Breaking a lifecycle rule returns `409 Conflict` with the reason; unknown IDs return `404`.
+Approvals run in a Firestore transaction, so concurrent approvals of one match create one workspace.
 
 ## Tests
 

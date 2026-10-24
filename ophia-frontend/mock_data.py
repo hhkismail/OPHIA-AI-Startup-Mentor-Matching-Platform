@@ -58,26 +58,34 @@ PENDING_MATCHES = [
 # INITIAL ACTIVE WORKSPACES (already approved before demo)
 # ═══════════════════════════════════════════════════════════════════════
 
+def _milestones(done_through: int) -> list[dict]:
+    return [{"day": d, "label": label, "done": d <= done_through} for d, label in (
+        (30, "Establish goals, align on tech stack, first check-in"),
+        (60, "Mid-term review — progress audit and course correction"),
+        (90, "Final evaluation and programme completion sign-off"),
+    )]
+
+
 INITIAL_WORKSPACES = [
     {
-        "name": "Project Alpha",
+        "doc_id": "demo_ws_1",
+        "name": "Project NeuralPay × Yuda Adi Pratama",
         "startup": "NeuralPay",
         "mentor": "Yuda Adi Pratama",
-        "status": "In Progress",
+        "status": "Active",
         "day": 45,
         "synergy": 89,
-        "drive_url": "https://drive.google.com/folders/ophia-neuralpay-alpha",
-        "calendar_id": "ophia_cal_alpha_001",
+        "milestones": _milestones(done_through=30),
     },
     {
-        "name": "Project Nexus",
+        "doc_id": "demo_ws_2",
+        "name": "Project AgriSense × Dr. Poo Kuan Hoong",
         "startup": "AgriSense",
         "mentor": "Dr. Poo Kuan Hoong",
-        "status": "In Progress",
+        "status": "Active",
         "day": 62,
         "synergy": 84,
-        "drive_url": "https://drive.google.com/folders/ophia-agrisense-nexus",
-        "calendar_id": "ophia_cal_nexus_002",
+        "milestones": _milestones(done_through=60),
     },
 ]
 
@@ -221,10 +229,11 @@ def generate_workspace_entity(startup: str, mentor: str, synergy: int) -> dict:
     Nothing is saved, emailed or scheduled."""
     now = datetime.now()
     return {
+        "doc_id": f"demo_ws_{now.timestamp()}",
         "name": f"Project {startup} × {mentor}",
         "startup": startup,
         "mentor": mentor,
-        "status": "In Progress",
+        "status": "Active",
         "day": 0,
         "synergy": synergy,
         "drive_url": "Demo mode — no folder created",
@@ -232,9 +241,5 @@ def generate_workspace_entity(startup: str, mentor: str, synergy: int) -> dict:
         "created_at": now.strftime("%d %b %Y, %H:%M"),
         "lifecycle_end": (now + timedelta(days=90)).strftime("%d %b %Y"),
         "email_status": "Demo mode — no email sent",
-        "milestones": [
-            {"day": 30, "label": "Establish goals, align on tech stack, first check-in", "done": False},
-            {"day": 60, "label": "Mid-term review — progress audit and course correction", "done": False},
-            {"day": 90, "label": "Final evaluation and programme completion sign-off", "done": False},
-        ]
+        "milestones": _milestones(done_through=0),
     }

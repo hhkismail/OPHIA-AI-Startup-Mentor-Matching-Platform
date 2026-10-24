@@ -445,6 +445,11 @@ def trigger_workspace_automation(
     )
     result["calendar_event_id"] = event_id
 
+    # Each step logs its own exception; record which ones failed for the backend
+    for ok, step in ((email_sent, "intro email"), (folder_url, "Drive folder"), (event_id, "Calendar kick-off")):
+        if not ok:
+            result["errors"].append(f"{step} failed (see server log)")
+
     print(f"[workspace] ✅ Automation complete for {startup_name} × {mentor_name}")
     print(f"[workspace] Result: {result}")
 
