@@ -3,8 +3,17 @@
     "name": "Ehtisham Raza",
     "title": "AI Security Architect & Serial Founder",
     "bio": "15 years building AI-powered fraud detection systems and cybersecurity infrastructure for fintech companies across Southeast Asia. Has scaled 3 startups to Series B.",
-    "industry_tags": ["AI Security", "Fintech", "B2B"],
-    "skills": ["Fraud Detection", "AI Architecture", "Security Protocols", "Enterprise SaaS"],
+    "industry_tags": [
+      "AI Security",
+      "Fintech",
+      "B2B"
+    ],
+    "skills": [
+      "Fraud Detection",
+      "AI Architecture",
+      "Security Protocols",
+      "Enterprise SaaS"
+    ],
     "availability_hours": 8,
     "linkedin": null,
     "status": "Available",
@@ -15,8 +24,17 @@
     "name": "Leong Lai Fong",
     "title": "RegTech Advisor & Former Bank Negara Regulatory Lead",
     "bio": "Former regulatory advisor with deep expertise in ESG compliance frameworks and RegTech automation pipelines across ASEAN financial markets.",
-    "industry_tags": ["RegTech", "ESG", "Financial Services"],
-    "skills": ["Regulatory Compliance", "ESG Frameworks", "Automation", "Policy Advisory"],
+    "industry_tags": [
+      "RegTech",
+      "ESG",
+      "Financial Services"
+    ],
+    "skills": [
+      "Regulatory Compliance",
+      "ESG Frameworks",
+      "Automation",
+      "Policy Advisory"
+    ],
     "availability_hours": 6,
     "linkedin": null,
     "status": "Available",
@@ -27,8 +45,17 @@
     "name": "Weiyuan Liu",
     "title": "Health AI Researcher & Investor",
     "bio": "AI researcher turned investor with a background in predictive diagnostics, clinical machine learning models, and health data infrastructure at scale.",
-    "industry_tags": ["Health AI", "MedTech", "Deep Learning"],
-    "skills": ["ML Diagnostics", "Clinical Data", "Predictive Analytics", "Health Infrastructure"],
+    "industry_tags": [
+      "Health AI",
+      "MedTech",
+      "Deep Learning"
+    ],
+    "skills": [
+      "ML Diagnostics",
+      "Clinical Data",
+      "Predictive Analytics",
+      "Health Infrastructure"
+    ],
     "availability_hours": 5,
     "linkedin": null,
     "status": "Available",
@@ -39,8 +66,17 @@
     "name": "Faiz Hassan",
     "title": "B2B SaaS Growth Lead",
     "bio": "Ecosystem builder with expertise in B2B SaaS scaling, developer tool ecosystems, and cloud infrastructure for Southeast Asian markets.",
-    "industry_tags": ["B2B", "SaaS", "Developer Tools"],
-    "skills": ["Growth Strategy", "Cloud Infrastructure", "Developer Ecosystems", "Market Expansion"],
+    "industry_tags": [
+      "B2B",
+      "SaaS",
+      "Developer Tools"
+    ],
+    "skills": [
+      "Growth Strategy",
+      "Cloud Infrastructure",
+      "Developer Ecosystems",
+      "Market Expansion"
+    ],
     "availability_hours": 10,
     "linkedin": null,
     "status": "Available",
@@ -51,8 +87,17 @@
     "name": "Sarah Chen",
     "title": "Climate Tech Investor",
     "bio": "Deep tech investor with expertise in climate tech, sustainability metrics, and green energy startup scaling across ASEAN.",
-    "industry_tags": ["Climate Tech", "Sustainability", "ESG"],
-    "skills": ["Climate Strategy", "ESG Metrics", "Venture Scaling", "Green Energy"],
+    "industry_tags": [
+      "Climate Tech",
+      "Sustainability",
+      "ESG"
+    ],
+    "skills": [
+      "Climate Strategy",
+      "ESG Metrics",
+      "Venture Scaling",
+      "Green Energy"
+    ],
     "availability_hours": 4,
     "linkedin": null,
     "status": "Available",
@@ -63,8 +108,17 @@
     "name": "Razif Kamaruddin",
     "title": "ML Infrastructure Lead, ex-Google Brain",
     "bio": "CTO background in machine learning infrastructure, LLM deployment, and NLP systems at enterprise scale. Previously at Google Brain.",
-    "industry_tags": ["AI/ML", "NLP", "Infrastructure"],
-    "skills": ["LLM Deployment", "NLP Systems", "ML Infrastructure", "Deep Learning"],
+    "industry_tags": [
+      "AI/ML",
+      "NLP",
+      "Infrastructure"
+    ],
+    "skills": [
+      "LLM Deployment",
+      "NLP Systems",
+      "ML Infrastructure",
+      "Deep Learning"
+    ],
     "availability_hours": 6,
     "linkedin": null,
     "status": "Available",
@@ -75,8 +129,141 @@
     "name": "Priya Nair",
     "title": "EdTech Founder (2x Exits)",
     "bio": "EdTech founder with two exits. Expertise in learning platform architecture, curriculum design technology, and educational marketplace scaling.",
-    "industry_tags": ["EdTech", "Marketplace", "Consumer"],
-    "skills": ["Platform Architecture", "Curriculum Tech", "Marketplace Scaling", "Product Strategy"],
+    "industry_tags": [
+      "EdTech",
+      "Marketplace",
+      "Consumer"
+    ],
+    "skills": [
+      "Platform Architecture",
+      "Curriculum Tech",
+      "Marketplace Scaling",
+      "Product Strategy"
+    ],
+    "availability_hours": 8,
+    "linkedin": null,
+    "status": "Available",
+    "partnerships": 0,
+    "bio_embedding": null
+  },
+  {
+    "name": "Vriraj Singh",
+    "title": "Senior AI Infrastructure Scientist",
+    "bio": "Senior AI scientist with a track record in building enterprise-grade machine learning infrastructure and adversarial AI systems.",
+    "industry_tags": [
+      "Fraud Detection",
+      "AI Architecture",
+      "Security Protocols"
+    ],
+    "skills": [
+      "Fraud Detection",
+      "AI Architecture",
+      "Security Protocols"
+    ],
+    "availability_hours": 6,
+    "linkedin": null,
+    "status": "Available",
+    "partnerships": 0,
+    "bio_embedding": null
+  },
+  {
+    "name": "Saurabh Mishra",
+    "title": "RegTech & Compliance Director",
+    "bio": "Director-level compliance expert with regulatory experience across India, Singapore, and Malaysia's central banking frameworks.",
+    "industry_tags": [
+      "RegTech",
+      "ESG Compliance",
+      "Automation"
+    ],
+    "skills": [
+      "RegTech",
+      "ESG Compliance",
+      "Automation",
+      "Policy"
+    ],
+    "availability_hours": 8,
+    "linkedin": null,
+    "status": "Available",
+    "partnerships": 0,
+    "bio_embedding": null
+  },
+  {
+    "name": "Esther Tan",
+    "title": "Health AI Product Strategist",
+    "bio": "Product strategist who has launched three clinical AI products into regulated healthcare markets in ASEAN and Australia.",
+    "industry_tags": [
+      "Health AI",
+      "ML Diagnostics",
+      "Clinical Data"
+    ],
+    "skills": [
+      "Health AI",
+      "ML Diagnostics",
+      "Clinical Data",
+      "MedTech"
+    ],
+    "availability_hours": 5,
+    "linkedin": null,
+    "status": "Available",
+    "partnerships": 0,
+    "bio_embedding": null
+  },
+  {
+    "name": "Dr. L. Wong",
+    "title": "Blockchain & DeFi Architect",
+    "bio": "Former academic turned blockchain architect. Advised on DeFi protocol design for 5 fintech startups with combined TVL of $200M.",
+    "industry_tags": [
+      "DeFi",
+      "Smart Contracts",
+      "Web3 Security"
+    ],
+    "skills": [
+      "DeFi",
+      "Smart Contracts",
+      "Web3 Security",
+      "Blockchain"
+    ],
+    "availability_hours": 6,
+    "linkedin": null,
+    "status": "Available",
+    "partnerships": 0,
+    "bio_embedding": null
+  },
+  {
+    "name": "Dr. Poo Kuan Hoong",
+    "title": "Sustainability & ESG Strategist",
+    "bio": "ESG strategist with 20 years in sustainability consulting. Helped 12 companies achieve carbon neutrality certification in ASEAN.",
+    "industry_tags": [
+      "ESG Reporting",
+      "Carbon Markets",
+      "Sustainability"
+    ],
+    "skills": [
+      "ESG Reporting",
+      "Carbon Markets",
+      "Sustainability",
+      "Policy"
+    ],
+    "availability_hours": 7,
+    "linkedin": null,
+    "status": "Available",
+    "partnerships": 0,
+    "bio_embedding": null
+  },
+  {
+    "name": "Hernando Cruz",
+    "title": "Cybersecurity & Zero-Trust Architect",
+    "bio": "Zero-trust architect who has designed security frameworks for 3 unicorn startups. Previously red-teamed for a Fortune 500 financial institution.",
+    "industry_tags": [
+      "Zero-Trust",
+      "Penetration Testing",
+      "Cloud Security"
+    ],
+    "skills": [
+      "Zero-Trust",
+      "Penetration Testing",
+      "Cloud Security"
+    ],
     "availability_hours": 8,
     "linkedin": null,
     "status": "Available",

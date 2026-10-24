@@ -1,40 +1,55 @@
 """
 ai_engine.py — OPHIA Cognitive Engine (Ismail's module)
 
-Razin imports ONE function:
-    from ai_engine import generate_matches
+Public API:
+    from ai_engine import generate_matches   # by startup name, reads Firestore
+    from ai_engine import match_startup      # pure: startup dict + mentor dicts
+    from ai_engine import get_embedding      # shared by embed_data.py / seed_db.py
 
 Uses Vertex AI via ADC — all usage billed to GCP credits.
+Clients are created lazily, so importing this module never needs credentials.
 """
 
 import os
 import json
-import numpy as np
-from scipy.spatial.distance import cosine
+from pathlib import Path
 from typing import Optional
+
+import numpy as np
 from dotenv import load_dotenv
 
-from google import genai
-from google.genai import types
-from google.cloud import firestore
-
-load_dotenv()
+# One .env at the repo root, shared by every module
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
 GCP_PROJECT_ID = os.getenv("GCP_PROJECT_ID", "ophia-guard-2030")
 GCP_LOCATION   = os.getenv("GCP_LOCATION", "us-central1")
 TOP_N_MATCHES  = 3
 
-# ── INIT ──────────────────────────────────────────────────────────────────────
-client = genai.Client(
-    vertexai=True,
-    project=GCP_PROJECT_ID,
-    location=GCP_LOCATION,
-)
-db = firestore.Client(project=GCP_PROJECT_ID)
+# Stored vectors in Firestore were made with this model. Query and stored
+# vectors must come from the same model, so everything reads this one value.
+EMBED_MODEL = os.getenv("EMBED_MODEL", "text-embedding-004")
+GEN_MODEL   = os.getenv("GEN_MODEL", "gemini-3.1-flash-lite")
 
-EMBED_MODEL     = "gemini-embedding-2"
-GEN_MODEL       = "gemini-3.1-flash-lite"
+_client = None
+_db = None
+
+
+def get_client():
+    """Vertex AI client (created on first use)."""
+    global _client
+    if _client is None:
+        from google import genai
+        _client = genai.Client(vertexai=True, project=GCP_PROJECT_ID, location=GCP_LOCATION)
+    return _client
+
+
+def _get_db():
+    global _db
+    if _db is None:
+        from google.cloud import firestore
+        _db = firestore.Client(project=GCP_PROJECT_ID)
+    return _db
 
 
 # ── GEMINI STRUCTURED OUTPUT SCHEMA ──────────────────────────────────────────
@@ -85,29 +100,29 @@ Instructions:
 
 # ── CORE FUNCTIONS ────────────────────────────────────────────────────────────
 
-def _get_embedding(text: str) -> list[float]:
+def get_embedding(text: str) -> list[float]:
+    """Embeds text with EMBED_MODEL. Returns [] on failure."""
+    if not text:
+        return []
     try:
-        result = client.models.embed_content(
-            model=EMBED_MODEL,
-            contents=text,
-            config=types.EmbedContentConfig(task_type="RETRIEVAL_QUERY")
-        )
-        return result.embeddings[0].values
+        result = get_client().models.embed_content(model=EMBED_MODEL, contents=text)
+        return list(result.embeddings[0].values)
     except Exception as e:
         print(f"[ai_engine] Embedding error: {e}")
         return []
 
 
 def _cosine_similarity(vec_a: list[float], vec_b: list[float]) -> float:
-    if not vec_a or not vec_b:
+    if not vec_a or not vec_b or len(vec_a) != len(vec_b):
         return 0.0
-    try:
-        return float(1 - cosine(np.array(vec_a), np.array(vec_b)))
-    except Exception:
-        return 0.0
+    a, b = np.asarray(vec_a, dtype=float), np.asarray(vec_b, dtype=float)
+    denom = np.linalg.norm(a) * np.linalg.norm(b)
+    return float(a @ b / denom) if denom else 0.0
 
 
-def _get_gemini_insight(startup: dict, mentor: dict) -> dict:
+def _get_gemini_insight(startup: dict, mentor: dict, similarity: float) -> dict:
+    from google.genai import types
+
     prompt = INSIGHT_PROMPT.format(
         startup_name=startup.get("company_name", ""),
         startup_description=startup.get("description", ""),
@@ -118,7 +133,7 @@ def _get_gemini_insight(startup: dict, mentor: dict) -> dict:
         mentor_skills=", ".join(mentor.get("skills", []))
     )
     try:
-        response = client.models.generate_content(
+        response = get_client().models.generate_content(
             model=GEN_MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
@@ -127,23 +142,63 @@ def _get_gemini_insight(startup: dict, mentor: dict) -> dict:
                 temperature=0.3,
             )
         )
-        return json.loads(response.text)
+        data = json.loads(response.text)
+        data["synergy"] = max(0, min(100, int(data.get("synergy", 0))))
+        return data
     except Exception as e:
+        # Fall back to the embedding score rather than a made-up constant
         print(f"[ai_engine] Gemini insight error: {e}")
         return {
-            "synergy": 65,
+            "synergy": max(0, min(100, round(similarity * 100))),
             "insight": (
-                f"{mentor.get('name')} brings relevant domain expertise that aligns with "
-                f"{startup.get('company_name')}'s core focus area. "
-                "This partnership has strong potential for accelerating growth milestones."
+                f"{mentor.get('name')}'s background is semantically close to "
+                f"{startup.get('company_name')}'s focus area. "
+                "AI explanation unavailable — score is based on embedding similarity only."
             ),
             "tags": startup.get("industry_tags", [])[:3]
         }
 
 
+def match_startup(startup: dict, mentors: list[dict], top_n: int = TOP_N_MATCHES) -> list[dict]:
+    """
+    Ranks mentors for one startup by cosine similarity, then asks Gemini to
+    score and explain the top N. Never raises — returns [] on failure.
+
+    Each result matches the MatchResult schema plus `similarity` (0-1).
+    """
+    startup_vec = startup.get("description_embedding")
+    if not startup_vec:
+        print("[ai_engine] No stored embedding — re-embedding on the fly...")
+        startup_vec = get_embedding(startup.get("description", ""))
+    if not startup_vec:
+        return []
+
+    scored = [
+        (_cosine_similarity(startup_vec, m.get("bio_embedding") or []), m)
+        for m in mentors
+    ]
+    scored = [(s, m) for s, m in scored if s > 0]
+    scored.sort(key=lambda x: x[0], reverse=True)
+
+    results = []
+    for similarity, mentor in scored[:top_n]:
+        print(f"[ai_engine]  → Gemini insight: {mentor.get('name')}")
+        insight_data = _get_gemini_insight(startup, mentor, similarity)
+        results.append({
+            "startup_name": startup.get("company_name"),
+            "mentor_name":  mentor.get("name"),
+            "synergy":      insight_data.get("synergy", 0),
+            "insight":      insight_data.get("insight", ""),
+            "tags":         insight_data.get("tags", []),
+            "similarity":   round(similarity, 3),
+        })
+    results.sort(key=lambda r: r["synergy"], reverse=True)
+    return results
+
+
 def _fetch_startup(startup_name: str) -> Optional[dict]:
     try:
-        docs = db.collection("startups") \
+        docs = _get_db().collection("startups") \
                  .where("company_name", "==", startup_name) \
                  .limit(1) \
                  .stream()
@@ -157,7 +212,7 @@ def _fetch_startup(startup_name: str) -> Optional[dict]:
 
 def _fetch_all_mentors() -> list[dict]:
     try:
-        docs = db.collection("mentors") \
+        docs = _get_db().collection("mentors") \
                  .where("status", "==", "Available") \
                  .stream()
         return [doc.to_dict() for doc in docs]
@@ -166,23 +221,9 @@ def _fetch_all_mentors() -> list[dict]:
         return []
 
 
-# ── PUBLIC API — Razin imports this ──────────────────────────────────────────
-
 def generate_matches(startup_name: str) -> list[dict]:
     """
-    Main entry point. Takes a startup name, returns top N mentor matches.
-
-    Returns list of dicts matching MatchResult schema:
-    [
-      {
-        "startup_name": str,
-        "mentor_name": str,
-        "synergy": int (0-100),
-        "insight": str (2 sentences),
-        "tags": List[str]
-      }
-    ]
-
+    Takes a startup name, returns top N mentor matches from Firestore.
     Never raises — returns empty list on failure.
     """
     print(f"[ai_engine] Generating matches for: {startup_name}")
@@ -192,39 +233,11 @@ def generate_matches(startup_name: str) -> list[dict]:
         print(f"[ai_engine] Startup not found: {startup_name}")
         return []
 
-    startup_vec = startup.get("description_embedding")
-    if not startup_vec:
-        print("[ai_engine] No stored embedding — re-embedding on the fly...")
-        startup_vec = _get_embedding(startup.get("description", ""))
-
     mentors = _fetch_all_mentors()
     if not mentors:
         print("[ai_engine] No available mentors found")
         return []
 
-    scored = []
-    for mentor in mentors:
-        mentor_vec = mentor.get("bio_embedding")
-        if not mentor_vec:
-            continue
-        score = _cosine_similarity(startup_vec, mentor_vec)
-        scored.append((score, mentor))
-
-    scored.sort(key=lambda x: x[0], reverse=True)
-    top_mentors = [mentor for _, mentor in scored[:TOP_N_MATCHES]]
-
-    results = []
-    for mentor in top_mentors:
-        print(f"[ai_engine]  → Gemini insight: {mentor.get('name')}")
-        insight_data = _get_gemini_insight(startup, mentor)
-
-        results.append({
-            "startup_name": startup.get("company_name"),
-            "mentor_name":  mentor.get("name"),
-            "synergy":      insight_data.get("synergy", 0),
-            "insight":      insight_data.get("insight", ""),
-            "tags":         insight_data.get("tags", [])
-        })
-
+    results = match_startup(startup, mentors)
     print(f"[ai_engine] Done. {len(results)} matches returned.")
     return results

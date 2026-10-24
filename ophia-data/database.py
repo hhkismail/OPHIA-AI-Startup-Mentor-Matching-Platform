@@ -3,19 +3,23 @@
 # Razin imports these functions directly into his API endpoints
 
 import os
-import sys
+import datetime
+from pathlib import Path
 import firebase_admin
 from firebase_admin import credentials, firestore
 from dotenv import load_dotenv
 from typing import Optional
 
+REPO_ROOT = Path(__file__).resolve().parent.parent
+
 # Load environment variables
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
+load_dotenv(REPO_ROOT / ".env")
 
 # ── Initialize Firebase App ───────────────────────────────────────────────────
 # Only initialize once (prevents duplicate app error)
 
-CREDENTIALS_PATH = os.getenv(
+# Relative paths in .env are relative to the repo root, not the current folder
+CREDENTIALS_PATH = REPO_ROOT / os.getenv(
     "FIREBASE_CREDENTIALS_PATH",
     "./ophia-data/credentials/firebase-adminsdk.json"
 )
@@ -24,10 +28,17 @@ def get_db():
     """
     Returns an initialized Firestore client.
     Safe to call multiple times — only initializes Firebase once.
+    Uses the service-account file if present, otherwise Application Default
+    Credentials (`gcloud auth application-default login`) + GCP_PROJECT_ID.
     """
     if not firebase_admin._apps:
-        cred = credentials.Certificate(CREDENTIALS_PATH)
-        firebase_admin.initialize_app(cred)
+        if CREDENTIALS_PATH.is_file():
+            firebase_admin.initialize_app(credentials.Certificate(str(CREDENTIALS_PATH)))
+        else:
+            firebase_admin.initialize_app(
+                credentials.ApplicationDefault(),
+                {"projectId": os.getenv("GCP_PROJECT_ID")},
+            )
     return firestore.client()
 
 
@@ -154,9 +165,8 @@ def create_active_entity(startup_name: str, mentor_name: str, synergy: int) -> s
     Example:
         entity_id = create_active_entity("DataShield", "Ehtisham Raza", 96)
     """
-    import datetime
-
     db = get_db()
+    now = datetime.datetime.now(datetime.timezone.utc)
 
     entity_data = {
         "startup_name": startup_name,
@@ -165,10 +175,8 @@ def create_active_entity(startup_name: str, mentor_name: str, synergy: int) -> s
         "status": "In Progress",
         "workspace_name": f"Project {startup_name} × {mentor_name}",
         "created_at": firestore.SERVER_TIMESTAMP,
-        "lifecycle_start": datetime.datetime.utcnow().isoformat(),
-        "lifecycle_end": (
-            datetime.datetime.utcnow() + datetime.timedelta(days=90)
-        ).isoformat(),
+        "lifecycle_start": now.isoformat(),
+        "lifecycle_end": (now + datetime.timedelta(days=90)).isoformat(),
         "active": True,
         "milestones": [
             {
@@ -242,6 +250,8 @@ def update_entity_workspace_urls(
         update_data["calendar_event_id"] = calendar_event_id
     if email_sent:
         update_data["intro_email_sent"] = True
+    if not update_data:
+        return
 
     db.collection("active_entities").document(entity_id).update(update_data)
     print(f"[database] Updated entity {entity_id} with workspace URLs")

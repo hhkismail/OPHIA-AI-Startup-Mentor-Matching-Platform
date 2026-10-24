@@ -1,179 +1,110 @@
 # seed_db.py
-# ONE-TIME SCRIPT — run this once to load all data into Firestore
-# DO NOT run this multiple times or you will get duplicates
+# Loads mentors + startups into Firestore.
+# Clears the 'mentors' and 'startups' collections first, so re-running is safe
+# (no duplicates). It does NOT touch 'active_entities' (approved matches).
+#
+# Sources:
+#   startups → ophia-nlp/output/startups_embedded.json (from embed_data.py),
+#              falling back to 3 built-in sample startups
+#   mentors  → ophia-data/data/mentors.json (curated)
+#              + ophia-nlp/output/mentors_embedded.json if present
+# Any record without an embedding is embedded here, so matching works.
+#
+# Run from the repo root:  python ophia-data/seed_db.py
 
-import os
 import sys
 import json
-import pandas as pd
-import firebase_admin
-from firebase_admin import credentials, firestore
-from dotenv import load_dotenv
+from pathlib import Path
 
-# Load env
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
+HERE = Path(__file__).resolve().parent
+REPO_ROOT = HERE.parent
+sys.path.insert(0, str(REPO_ROOT / "ophia-nlp"))
 
-CREDENTIALS_PATH = os.getenv(
-    "FIREBASE_CREDENTIALS_PATH",
-    "./ophia-data/credentials/firebase-adminsdk.json"
-)
+from database import get_db          # noqa: E402
+from ai_engine import get_embedding  # noqa: E402
 
-# Resolve the path relative to this script's location
-script_dir = os.path.dirname(os.path.abspath(__file__))
-cred_path = os.path.join(script_dir, '..', CREDENTIALS_PATH.replace('./', ''))
+CURATED_MENTORS = HERE / "data" / "mentors.json"
+PIPELINE_MENTORS = REPO_ROOT / "ophia-nlp" / "output" / "mentors_embedded.json"
+PIPELINE_STARTUPS = REPO_ROOT / "ophia-nlp" / "output" / "startups_embedded.json"
 
 
-def init_firebase():
-    if not firebase_admin._apps:
-        cred = credentials.Certificate(cred_path)
-        firebase_admin.initialize_app(cred)
-    return firestore.client()
+def _load_json(path: Path) -> list:
+    if path.is_file() and path.stat().st_size > 10:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    return []
+
+
+def _slug(name: str) -> str:
+    return "".join(c if c.isalnum() else "_" for c in name.lower()).strip("_")[:50]
+
+
+def _ensure_embedding(record: dict, vec_field: str, text_field: str) -> bool:
+    if not record.get(vec_field):
+        record[vec_field] = get_embedding(record.get(text_field, ""))
+    return bool(record[vec_field])
 
 
 def clear_collection(db, collection_name: str):
-    """
-    Deletes all documents in a collection before re-seeding.
-    This prevents duplicates if you accidentally run this twice.
-    """
     print(f"[seed_db] Clearing existing '{collection_name}' collection...")
-    docs = db.collection(collection_name).stream()
     count = 0
-    for doc in docs:
-        doc.reference.delete()
+    batch = db.batch()
+    for doc in db.collection(collection_name).stream():
+        batch.delete(doc.reference)
         count += 1
+        if count % 400 == 0:
+            batch.commit()
+            batch = db.batch()
+    batch.commit()
     print(f"[seed_db] Deleted {count} existing documents from '{collection_name}'")
 
 
-def seed_mentors(db):
-    """
-    Loads mentors.json and pushes to Firestore.
-    """
-    mentors_path = os.path.join(script_dir, 'data', 'mentors.json')
-
-    print(f"[seed_db] Loading mentors from: {mentors_path}")
-
-    with open(mentors_path, 'r') as f:
-        mentors = json.load(f)
-
-    clear_collection(db, "mentors")
-
-    # Use Firestore batch writes for efficiency
+def write_collection(db, collection_name: str, records: list, name_field: str):
+    clear_collection(db, collection_name)
     batch = db.batch()
-    count = 0
-
-    for mentor in mentors:
-        # Create a document ID from the mentor's name
-        doc_id = mentor["name"].lower().replace(" ", "_").replace(".", "")
-        doc_ref = db.collection("mentors").document(doc_id)
-        batch.set(doc_ref, mentor)
-        count += 1
-        print(f"  [seed_db] Queued mentor: {mentor['name']}")
-
+    for i, record in enumerate(records, 1):
+        batch.set(db.collection(collection_name).document(_slug(record[name_field])), record)
         # Firestore batch limit is 500 — commit every 400 to be safe
-        if count % 400 == 0:
+        if i % 400 == 0:
             batch.commit()
             batch = db.batch()
-
     batch.commit()
-    print(f"[seed_db] ✅ Seeded {count} mentors into Firestore")
+    print(f"[seed_db] ✅ Seeded {len(records)} {collection_name} into Firestore")
 
 
-def seed_startups(db, csv_path: str = None, limit: int = 50):
-    """
-    Loads the YC CSV and pushes startups to Firestore.
-    
-    If Isma has already provided embedding-enriched startups.json, use that instead.
-    """
-    
-    # First check if Isma's enriched JSON exists
-    enriched_path = os.path.join(script_dir, 'data', 'startups.json')
-    
-    if os.path.exists(enriched_path) and os.path.getsize(enriched_path) > 10:
-        print(f"[seed_db] Found enriched startups.json from Isma — using that")
-        with open(enriched_path, 'r') as f:
-            startups = json.load(f)
-    else:
-        # Fall back to loading directly from the YC CSV
-        if csv_path is None:
-            # Look for the CSV in a few common locations
-            possible_paths = [
-                os.path.join(script_dir, '..', '2023-07-13-yc-companies.csv'),
-                os.path.join(script_dir, '2023-07-13-yc-companies.csv'),
-                '2023-07-13-yc-companies.csv'
-            ]
-            for path in possible_paths:
-                if os.path.exists(path):
-                    csv_path = path
-                    break
-        
-        if not csv_path or not os.path.exists(csv_path):
-            print("[seed_db] ❌ ERROR: Cannot find CSV file. Put it in the repo root.")
-            print("[seed_db] Seeding with sample startup data instead...")
-            startups = get_sample_startups()
+def load_mentors() -> list:
+    mentors, seen = [], set()
+    for m in _load_json(CURATED_MENTORS) + _load_json(PIPELINE_MENTORS):
+        if m.get("name") in seen:
+            continue
+        seen.add(m["name"])
+        if _ensure_embedding(m, "bio_embedding", "bio"):
+            mentors.append(m)
         else:
-            print(f"[seed_db] Loading CSV from: {csv_path}")
-            startups = load_startups_from_csv(csv_path, limit)
-
-    clear_collection(db, "startups")
-
-    batch = db.batch()
-    count = 0
-
-    for startup in startups:
-        doc_id = startup.get("company_name", f"startup_{count}").lower()
-        doc_id = doc_id.replace(" ", "_").replace("/", "_")[:50]
-        doc_ref = db.collection("startups").document(doc_id)
-        batch.set(doc_ref, startup)
-        count += 1
-        print(f"  [seed_db] Queued startup: {startup.get('company_name', 'Unknown')}")
-
-        if count % 400 == 0:
-            batch.commit()
-            batch = db.batch()
-
-    batch.commit()
-    print(f"[seed_db] ✅ Seeded {count} startups into Firestore")
+            print(f"  [seed_db] ⚠️  Skipping mentor without embedding: {m['name']}")
+    return mentors
 
 
-def load_startups_from_csv(csv_path: str, limit: int = 50) -> list:
-    """
-    Reads the YC CSV and converts rows into the startup schema format.
-    """
-    df = pd.read_csv(csv_path)
-    
-    print(f"[seed_db] CSV columns: {list(df.columns)}")
-    
-    df = df.dropna(subset=["company_name"])
-    df = df.head(limit)
+def load_startups() -> list:
+    startups = _load_json(PIPELINE_STARTUPS)
+    if startups:
+        print(f"[seed_db] Using {PIPELINE_STARTUPS.name}")
+    else:
+        print("[seed_db] No pipeline output found — using sample startups")
+        startups = get_sample_startups()
 
-    startups = []
-
-    for _, row in df.iterrows():
-        # Handle different possible column names in the CSV
-        description = str(row.get("short_description", row.get("description", "No description available"))).strip()
-        tags_raw = str(row.get("tags", row.get("industry", ""))).strip()
-        tags = [t.strip() for t in tags_raw.split(",") if t.strip()] if tags_raw else []
-
-        startup = {
-            "company_name": str(row.get("company_name", "Unknown")).strip(),
-            "description": description,
-            "batch": str(row.get("batch", "Unknown")).strip(),
-            "status": str(row.get("status", "Active")).strip(),
-            "industry_tags": tags,
-            "country": str(row.get("country", "Unknown")).strip(),
-            "founders": [],
-            "website": str(row.get("website", "")).strip() or None,
-            "is_active": True,
-            "description_embedding": None   # Isma fills this in later
-        }
-        startups.append(startup)
-
-    return startups
+    kept = []
+    for s in startups:
+        if _ensure_embedding(s, "description_embedding", "description"):
+            kept.append(s)
+        else:
+            print(f"  [seed_db] ⚠️  Skipping startup without embedding: {s['company_name']}")
+    return kept
 
 
 def get_sample_startups() -> list:
     """
-    Fallback sample startups if CSV isn't available.
+    Fallback sample startups if the pipeline hasn't been run.
     Matches the mock data already in Anna's UI.
     """
     return [
@@ -221,24 +152,26 @@ def get_sample_startups() -> list:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
+    # Emoji in log lines would crash print() on a cp1252 Windows console
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print("=" * 60)
     print("OPHIA — Firestore Database Seeder")
     print("=" * 60)
-    print("WARNING: This will clear and re-seed your Firestore collections.")
+    print("WARNING: This will clear and re-seed the 'mentors' and 'startups' collections.")
     confirm = input("Type 'yes' to continue: ").strip().lower()
 
     if confirm != "yes":
         print("Cancelled.")
         sys.exit(0)
 
-    db = init_firebase()
+    db = get_db()
     print("[seed_db] ✅ Connected to Firestore")
 
     print("\n--- Seeding Mentors ---")
-    seed_mentors(db)
+    write_collection(db, "mentors", load_mentors(), "name")
 
     print("\n--- Seeding Startups ---")
-    seed_startups(db, limit=30)
+    write_collection(db, "startups", load_startups(), "company_name")
 
     print("\n" + "=" * 60)
     print("✅ Database seeded successfully!")

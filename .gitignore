@@ -1,6 +1,20 @@
-echo ".env" >> .gitignore
-echo "firebase-adminsdk.json" >> .gitignore
-echo "workspace-credentials.json" >> .gitignore
-echo "token.json" >> .gitignore
-echo "__pycache__/" >> .gitignore
-echo "*.pyc" >> .gitignore
+# Secrets — never commit
+.env
+**/.env
+ophia-data/credentials/*
+!ophia-data/credentials/.gitkeep
+token.json
+*-credentials.json
+firebase-adminsdk*.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local databases / editor junk
+*.db
+.DS_Store
+.vscode/
+.idea/

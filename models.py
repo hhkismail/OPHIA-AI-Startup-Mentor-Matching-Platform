@@ -45,3 +45,5 @@ class MatchResult(BaseModel):
 class ApproveLinkageRequest(BaseModel):
     startup_name: str
     mentor_name: str
+    synergy: int = Field(..., ge=0, le=100)
+    contact_email: Optional[str] = Field(default=None, description="Who gets the intro email + invite")

@@ -10,10 +10,13 @@
 # Razin calls trigger_workspace_automation() as a FastAPI BackgroundTask
 
 import os
-import json
 import base64
+import datetime
+import html
+import uuid
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 
 # Google API libraries
@@ -21,15 +24,20 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from googleapiclient.http import MediaInMemoryUpload
 
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
+script_dir = os.path.dirname(os.path.abspath(__file__))
+repo_root = os.path.dirname(script_dir)
+
+load_dotenv(dotenv_path=os.path.join(repo_root, '.env'))
 
 # ── Config ────────────────────────────────────────────────────────────────────
-script_dir = os.path.dirname(os.path.abspath(__file__))
-
-CREDENTIALS_PATH = os.path.join(script_dir, 'credentials', 'workspace-credentials.json')
-TOKEN_PATH = os.path.join(script_dir, 'credentials', 'token.json')
+CREDENTIALS_PATH = os.path.join(repo_root, os.getenv(
+    "WORKSPACE_CREDENTIALS_PATH", "./ophia-data/credentials/workspace-credentials.json"
+))
+TOKEN_PATH = os.path.join(os.path.dirname(CREDENTIALS_PATH), 'token.json')
 SENDER_EMAIL = os.getenv("SENDER_EMAIL", "")
+PROGRAMME_TZ = ZoneInfo("Asia/Kuala_Lumpur")
 
 # Scopes — what permissions we're requesting from Google
 SCOPES = [
@@ -103,6 +111,8 @@ def send_intro_email(
 
         # Build email content
         subject = f"OPHIA: New Ecosystem Match — {startup_name} × {mentor_name}"
+        # Names come from the database — escape them before putting them in HTML
+        startup_name, mentor_name = html.escape(startup_name), html.escape(mentor_name)
 
         html_body = f"""
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -168,11 +178,14 @@ def send_intro_email(
 def create_drive_workspace(
     creds,
     startup_name: str,
-    mentor_name: str
+    mentor_name: str,
+    share_with: str = None
 ) -> str:
     """
-    Creates a shared Google Drive folder and a 90-day milestones Google Doc inside it.
-    
+    Creates a Google Drive folder and a 90-day milestones Google Doc inside it,
+    shared with `share_with` (if given) as an editor. The folder is NOT made
+    public — only the owner and the invited person can open it.
+
     Returns the URL of the created folder (stored in Firestore).
     """
     try:
@@ -193,7 +206,9 @@ def create_drive_workspace(
         folder_url = folder.get("webViewLink")
         print(f"[workspace] ✅ Created Drive folder: {folder_name}")
 
-        # Step 2b: Create the 90-day milestones doc inside the folder
+        # Step 2b: Create the 90-day milestones doc inside the folder.
+        # Uploading plain text with a Google Doc mimeType makes Drive convert
+        # it, so the doc is created WITH the milestone content inside.
         doc_content = get_milestone_doc_content(startup_name, mentor_name)
         doc_metadata = {
             "name": f"90-Day Milestone Plan — {startup_name}",
@@ -202,20 +217,20 @@ def create_drive_workspace(
         }
         service.files().create(
             body=doc_metadata,
+            media_body=MediaInMemoryUpload(doc_content.encode("utf-8"), mimetype="text/plain"),
             fields="id"
         ).execute()
 
         print(f"[workspace] ✅ Created 90-day milestone doc in folder")
 
-        # Step 2c: Make folder accessible (anyone with link can view)
-        permission = {
-            "type": "anyone",
-            "role": "reader"
-        }
-        service.permissions().create(
-            fileId=folder_id,
-            body=permission
-        ).execute()
+        # Step 2c: Share the folder with the participant only
+        if share_with:
+            service.permissions().create(
+                fileId=folder_id,
+                body={"type": "user", "role": "writer", "emailAddress": share_with},
+                sendNotificationEmail=False,
+            ).execute()
+            print(f"[workspace] ✅ Shared folder with {share_with}")
 
         print(f"[workspace] ✅ Drive folder URL: {folder_url}")
         return folder_url
@@ -233,7 +248,7 @@ def get_milestone_doc_content(startup_name: str, mentor_name: str) -> str:
     template_path = os.path.join(script_dir, 'templates', 'milestone_doc.txt')
 
     if os.path.exists(template_path):
-        with open(template_path, 'r') as f:
+        with open(template_path, 'r', encoding='utf-8') as f:
             template = f.read()
         return template.replace("{startup_name}", startup_name).replace("{mentor_name}", mentor_name)
 
@@ -288,12 +303,10 @@ def create_calendar_event(
     Returns the Calendar event ID.
     """
     try:
-        import datetime
-
         service = build("calendar", "v3", credentials=creds)
 
-        # Schedule the kick-off for 3 days from now at 10am
-        now = datetime.datetime.utcnow()
+        # Schedule the kick-off for 3 days from now at 10am Kuala Lumpur time
+        now = datetime.datetime.now(PROGRAMME_TZ)
         start_time = now + datetime.timedelta(days=3)
         start_time = start_time.replace(hour=10, minute=0, second=0, microsecond=0)
         end_time = start_time + datetime.timedelta(hours=1)
@@ -307,12 +320,13 @@ def create_calendar_event(
                 f"This kick-off is the start of your structured 90-day journey. "
                 f"Please come prepared to discuss your goals and challenges."
             ),
+            # isoformat() includes the +08:00 offset, so 10:00 means 10am KL
             "start": {
-                "dateTime": start_time.isoformat() + "Z",
+                "dateTime": start_time.isoformat(),
                 "timeZone": "Asia/Kuala_Lumpur"
             },
             "end": {
-                "dateTime": end_time.isoformat() + "Z",
+                "dateTime": end_time.isoformat(),
                 "timeZone": "Asia/Kuala_Lumpur"
             },
             "attendees": [
@@ -321,7 +335,8 @@ def create_calendar_event(
             # This tells Google to auto-generate a Meet link
             "conferenceData": {
                 "createRequest": {
-                    "requestId": f"ophia-{startup_name}-{mentor_name}".lower().replace(" ", "-"),
+                    # Must be unique per request, or re-approving a pair reuses the old Meet
+                    "requestId": f"ophia-{uuid.uuid4().hex}",
                     "conferenceSolutionKey": {"type": "hangoutsMeet"}
                 }
             }
@@ -416,7 +431,8 @@ def trigger_workspace_automation(
     folder_url = create_drive_workspace(
         creds,
         startup_name=startup_name,
-        mentor_name=mentor_name
+        mentor_name=mentor_name,
+        share_with=contact_email if contact_email != SENDER_EMAIL else None
     )
     result["drive_folder_url"] = folder_url
 
@@ -440,6 +456,9 @@ def trigger_workspace_automation(
 # ═══════════════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
+    import sys
+    # Emoji in log lines would crash print() on a cp1252 Windows console
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print("=== Testing workspace_trigger.py ===")
     print("This will open your browser for Google login on first run.")
     print()

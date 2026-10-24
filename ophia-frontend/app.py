@@ -1,10 +1,12 @@
 # app.py
-# OPHIA — Complete Mock Demo
-# All data is hardcoded. No real APIs. Built for pitch + demo.
+# OPHIA — Admin dashboard
+# Uses the live backend when OPHIA_API_URL is set in the repo-root .env;
+# otherwise (or if the backend is down) runs on the mock data in mock_data.py.
 
 import streamlit as st
 import time
 import random
+import api_client
 from mock_data import (
     PENDING_MATCHES,
     INITIAL_WORKSPACES,
@@ -43,6 +45,19 @@ def init_state():
     for k, v in defaults.items():
         if k not in st.session_state:
             st.session_state[k] = v
+
+    # Load live data once per session (generating matches calls Gemini)
+    if "data_source" not in st.session_state:
+        st.session_state.data_source = "mock"
+        if api_client.enabled():
+            with st.spinner("Loading live matches from the OPHIA backend…"):
+                matches = api_client.fetch_pending_matches()
+                workspaces = api_client.fetch_workspaces()
+            if matches is not None and workspaces is not None:
+                st.session_state.pending_matches = matches
+                st.session_state.workspaces = workspaces
+                st.session_state.checkins = []
+                st.session_state.data_source = "live"
 
 init_state()
 
@@ -437,14 +452,21 @@ def run_approve_animation(selected_matches: list):
     time.sleep(0.3)
     anim_container.empty()
 
-    # Generate workspace entities for each approved match
-    new_entities = []
-    for match in selected_matches:
-        entity = generate_workspace_entity(
-            match["startup"], match["mentor"], match["synergy"]
-        )
-        new_entities.append(entity)
-        st.session_state.workspaces.append(entity)
+    # Create workspace entities for each approved match
+    if st.session_state.data_source == "live":
+        new_entities = api_client.approve(selected_matches)
+        if new_entities is None:
+            st.error(f"Approval failed — nothing was created. {api_client.last_error or ''}")
+            return
+        st.session_state.workspaces.extend(new_entities)
+    else:
+        new_entities = []
+        for match in selected_matches:
+            entity = generate_workspace_entity(
+                match["startup"], match["mentor"], match["synergy"]
+            )
+            new_entities.append(entity)
+            st.session_state.workspaces.append(entity)
 
     st.session_state.last_approved_details = new_entities
     st.session_state.approve_done = True
@@ -466,6 +488,13 @@ def run_approve_animation(selected_matches: list):
 def render_dashboard():
     st.markdown('<div class="page-eyebrow">Orchestrator Home</div>', unsafe_allow_html=True)
     st.markdown('<h1 class="page-title">Ophia Orchestrator</h1>', unsafe_allow_html=True)
+
+    if st.session_state.data_source == "live":
+        st.caption("🟢 Live data — matches from the OPHIA backend")
+    elif api_client.enabled():
+        st.warning(f"Backend unreachable — showing demo data. {api_client.last_error or ''}")
+    else:
+        st.caption("Demo mode — mock data (set OPHIA_API_URL in .env to use the backend)")
 
     # ── Metrics ──────────────────────────────────────────────────────
     m1, m2, m3, spacer = st.columns([3, 3, 3, 0.6])
@@ -612,7 +641,7 @@ def render_dashboard():
 
                 with c_chk:
                     st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
-                    st.checkbox("", key=match["key"], label_visibility="collapsed")
+                    st.checkbox(f"Select {match['startup']}", key=match["key"], label_visibility="collapsed")
 
                 with c_entity:
                     st.markdown(f"""

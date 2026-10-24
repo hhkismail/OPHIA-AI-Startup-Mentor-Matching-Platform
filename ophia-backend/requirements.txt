@@ -1,1 +1,5 @@
-
+fastapi
+uvicorn
+pydantic
+-r ../ophia-nlp/requirements.txt
+-r ../ophia-data/requirements.txt

@@ -1,46 +1,49 @@
 ﻿"""
-embed_data.py — OPHIA Data Pipeline (Hybrid approach)
+embed_data.py — OPHIA Data Pipeline
 
-- Vertex AI (ADC) → embeddings (billed to GCP credits)
-- Gemini API key  → mentor generation (free tier)
+- Vertex AI (ADC)        → embeddings (billed to GCP credits)
+- Gemini API key or ADC  → mentor generation
 
-Run:
-  $env:GOOGLE_APPLICATION_CREDENTIALS=""
+Config comes from the repo-root .env (GCP_PROJECT_ID, EMBED_MODEL, GEN_MODEL,
+optional GEMINI_API_KEY). Never paste API keys into this file.
+
+Run (from ophia-nlp/):
+  gcloud auth application-default login
   python embed_data.py
 """
 
 import os
+import sys
 import json
 import ast
 import time
+from pathlib import Path
+
 import pandas as pd
 from google import genai
 from google.genai import types
 
+from ai_engine import get_client, get_embedding, GEN_MODEL
+
+# Emoji in log lines would crash print() on a cp1252 Windows console
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 # ── CONFIG ────────────────────────────────────────────────────────────────────
+HERE            = Path(__file__).resolve().parent
 SAMPLE_SIZE     = 50
-EMBED_MODEL     = "text-embedding-004"
-GEN_MODEL       = "gemini-2.0-flash"
-CSV_PATH        = "data/raw/2023-07-13-yc-companies.csv"
-OUT_STARTUPS    = "output/startups_embedded.json"
-OUT_MENTORS     = "output/mentors_embedded.json"
+MAX_RETRIES     = 3
+CSV_PATH        = HERE / "data/raw/2023-07-13-yc-companies.csv"
+OUT_STARTUPS    = HERE / "output/startups_embedded.json"
+OUT_MENTORS     = HERE / "output/mentors_embedded.json"
 
-# ── TWO CLIENTS ───────────────────────────────────────────────────────────────
-# Client 1: Vertex AI for embeddings (uses GCP credits via ADC)
-embed_client = genai.Client(
-    vertexai=True,
-    project="ophia-guard-2030",
-    location="us-central1",
-)
-
-# Client 2: Gemini API for generation (free tier, no credits needed)
-gen_client = genai.Client(api_key="AIzaSyClkGrknCtsuBaYmW6CkvhOhBrZActi0Lw")
-
-print("✅ Initialized: Vertex AI (embeddings) + Gemini API (generation)")
+# Generation: Gemini API key if provided (free tier), otherwise Vertex AI
+_api_key = os.getenv("GEMINI_API_KEY")
+gen_client = genai.Client(api_key=_api_key) if _api_key else get_client()
+print(f"✅ Generation via {'Gemini API key' if _api_key else 'Vertex AI'} ({GEN_MODEL})")
 
 
 # ── STEP 1: LOAD & CLEAN STARTUP CSV ─────────────────────────────────────────
-def load_startups(csv_path: str, n: int = SAMPLE_SIZE) -> list[dict]:
+def load_startups(csv_path: Path, n: int = SAMPLE_SIZE) -> list[dict]:
     print(f"\n📂 Loading CSV from: {csv_path}")
     df = pd.read_csv(csv_path)
 
@@ -85,7 +88,7 @@ def load_startups(csv_path: str, n: int = SAMPLE_SIZE) -> list[dict]:
     return startups
 
 
-# ── STEP 2: GENERATE MENTOR VIA GEMINI API (free tier) ───────────────────────
+# ── STEP 2: GENERATE MENTOR ──────────────────────────────────────────────────
 MENTOR_GEN_PROMPT = """
 You are generating a realistic mentor profile for an innovation ecosystem platform.
 
@@ -119,58 +122,44 @@ Do not include any text outside the JSON object.
 """
 
 
-def generate_mentor(startup: dict) -> dict:
+def generate_mentor(startup: dict) -> dict | None:
+    """Returns a generated mentor, or None after MAX_RETRIES failures.
+
+    Never substitutes a placeholder mentor: identical placeholders all get the
+    same embedding, which makes every startup match the same "mentor".
+    """
     prompt = MENTOR_GEN_PROMPT.format(
         company_name=startup["company_name"],
         description=startup["description"],
         tags=", ".join(startup["industry_tags"]),
         country=startup["country"]
     )
-    try:
-        response = gen_client.models.generate_content(
-            model=GEN_MODEL,
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                temperature=0.7,
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            response = gen_client.models.generate_content(
+                model=GEN_MODEL,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    temperature=0.7,
+                )
             )
-        )
-        return json.loads(response.text.strip())
-    except Exception as e:
-        print(f"  ⚠️  Mentor gen failed for {startup['company_name']}: {e}")
-        return {
-            "name": "Alex Morgan",
-            "title": "Senior Venture Advisor",
-            "bio": "Former operator with 15 years across B2B SaaS and deep tech. Helps early-stage founders with go-to-market strategy and fundraising.",
-            "industry_tags": startup["industry_tags"][:3],
-            "skills": ["GTM Strategy", "Fundraising", "Product Market Fit"],
-            "availability_hours": 6,
-            "linkedin": None,
-            "status": "Available",
-            "partnerships": 0,
-            "bio_embedding": None
-        }
-
-
-# ── STEP 3: EMBED TEXT VIA VERTEX AI (GCP credits) ──────────────────────────
-def get_embedding(text: str) -> list[float]:
-    try:
-        result = embed_client.models.embed_content(
-            model=EMBED_MODEL,
-            contents=text,
-        )
-        return result.embeddings[0].values
-    except Exception as e:
-        print(f"  ⚠️  Embedding failed: {e}")
-        return []
+            mentor = json.loads(response.text.strip())
+            if mentor.get("name") and mentor.get("bio"):
+                return mentor
+            raise ValueError("response missing name/bio")
+        except Exception as e:
+            print(f"  ⚠️  Mentor gen attempt {attempt}/{MAX_RETRIES} failed for {startup['company_name']}: {e}")
+            time.sleep(2 ** attempt)
+    return None
 
 
 # ── MAIN PIPELINE ─────────────────────────────────────────────────────────────
 def run_pipeline():
-    os.makedirs("output", exist_ok=True)
+    OUT_STARTUPS.parent.mkdir(exist_ok=True)
 
     startups = load_startups(CSV_PATH)
-    mentors = []
+    kept_startups, mentors, seen_names = [], [], set()
 
     print(f"\n🤖 Generating mentors + embeddings for {len(startups)} startups...")
     print("   (~3-5 minutes total, free tier = 15 req/min)\n")
@@ -178,34 +167,44 @@ def run_pipeline():
     for i, startup in enumerate(startups):
         print(f"  [{i+1}/{len(startups)}] {startup['company_name']}")
 
-        # Generation via Gemini API (free tier)
-        mentor = generate_mentor(startup)
-        mentors.append(mentor)
-
-        # Embeddings via Vertex AI (GCP credits)
-        print(f"    → Embedding startup description...")
+        print("    → Embedding startup description...")
         startup["description_embedding"] = get_embedding(startup["description"])
+        if not startup["description_embedding"]:
+            print("    ⚠️  Skipping startup (no embedding)")
+            continue
+        kept_startups.append(startup)
 
-        print(f"    → Embedding mentor bio...")
-        mentor["bio_embedding"] = get_embedding(mentor["bio"])
+        mentor = generate_mentor(startup)
+        if mentor and mentor["name"] not in seen_names:
+            print("    → Embedding mentor bio...")
+            mentor["bio_embedding"] = get_embedding(mentor["bio"])
+            if mentor["bio_embedding"]:
+                mentors.append(mentor)
+                seen_names.add(mentor["name"])
 
         # Rate limit: free tier = 15 req/min, so ~4 sec between iterations
         time.sleep(4)
 
-    with open(OUT_STARTUPS, "w") as f:
-        json.dump(startups, f, indent=2)
+    if len(mentors) < len(startups) // 2:
+        raise SystemExit(
+            f"❌ Only {len(mentors)}/{len(startups)} mentors generated — check GEN_MODEL "
+            "and your credentials. Nothing was saved."
+        )
+
+    with open(OUT_STARTUPS, "w", encoding="utf-8") as f:
+        json.dump(kept_startups, f, indent=2)
     print(f"\n✅ Saved: {OUT_STARTUPS}")
 
-    with open(OUT_MENTORS, "w") as f:
+    with open(OUT_MENTORS, "w", encoding="utf-8") as f:
         json.dump(mentors, f, indent=2)
     print(f"✅ Saved: {OUT_MENTORS}")
 
-    print(f"\n🎉 Pipeline complete! Hand both JSON files to Fitri.")
-    print(f"   Startups: {len(startups)} | Mentors: {len(mentors)}")
+    print("\n🎉 Pipeline complete! Next: python ../ophia-data/seed_db.py")
+    print(f"   Startups: {len(kept_startups)} | Mentors: {len(mentors)}")
 
 
 if __name__ == "__main__":
-    if not os.path.exists(CSV_PATH):
+    if not CSV_PATH.exists():
         raise FileNotFoundError(
             f"CSV not found at: {CSV_PATH}\n"
             f"Make sure the YC CSV is at ophia-nlp/data/raw/2023-07-13-yc-companies.csv"

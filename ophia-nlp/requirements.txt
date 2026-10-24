@@ -1,7 +1,5 @@
-google-cloud-aiplatform
-google-generativeai
+google-genai
 google-cloud-firestore
 numpy
-scipy
 pandas
 python-dotenv
