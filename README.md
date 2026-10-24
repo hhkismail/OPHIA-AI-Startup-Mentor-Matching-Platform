@@ -128,6 +128,15 @@ credentials or network. CI runs them on every push (Python 3.11 and 3.12).
 Match quality is measured separately with `python ophia-nlp/eval_scoring.py` (uses real
 Gemini calls; results in `ophia-nlp/output/eval_results.json`).
 
+**Human labels.** `eval_scoring.py` checks the AI against mentors the AI itself generated,
+which is circular. To check it against a person instead:
+
+```bash
+python ophia-nlp/eval_human.py build      # 40 pairs, 8 per AI-score band (already built)
+streamlit run ophia-nlp/label_app.py      # label each pair Good / OK / Bad, AI score hidden
+python ophia-nlp/eval_human.py report     # agreement (Spearman, AUC, weighted kappa) + disagreements
+```
+
 ---
 
 ## Team

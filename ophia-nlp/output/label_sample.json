@@ -1,0 +1,1736 @@
+[
+ {
+  "startup_name": "Keylika",
+  "mentor_name": "Dr. Evelyn Vance-Wright",
+  "startup": {
+   "description": "Redefining the Standard of Care for Iron Deficiency",
+   "long_description": "Keylika is an early stage biopharma startup developing metal-based drugs using a platform synthesis technology to treat unmet medical needs. We then administer these drugs using proven delivery technologies to effect the best clinical outcomes. \r\n\r\nOur first product is a small molecule iron drug (new molecular entity) delivered by a wearable skin patch to treat Iron Deficiency Anemia (IDA), with significantly higher safety, efficacy and tolerability over existing treatments. This is poised to be a best-in-class, potentially breakthrough therapy for treating iron deficiency without any GI side-effects (eg. nausea, constipation, diarrhoea, etc.) typically associated with oral iron supplements, and without the risks, costs and side-effects associated with IV iron infusions. When approved, Keylika’s proprietary transdermal iron will be the world's first prescription iron patch. Iron deficiency is a hugely understated problem affecting about 1.6 billion people worldwide and more than 30 million in the US alone, translating to a $17B US market.",
+   "industry_tags": [
+    "Medical Devices",
+    "Biotech",
+    "Nanotechnology",
+    "Therapeutics",
+    "Drug discovery"
+   ],
+   "country": "US",
+   "batch": "S22"
+  },
+  "mentor": {
+   "title": "Former Chief Data Officer at Blue Cross Blue Shield",
+   "bio": "With over two decades of experience navigating the complexities of health insurance data interoperability and regulatory compliance, I specialize in helping infrastructure startups scale their enterprise integrations. I provide strategic guidance on navigating the payer landscape and optimizing data architecture to meet rigorous industry standards.",
+   "skills": [
+    "Payer Relations",
+    "Enterprise API Strategy",
+    "Regulatory Compliance (HIPAA)",
+    "Data Governance",
+    "B2B Sales Cycles"
+   ],
+   "industry_tags": [
+    "Health Insurance",
+    "Data Infrastructure",
+    "Enterprise SaaS",
+    "Interoperability",
+    "Healthcare Policy"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 45,
+   "rubric": 42,
+   "similarity_pct": 50,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 3,
+    "market_fit": 3
+   },
+   "reasoning": "The mentor brings deep expertise in the payer landscape and healthcare data infrastructure, which is valuable for a drug delivery startup navigating reimbursement. However, there is a significant gap as the mentor lacks experience in biopharma, drug development, or clinical trials, which are the primary hurdles for Keylika. While the mentor can assist with the commercialization strategy, they cannot provide technical guidance on the core therapeutic product."
+  }
+ },
+ {
+  "startup_name": "Sleep Reset",
+  "mentor_name": "Dr. Julianna Vance-Kovacs",
+  "startup": {
+   "description": "Sleep Reset is a clinically proven CBT-i program for better sleep",
+   "long_description": "Our mission is to improve quality of life for millions of people by providing easy, immediate access to the world’s best sleep care.\r\n\r\nSleep Reset is a digital, personalized sleep clinic, available in a convenient mobile app for iOS and Android. Our program was designed in partnership with leading sleep experts from top sleep clinics and universities. The program improves sleep and reduces sleep anxiety with the most effective methods from sleep clinics, including strategies based on Cognitive Behavioral Therapy for Insomnia (CBT-i) which are proven to be more effective than sleeping pills. Throughout our program, each member is paired with a dedicated sleep coach who personalizes their program. It’s a life-long, sustainable solution to sleep better in weeks, with no pills or melatonin needed – which means no grogginess, side effects, or dependency.\r\n\r\nSleep Reset has been covered in Forbes, TechCrunch, and INSIDER. The company was founded by Yunha Kim, a serial entrepreneur recognized by Forbes as 30 Under 30 and is backed by top Silicon Valley investors including YCombinator, Foundation Capital, New Enterprise Associates, Stanford University and 20+ founders/executives of leading companies.",
+   "industry_tags": [
+    "Mental Health Tech",
+    "Sleep Tech",
+    "Consumer Health Services",
+    "Health Tech",
+    "Digital Health"
+   ],
+   "country": "US",
+   "batch": "W17"
+  },
+  "mentor": {
+   "title": "Behavioral Scientist & Digital Health Consultant",
+   "bio": "With a background in clinical psychology and behavioral economics, I specialize in designing digital interventions that foster authentic human connection. I help early-stage founders leverage habit-loop mechanics and user-centric design to drive sustainable engagement in mental wellness platforms.",
+   "skills": [
+    "Behavioral Design",
+    "Product-Market Fit",
+    "User Retention Strategies",
+    "Clinical Validation",
+    "Ethical Data Privacy"
+   ],
+   "industry_tags": [
+    "Digital Health",
+    "Behavioral Science",
+    "User Engagement",
+    "Psychology"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 94,
+   "rubric": 92,
+   "similarity_pct": 98,
+   "grades": {
+    "domain_fit": 4,
+    "need_fit": 5,
+    "market_fit": 5
+   },
+   "reasoning": "Dr. Vance-Kovacs is an excellent match for Sleep Reset because her expertise in behavioral science and habit-loop mechanics directly aligns with the core of a CBT-i digital intervention. While she may not have founded a sleep-specific company, her deep experience in digital health and user retention is exactly what a subscription-based health app needs to scale. The primary gap is that she may need to provide more tactical support on clinical regulatory hurdles if the startup moves toward more formal medical device status."
+  }
+ },
+ {
+  "startup_name": "Sleep Reset",
+  "mentor_name": "Dr. Priya Kulkarni",
+  "startup": {
+   "description": "Sleep Reset is a clinically proven CBT-i program for better sleep",
+   "long_description": "Our mission is to improve quality of life for millions of people by providing easy, immediate access to the world’s best sleep care.\r\n\r\nSleep Reset is a digital, personalized sleep clinic, available in a convenient mobile app for iOS and Android. Our program was designed in partnership with leading sleep experts from top sleep clinics and universities. The program improves sleep and reduces sleep anxiety with the most effective methods from sleep clinics, including strategies based on Cognitive Behavioral Therapy for Insomnia (CBT-i) which are proven to be more effective than sleeping pills. Throughout our program, each member is paired with a dedicated sleep coach who personalizes their program. It’s a life-long, sustainable solution to sleep better in weeks, with no pills or melatonin needed – which means no grogginess, side effects, or dependency.\r\n\r\nSleep Reset has been covered in Forbes, TechCrunch, and INSIDER. The company was founded by Yunha Kim, a serial entrepreneur recognized by Forbes as 30 Under 30 and is backed by top Silicon Valley investors including YCombinator, Foundation Capital, New Enterprise Associates, Stanford University and 20+ founders/executives of leading companies.",
+   "industry_tags": [
+    "Mental Health Tech",
+    "Sleep Tech",
+    "Consumer Health Services",
+    "Health Tech",
+    "Digital Health"
+   ],
+   "country": "US",
+   "batch": "W17"
+  },
+  "mentor": {
+   "title": "Former Chief Medical Officer, Digital Health Ventures",
+   "bio": "With over 15 years of experience bridging clinical diagnostics and digital health transformation, I specialize in navigating complex regulatory landscapes for medical hardware. I offer startups strategic guidance on clinical validation protocols and scaling diagnostic tech within emerging markets.",
+   "skills": [
+    "FDA/CDSCO Regulatory Strategy",
+    "Clinical Validation",
+    "Healthcare Go-to-Market Strategy",
+    "Product-Market Fit for MedTech"
+   ],
+   "industry_tags": [
+    "Digital Health",
+    "Regulatory Affairs",
+    "HealthTech",
+    "Clinical Diagnostics"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 72,
+   "rubric": 58,
+   "similarity_pct": 93,
+   "grades": {
+    "domain_fit": 4,
+    "need_fit": 3,
+    "market_fit": 3
+   },
+   "reasoning": "The mentor has strong expertise in digital health and clinical validation, which aligns well with Sleep Reset's focus on evidence-based CBT-i. However, the mentor's primary experience is in medical hardware and diagnostic tech, whereas Sleep Reset is a consumer-facing digital wellness app. The gap lies in the mentor's focus on regulatory hardware pathways versus the startup's need for consumer growth and behavioral health engagement."
+  }
+ },
+ {
+  "startup_name": "Tranch",
+  "mentor_name": "Jonathan Sterling-Wells",
+  "startup": {
+   "description": "The B2B Checkout offering Pay Now and Pay Later for SaaS and Services",
+   "long_description": "Tranch is the modern approach for businesses to be paid upfront, faster and easier. We are the only B2B checkout to offer Pay Now and Pay Later up to 12 months for invoices across the Services sector.\r\n\r\nWe enable Services (law firms, design agencies, etc), software and marketplaces to be paid quicker, upfront and offer their customers flexible payment options including Pay Now and Pay Later from 2 to 12 months.\r\n\r\nBy offering a ‘Pay with Tranch’ checkout businesses can offer a fast and easy way for their end-customers to pay for invoices on their terms.\r\n\r\nTranch is backed by leading investors including; Global Founders Capital, Soma Capital, FoundersX and Y Combinator.",
+   "industry_tags": [
+    "Fintech",
+    "SaaS"
+   ],
+   "country": "US",
+   "batch": "S22"
+  },
+  "mentor": {
+   "title": "Former Head of Infrastructure at Stripe",
+   "bio": "With over a decade of experience scaling global payment architectures, I specialize in navigating the complexities of banking APIs and recurring billing systems. I offer strategic guidance on building robust, high-trust financial platforms and optimizing merchant acquisition strategies for early-stage fintechs.",
+   "skills": [
+    "Payment Gateway Integration",
+    "Subscription Billing Logic",
+    "Risk & Fraud Mitigation",
+    "API Product Management",
+    "Go-to-Market Strategy"
+   ],
+   "industry_tags": [
+    "Fintech",
+    "Payments Infrastructure",
+    "API Strategy",
+    "SaaS Scaling",
+    "Regulatory Compliance"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 94,
+   "rubric": 92,
+   "similarity_pct": 97,
+   "grades": {
+    "domain_fit": 5,
+    "need_fit": 5,
+    "market_fit": 4
+   },
+   "reasoning": "The mentor's background as the former Head of Infrastructure at Stripe provides an exceptional match for a B2B checkout platform like Tranch. His expertise in payment architecture and risk mitigation directly addresses the core technical and operational hurdles of a fintech startup scaling its infrastructure. The only minor gap is that his experience is heavily weighted toward technical infrastructure rather than the specific B2B credit/lending nuances of Tranch's 'Pay Later' model."
+  }
+ },
+ {
+  "startup_name": "Sero",
+  "mentor_name": "Marcus Vane",
+  "startup": {
+   "description": "Align Sales Customer Success & Support on one stack",
+   "long_description": "Leverage your existing CRM as the source of truth. \r\n\r\nCreate frictionless experiences between customers and internal teams using our shared spaces",
+   "industry_tags": [
+    "SaaS",
+    "B2B",
+    "Customer Success",
+    "Customer Support"
+   ],
+   "country": "US",
+   "batch": "W22"
+  },
+  "mentor": {
+   "title": "Former VP of Sales Operations at Salesforce",
+   "bio": "With over two decades of experience scaling high-velocity sales organizations, I specialize in integrating automated workflows to drive revenue efficiency. I offer strategic guidance on go-to-market execution and optimizing AI-driven sales stacks for early-stage B2B startups.",
+   "skills": [
+    "Sales Pipeline Optimization",
+    "CRM Integration Strategy",
+    "B2B Customer Acquisition",
+    "Product-Market Fit Analysis"
+   ],
+   "industry_tags": [
+    "Sales Operations",
+    "Go-To-Market Strategy",
+    "Enterprise Software",
+    "Revenue Operations",
+    "Scaling"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 99,
+   "rubric": 100,
+   "similarity_pct": 98,
+   "grades": {
+    "domain_fit": 5,
+    "need_fit": 5,
+    "market_fit": 5
+   },
+   "reasoning": "Marcus Vane's background as a VP of Sales Operations at Salesforce provides an exceptional domain match for a startup building tools to integrate with CRMs. His expertise in revenue operations and scaling sales stacks directly addresses Sero's core value proposition of aligning internal teams through existing CRM infrastructure. The only minor gap is that his experience is heavily sales-focused, while Sero also targets Customer Success and Support, though these functions are increasingly unified under the RevOps umbrella."
+  }
+ },
+ {
+  "startup_name": "Tranch",
+  "mentor_name": "Beatriz Soler",
+  "startup": {
+   "description": "The B2B Checkout offering Pay Now and Pay Later for SaaS and Services",
+   "long_description": "Tranch is the modern approach for businesses to be paid upfront, faster and easier. We are the only B2B checkout to offer Pay Now and Pay Later up to 12 months for invoices across the Services sector.\r\n\r\nWe enable Services (law firms, design agencies, etc), software and marketplaces to be paid quicker, upfront and offer their customers flexible payment options including Pay Now and Pay Later from 2 to 12 months.\r\n\r\nBy offering a ‘Pay with Tranch’ checkout businesses can offer a fast and easy way for their end-customers to pay for invoices on their terms.\r\n\r\nTranch is backed by leading investors including; Global Founders Capital, Soma Capital, FoundersX and Y Combinator.",
+   "industry_tags": [
+    "Fintech",
+    "SaaS"
+   ],
+   "country": "US",
+   "batch": "S22"
+  },
+  "mentor": {
+   "title": "Former VP of Operations at Stripe EMEA",
+   "bio": "With over a decade of experience scaling payment infrastructure and operational workflows, I help fintech founders navigate the complexities of cross-border financial compliance and automated scaling. I focus on building resilient internal systems that turn back-office friction into a competitive advantage for rapid-growth startups.",
+   "skills": [
+    "Financial Compliance",
+    "Go-to-Market Strategy",
+    "Operational Efficiency",
+    "B2B SaaS Growth"
+   ],
+   "industry_tags": [
+    "Fintech",
+    "SaaS",
+    "Operational Scaling",
+    "B2B Payments"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 88,
+   "rubric": 83,
+   "similarity_pct": 96,
+   "grades": {
+    "domain_fit": 5,
+    "need_fit": 5,
+    "market_fit": 3
+   },
+   "reasoning": "Beatriz Soler's background as VP of Operations at Stripe EMEA provides an exceptional match for Tranch's B2B checkout infrastructure and scaling needs. While her experience is heavily EMEA-focused and Tranch is US-based, her deep expertise in payment infrastructure and operational scaling is directly applicable to the challenges of a B2B fintech startup. The alignment between her operational background and Tranch's need for robust payment workflows is highly synergistic."
+  }
+ },
+ {
+  "startup_name": "Mirrorful",
+  "mentor_name": "Julian Vane",
+  "startup": {
+   "description": "The open-source design system framework",
+   "long_description": "Mirrorful makes it easy for software engineers to implement designs faster. Several companies use Mirrorful to manage their design system — the \"building blocks\" of their app — by using our visual editor and developer framework.",
+   "industry_tags": [
+    "Developer Tools",
+    "SaaS",
+    "Design",
+    "Design Tools",
+    "Open Source"
+   ],
+   "country": "US",
+   "batch": "W23"
+  },
+  "mentor": {
+   "title": "Former Head of Product at Figma",
+   "bio": "Julian spent over six years scaling design infrastructure tools and helping teams bridge the gap between design and development workflows. He specializes in advising open-source founders on product-led growth strategies and building sustainable developer communities.",
+   "skills": [
+    "Developer Relations",
+    "Open Source Monetization",
+    "Product Strategy",
+    "Technical Documentation",
+    "Go-To-Market Execution"
+   ],
+   "industry_tags": [
+    "Product-Led Growth",
+    "Developer Experience",
+    "Design Systems",
+    "Community Building"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 98,
+   "rubric": 100,
+   "similarity_pct": 96,
+   "grades": {
+    "domain_fit": 5,
+    "need_fit": 5,
+    "market_fit": 5
+   },
+   "reasoning": "This is an exceptional pairing as Julian Vane's background as Head of Product at Figma directly aligns with Mirrorful's mission to bridge design and development. His expertise in open-source monetization and developer-led growth is perfectly suited to help Mirrorful scale its framework. The only minor gap is the transition from a mature product like Figma to an early-stage open-source project, which will require careful strategic adjustment."
+  }
+ },
+ {
+  "startup_name": "Edoome",
+  "mentor_name": "Dr. Alistair Finch",
+  "startup": {
+   "description": "Edoome is a social learning platform focused on teachers and students…",
+   "long_description": "Edoome turns the classroom into an online community, so teachers, students and parents can communicate and collaborate in an easy and secure way.\r\n\r\nEdoome is a free service where teachers, students and parents can create or join a course to start collaborating, posting assignments, generating online quizzes and sharing files.",
+   "industry_tags": [],
+   "country": "US",
+   "batch": "IK12"
+  },
+  "mentor": {
+   "title": "Principal Consultant, Geriatric Care Systems",
+   "bio": "Dr. Finch spent two decades leading operational strategy for nationwide home-care networks and integrated health delivery systems. He specializes in helping assistive tech startups navigate complex healthcare regulations and optimize user experience for the aging population.",
+   "skills": [
+    "Healthcare Operations",
+    "B2B Partnerships",
+    "User-Centric Design",
+    "Regulatory Strategy",
+    "Scaling Service Platforms"
+   ],
+   "industry_tags": [
+    "Elder Care",
+    "HealthTech",
+    "Operations Strategy",
+    "Regulatory Compliance"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 6,
+   "rubric": 8,
+   "similarity_pct": 2,
+   "grades": {
+    "domain_fit": 1,
+    "need_fit": 2,
+    "market_fit": 1
+   },
+   "reasoning": "There is a significant misalignment between the startup's focus on K-12 social learning and the mentor's deep expertise in geriatric care and healthcare operations. While the mentor has experience scaling service platforms, the regulatory and user-centric challenges of an educational platform are entirely distinct from those of the aging population sector."
+  }
+ },
+ {
+  "startup_name": "Dashworks",
+  "mentor_name": "Sophie Laurent",
+  "startup": {
+   "description": "Your team's intelligent start page.",
+   "long_description": "Dashworks is where work begins. Where all your documents, messages, tickets, and other knowledge scattered across your company's apps and people come together seamlessly. And where you and your team can get on the same page, and get things done.",
+   "industry_tags": [
+    "Artificial Intelligence",
+    "SaaS"
+   ],
+   "country": "US",
+   "batch": "W20"
+  },
+  "mentor": {
+   "title": "Former VP of Growth at Spendesk",
+   "bio": "With over a decade of experience scaling B2B SaaS revenue engines, I specialize in bridging the gap between financial forecasting and operational execution. I help early-stage founders build robust go-to-market frameworks that ensure their revenue plans are both ambitious and actionable.",
+   "skills": [
+    "Revenue Modeling",
+    "Sales Pipeline Architecture",
+    "Unit Economics",
+    "Go-To-Market Strategy",
+    "SaaS Metrics"
+   ],
+   "industry_tags": [
+    "SaaS",
+    "B2B Growth",
+    "Revenue Operations",
+    "Go-To-Market Strategy"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 85,
+   "rubric": 83,
+   "similarity_pct": 88,
+   "grades": {
+    "domain_fit": 4,
+    "need_fit": 5,
+    "market_fit": 4
+   },
+   "reasoning": "Sophie Laurent brings deep expertise in scaling B2B SaaS revenue engines, which is highly relevant for Dashworks as they navigate the competitive enterprise productivity space. While she lacks specific experience in AI-driven knowledge management, her background in operational execution and GTM strategy is a strong match for a startup looking to transition from product-market fit to scalable growth. The primary gap is the lack of technical AI-specific mentorship, but her commercial expertise is a strong asset for their current stage."
+  }
+ },
+ {
+  "startup_name": "Keylika",
+  "mentor_name": "Dr. Fiona Abernathy",
+  "startup": {
+   "description": "Redefining the Standard of Care for Iron Deficiency",
+   "long_description": "Keylika is an early stage biopharma startup developing metal-based drugs using a platform synthesis technology to treat unmet medical needs. We then administer these drugs using proven delivery technologies to effect the best clinical outcomes. \r\n\r\nOur first product is a small molecule iron drug (new molecular entity) delivered by a wearable skin patch to treat Iron Deficiency Anemia (IDA), with significantly higher safety, efficacy and tolerability over existing treatments. This is poised to be a best-in-class, potentially breakthrough therapy for treating iron deficiency without any GI side-effects (eg. nausea, constipation, diarrhoea, etc.) typically associated with oral iron supplements, and without the risks, costs and side-effects associated with IV iron infusions. When approved, Keylika’s proprietary transdermal iron will be the world's first prescription iron patch. Iron deficiency is a hugely understated problem affecting about 1.6 billion people worldwide and more than 30 million in the US alone, translating to a $17B US market.",
+   "industry_tags": [
+    "Medical Devices",
+    "Biotech",
+    "Nanotechnology",
+    "Therapeutics",
+    "Drug discovery"
+   ],
+   "country": "US",
+   "batch": "S22"
+  },
+  "mentor": {
+   "title": "Former VP of Clinical Development at Genentech",
+   "bio": "With over two decades of experience navigating FDA regulatory pathways for novel therapeutics and nanomedicine, I specialize in bridging the gap between bench research and clinical commercialization. I help startups refine their clinical trial strategies and establish robust quality management systems to accelerate market entry.",
+   "skills": [
+    "FDA Regulatory Strategy",
+    "Clinical Trial Design",
+    "Quality Assurance",
+    "Go-to-Market Strategy",
+    "Biotech Fundraising"
+   ],
+   "industry_tags": [
+    "Clinical Trials",
+    "Regulatory Affairs",
+    "Biopharmaceuticals",
+    "Commercialization Strategy",
+    "HealthTech"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 96,
+   "rubric": 100,
+   "similarity_pct": 90,
+   "grades": {
+    "domain_fit": 5,
+    "need_fit": 5,
+    "market_fit": 5
+   },
+   "reasoning": "Dr. Abernathy's extensive background in FDA regulatory pathways and nanomedicine is a near-perfect match for a biopharma startup developing a novel transdermal drug delivery system. Her experience at Genentech provides the exact clinical development expertise required to navigate the complex regulatory hurdles of a new molecular entity. The only minor gap is that her experience is primarily in large-scale biopharma, whereas Keylika is an early-stage startup, but her focus on clinical commercialization remains highly relevant."
+  }
+ },
+ {
+  "startup_name": "Datlo",
+  "mentor_name": "Marcus Thorne-Bennett",
+  "startup": {
+   "description": "Datlo helps companies increase sales and expand through data",
+   "long_description": "Datlo is a geointelligence platform made for sales and marketing folks. In seconds you can conduct market research, find new customers, and distribution channels for your company. All of that without needing a data scientist or a programmer. \r\n",
+   "industry_tags": [
+    "SaaS",
+    "Geographic Information System",
+    "B2B"
+   ],
+   "country": "BR",
+   "batch": "S21"
+  },
+  "mentor": {
+   "title": "Former Head of Growth at DonorDrive",
+   "bio": "With over 15 years of experience scaling donation platforms and fintech infrastructure, I specialize in navigating the complex intersection of regulatory compliance and user-centric donor engagement. I offer strategic guidance on building sustainable revenue models for social impact startups looking to bridge the gap between traditional philanthropy and modern digital finance.",
+   "skills": [
+    "Donor Acquisition Strategies",
+    "Regulatory Compliance",
+    "SaaS Pricing Models",
+    "Impact Measurement",
+    "Go-to-Market Strategy"
+   ],
+   "industry_tags": [
+    "Fintech",
+    "Nonprofit Tech",
+    "Growth Strategy",
+    "Product Scaling"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 52,
+   "rubric": 33,
+   "similarity_pct": 81,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 4,
+    "market_fit": 1
+   },
+   "reasoning": "The mentor has strong experience in SaaS growth and GTM strategy, which is highly relevant for Datlo's sales-focused platform. However, there is a significant gap in domain expertise, as the mentor's background is heavily focused on fintech and nonprofit tech rather than geointelligence or B2B market research tools. Additionally, there is no overlap in regional experience between the mentor's background and the startup's focus on the Brazilian market."
+  }
+ },
+ {
+  "startup_name": "The Mercer Club",
+  "mentor_name": "Elena Rodriguez",
+  "startup": {
+   "description": "The Mercer Club is a subscription service that allows men to rent…",
+   "long_description": "The Mercer Club is e-commerce's first-ever men’s rental service offering luxury and streetwear fashions at affordable pricing— think of it as Rent the Runway for men. Founded on the principle that fashion should be affordable and accessible, The Mercer Club aims to deliver an assortment of clothing, shoes and accessories to fulfill all a man's wardrobe needs, helping them stay on trend while considering their budget. Customers can rent pieces from well-known streetwear brands such as Yeezy, Nike and Supreme or luxury designers such as Gucci, Margiela, Acne and Balenciaga for as little as $25 a day or a monthly subscription for $75 a month. With the subscription plan, renters get 2 items at a time and swap out each week for another set of 2 items. The process is seamless from beginning to end— after placing an order, items arrive in 2-3 days in a custom box with a prepaid return shipping label. Our specialized team takes care of any laundering on your behalf and minor wear and tear is covered by us.",
+   "industry_tags": [
+    "Marketplace",
+    "Smart Clothing",
+    "Sustainable Fashion"
+   ],
+   "country": "US",
+   "batch": "W20"
+  },
+  "mentor": {
+   "title": "Head of Product, SaaS Analytics",
+   "bio": "With over a decade of experience scaling enterprise data platforms, I specialize in transforming complex technical infrastructure into intuitive user experiences. I offer startups strategic guidance on product-led growth and the architectural shifts required to move from early-stage MVP to robust production environments.",
+   "skills": [
+    "Product-Led Growth",
+    "API Strategy",
+    "Customer Discovery",
+    "Go-to-Market Strategy",
+    "Data Governance"
+   ],
+   "industry_tags": [
+    "SaaS",
+    "Product Management",
+    "Cloud Infrastructure",
+    "UX Strategy"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 45,
+   "rubric": 50,
+   "similarity_pct": 37,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 4,
+    "market_fit": 3
+   },
+   "reasoning": "The mentor brings strong expertise in product-led growth and UX strategy, which are highly relevant for a subscription-based rental marketplace looking to scale. However, there is a significant gap in domain expertise, as the mentor's background is in enterprise SaaS and data infrastructure rather than consumer fashion or logistics-heavy marketplaces. While the mentor can help with the digital platform, they lack specific experience in the operational complexities of inventory management and circular fashion."
+  }
+ },
+ {
+  "startup_name": "Reverie Labs",
+  "mentor_name": "Vriraj Singh",
+  "startup": {
+   "description": " Engineering next-generation, brain-penetrant cancer therapies.",
+   "long_description": "Reverie Labs is engineering next-generation, brain-penetrant cancer therapies.\r\n",
+   "industry_tags": [
+    "AI-powered Drug Discovery",
+    "Machine Learning",
+    "Biotech"
+   ],
+   "country": "US",
+   "batch": "W18"
+  },
+  "mentor": {
+   "title": "Senior AI Infrastructure Scientist",
+   "bio": "Senior AI scientist with a track record in building enterprise-grade machine learning infrastructure and adversarial AI systems.",
+   "skills": [
+    "Fraud Detection",
+    "AI Architecture",
+    "Security Protocols"
+   ],
+   "industry_tags": [
+    "Fraud Detection",
+    "AI Architecture",
+    "Security Protocols"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 57,
+   "rubric": 33,
+   "similarity_pct": 92,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 3,
+    "market_fit": 2
+   },
+   "reasoning": "The mentor possesses strong technical expertise in AI infrastructure and security, which is valuable for a computational drug discovery startup. However, there is a significant gap in domain-specific knowledge regarding biotech, clinical trials, or drug development pipelines. The pairing is technically relevant but lacks the industry-specific guidance required for a high-impact biotech venture."
+  }
+ },
+ {
+  "startup_name": "Mobydish",
+  "mentor_name": "Marcus Sterling-Vance",
+  "startup": {
+   "description": "MobyDish, a tech-enabled service, allowing anyone to place a catering…",
+   "long_description": "MobyDish, a tech-enabled service, allowing anyone to place a catering order online in less than 3min to feed people from 10 to 1,000 people. We select the best restaurants, hire and train our fleet of drivers who will deliver and setup and we're proud to have the best customer service in the space. We also offer on site catering host and premium service that can be requested in up to 48hours in advance. \r\nWe own our tech from online ordering, to manage and dispatch orders to drivers, and build customer relationship. \r\n\r\nWe're used by top companies in the biggest cities in the US and we help for our customers with any needs from breakfast, lunch, happy hour and dinner. We are known for our flexibility, reliability and provide recurring and last-minute catering orders. ",
+   "industry_tags": [
+    "Food Service Robots & Machines",
+    "Food Tech"
+   ],
+   "country": "US",
+   "batch": "W15"
+  },
+  "mentor": {
+   "title": "Former VP of Operations at Global Logistics Systems",
+   "bio": "With over two decades of experience scaling autonomous supply chain infrastructure, I specialize in navigating the complexities of B2B enterprise integration. I offer strategic guidance on optimizing fleet utilization and building robust partnerships within the mobility-as-a-service ecosystem.",
+   "skills": [
+    "Enterprise SaaS Sales",
+    "Operational Scaling",
+    "IoT Systems Integration",
+    "Fleet Management Optimization",
+    "B2B Go-to-Market Strategy"
+   ],
+   "industry_tags": [
+    "Logistics",
+    "Autonomous Systems",
+    "Supply Chain",
+    "Operations Strategy"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 75,
+   "rubric": 67,
+   "similarity_pct": 88,
+   "grades": {
+    "domain_fit": 3,
+    "need_fit": 5,
+    "market_fit": 3
+   },
+   "reasoning": "The mentor brings deep expertise in logistics and fleet management, which directly addresses MobyDish's operational challenges in scaling their delivery and dispatch infrastructure. While the mentor's background is in autonomous systems rather than food tech, the core operational hurdles of fleet utilization and B2B logistics are highly transferable. The primary gap is the mentor's lack of specific experience in the food service industry, which may require a learning curve regarding the unique perishability and service standards of catering."
+  }
+ },
+ {
+  "startup_name": "Somos",
+  "mentor_name": "Thiago Alencar",
+  "startup": {
+   "description": "Internet for the urban developing world.",
+   "long_description": "We use cutting-edge radio tech operating in unlicensed spectrum to rapidly build fiber-quality networks (1Gbps ) in the urban developing world.",
+   "industry_tags": [
+    "Latin America",
+    "Telecommunications"
+   ],
+   "country": "CO",
+   "batch": "W21"
+  },
+  "mentor": {
+   "title": "Former Head of Infrastructure at EBANX",
+   "bio": "With over a decade of experience scaling cross-border payment architectures, I specialize in navigating the complexities of regional regulatory landscapes and technical payment orchestration. I help B2B fintech founders optimize their provider integrations to reduce churn and maximize transaction success rates.",
+   "skills": [
+    "API Strategy",
+    "Payment Orchestration",
+    "Regulatory Compliance",
+    "Technical Due Diligence",
+    "Scalability"
+   ],
+   "industry_tags": [
+    "Fintech",
+    "Infrastructure",
+    "Payments",
+    "Cloud Architecture"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 62,
+   "rubric": 50,
+   "similarity_pct": 79,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 3,
+    "market_fit": 4
+   },
+   "reasoning": "The mentor has deep experience in infrastructure and regional scaling in Latin America, which provides a strong foundation for the startup's operational needs. However, there is a significant gap between the mentor's fintech-specific payment orchestration expertise and the startup's core business of telecommunications hardware and radio technology. While the regional and infrastructure experience is valuable, the mentor lacks the specific technical domain knowledge required for building fiber-quality radio networks."
+  }
+ },
+ {
+  "startup_name": "Konta.com",
+  "mentor_name": "Sophie Laurent",
+  "startup": {
+   "description": "Turbotax for México and LATAM",
+   "long_description": "Konta.com is a tax filing and accounting platform for small businesses in México.",
+   "industry_tags": [
+    "Artificial Intelligence",
+    "Fintech",
+    "SaaS"
+   ],
+   "country": "MX",
+   "batch": "S21"
+  },
+  "mentor": {
+   "title": "Former VP of Growth at Spendesk",
+   "bio": "With over a decade of experience scaling B2B SaaS revenue engines, I specialize in bridging the gap between financial forecasting and operational execution. I help early-stage founders build robust go-to-market frameworks that ensure their revenue plans are both ambitious and actionable.",
+   "skills": [
+    "Revenue Modeling",
+    "Sales Pipeline Architecture",
+    "Unit Economics",
+    "Go-To-Market Strategy",
+    "SaaS Metrics"
+   ],
+   "industry_tags": [
+    "SaaS",
+    "B2B Growth",
+    "Revenue Operations",
+    "Go-To-Market Strategy"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 66,
+   "rubric": 67,
+   "similarity_pct": 65,
+   "grades": {
+    "domain_fit": 4,
+    "need_fit": 5,
+    "market_fit": 2
+   },
+   "reasoning": "Sophie Laurent brings deep expertise in B2B SaaS growth and revenue operations, which is highly relevant for a tax-tech platform like Konta.com. While she lacks specific experience in the Mexican tax regulatory environment, her ability to scale B2B revenue engines is a strong match for a startup looking to capture the LATAM market. The primary gap is the lack of regional tax-specific knowledge, which the founder will need to source elsewhere."
+  }
+ },
+ {
+  "startup_name": "Fuell",
+  "mentor_name": "Beatriz Soler",
+  "startup": {
+   "description": "All-in-one expense management automation solution",
+   "long_description": "Fuell is an expense management software that helps European companies manage card payments and reimbursements. We automatize expense management so that the employees, bookkeepers, and CFOs can save money and time. We're live in Spain and Portugal. We are working toward a future we call “pay and leave.” Where the employee just has to pay and the receipt is directly sent from the merchant to Fuell, without the employee having to do anything.\r\n",
+   "industry_tags": [
+    "Fintech"
+   ],
+   "country": "ES",
+   "batch": "W22"
+  },
+  "mentor": {
+   "title": "Former VP of Operations at Stripe EMEA",
+   "bio": "With over a decade of experience scaling payment infrastructure and operational workflows, I help fintech founders navigate the complexities of cross-border financial compliance and automated scaling. I focus on building resilient internal systems that turn back-office friction into a competitive advantage for rapid-growth startups.",
+   "skills": [
+    "Financial Compliance",
+    "Go-to-Market Strategy",
+    "Operational Efficiency",
+    "B2B SaaS Growth"
+   ],
+   "industry_tags": [
+    "Fintech",
+    "SaaS",
+    "Operational Scaling",
+    "B2B Payments"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 88,
+   "rubric": 83,
+   "similarity_pct": 95,
+   "grades": {
+    "domain_fit": 5,
+    "need_fit": 5,
+    "market_fit": 3
+   },
+   "reasoning": "Beatriz Soler's background as VP of Operations at Stripe EMEA provides an exceptional match for Fuell's operational and payment infrastructure challenges. While she has deep expertise in scaling fintech, the primary gap is that her experience is global/EMEA-wide rather than specifically focused on the nuances of the Spanish and Portuguese local markets. However, her ability to navigate cross-border compliance and B2B SaaS growth is highly relevant to Fuell's current stage."
+  }
+ },
+ {
+  "startup_name": "Elto",
+  "mentor_name": "Marcus Sterling",
+  "startup": {
+   "description": "AI-Powered Parallel Dialer",
+   "long_description": "Elto (elto.ai) is an AI-powered dialer that helps sales reps 10x cold-call volume by calling multiple prospects concurrently, detecting human pickups, and dropping users into the calls immediately. Customers who use Elto save hours of listening to dial tones and voicemails, and spend more time speaking to engaged prospects.",
+   "industry_tags": [
+    "Artificial Intelligence",
+    "SaaS",
+    "B2B",
+    "Sales",
+    "Sales Enablement"
+   ],
+   "country": "US",
+   "batch": "S21"
+  },
+  "mentor": {
+   "title": "Former VP of Revenue Operations at Salesforce",
+   "bio": "With over 15 years of experience scaling revenue organizations, I specialize in unifying cross-functional data siloes to drive predictable growth. I help early-stage B2B founders implement streamlined operational frameworks that bridge the gap between sales and post-sales teams.",
+   "skills": [
+    "Revenue Operations Architecture",
+    "Churn Reduction Strategies",
+    "Customer Lifecycle Management",
+    "Cross-functional Process Optimization"
+   ],
+   "industry_tags": [
+    "Revenue Operations",
+    "GTM Strategy",
+    "Enterprise SaaS",
+    "Data Analytics"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 90,
+   "rubric": 92,
+   "similarity_pct": 86,
+   "grades": {
+    "domain_fit": 4,
+    "need_fit": 5,
+    "market_fit": 5
+   },
+   "reasoning": "Marcus Sterling brings deep expertise in Revenue Operations and GTM strategy, which is highly relevant for a sales-enablement tool like Elto. While he is an expert in the sales ecosystem, his background is more focused on operational frameworks rather than the technical nuances of AI-driven cold-calling automation. The pairing is strong because he understands the exact pain points of the sales leaders who are Elto's primary customers."
+  }
+ },
+ {
+  "startup_name": "Reverie Labs",
+  "mentor_name": "Dr. Silas Thorne-Vance",
+  "startup": {
+   "description": " Engineering next-generation, brain-penetrant cancer therapies.",
+   "long_description": "Reverie Labs is engineering next-generation, brain-penetrant cancer therapies.\r\n",
+   "industry_tags": [
+    "AI-powered Drug Discovery",
+    "Machine Learning",
+    "Biotech"
+   ],
+   "country": "US",
+   "batch": "W18"
+  },
+  "mentor": {
+   "title": "Head of Translational Oncology & Precision Medicine",
+   "bio": "With over two decades of experience bridging computational genomics and clinical trial design, I specialize in navigating the regulatory pathways for novel oncology therapeutics. I offer startups strategic guidance on translating preclinical AI-driven insights into actionable, human-centric clinical development programs.",
+   "skills": [
+    "Clinical Trial Design",
+    "FDA Regulatory Strategy",
+    "Biomarker Development",
+    "Pharmacokinetics",
+    "Oncology Drug Pipeline"
+   ],
+   "industry_tags": [
+    "Oncology",
+    "Clinical Trials",
+    "Precision Medicine",
+    "Regulatory Strategy",
+    "Translational Science"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 94,
+   "rubric": 92,
+   "similarity_pct": 96,
+   "grades": {
+    "domain_fit": 4,
+    "need_fit": 5,
+    "market_fit": 5
+   },
+   "reasoning": "The mentor possesses deep expertise in translational oncology and regulatory strategy, which is critical for a biotech startup moving from AI-driven discovery to clinical trials. While the mentor is not an AI specialist, their ability to bridge computational insights with clinical development is a perfect match for Reverie Labs' current trajectory. The primary gap is the lack of direct AI-specific technical mentorship, but the clinical and regulatory guidance is far more valuable at this stage."
+  }
+ },
+ {
+  "startup_name": "Mindee",
+  "mentor_name": "Soren Lindholm",
+  "startup": {
+   "description": "AI Document Understanding API",
+   "long_description": "Documents are everywhere. Through all industries, understanding their content is a critical step of many processes that software builders throughout the globe want to automate.\r\n\r\nWe focus on the science, the AI, the deep learning to give these builders the one API they need to automate the understanding of documents and give their software human-like superpowers.\r\n\r\nBased on three pillars:\r\n- A product: a universal self-service platform where builders can train their own models\r\n- A catalog of use-cases: We push critical use cases to the limits of human performances in critical markets such as Accounting software, AP Automation, Expense Management, KYC and many others\r\n- A internal capability to make tailor-made AI: We answer to specific needs from large customers that needs a custom AI of their own to handle their use cases",
+   "industry_tags": [
+    "Artificial Intelligence",
+    "Deep Learning",
+    "Developer Tools",
+    "Automation",
+    "APIs"
+   ],
+   "country": "US",
+   "batch": "W21"
+  },
+  "mentor": {
+   "title": "Former Head of Product at CloudScale Data",
+   "bio": "With a background in scaling enterprise-grade SaaS infrastructure, I specialize in helping developer-centric startups navigate the transition from product-market fit to high-volume commercial expansion. I offer strategic guidance on API monetization, developer experience optimization, and navigating the complexities of B2B sales cycles.",
+   "skills": [
+    "API Monetization",
+    "Developer Experience (DX)",
+    "Go-to-Market Strategy",
+    "Enterprise Sales",
+    "Product Roadmap Scaling"
+   ],
+   "industry_tags": [
+    "SaaS",
+    "Cloud Infrastructure",
+    "Product Strategy",
+    "Developer Relations",
+    "Enterprise Software"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 87,
+   "rubric": 83,
+   "similarity_pct": 93,
+   "grades": {
+    "domain_fit": 4,
+    "need_fit": 5,
+    "market_fit": 4
+   },
+   "reasoning": "The mentor's expertise in scaling developer-centric SaaS and API monetization aligns perfectly with Mindee's business model as a developer tool. While the mentor has deep experience in enterprise SaaS, they may lack specific technical depth in the nuances of deep learning and document AI models. However, the strategic overlap regarding API-first growth and B2B sales cycles is exceptionally strong."
+  }
+ },
+ {
+  "startup_name": "Dashworks",
+  "mentor_name": "Sarah Jenkins",
+  "startup": {
+   "description": "Your team's intelligent start page.",
+   "long_description": "Dashworks is where work begins. Where all your documents, messages, tickets, and other knowledge scattered across your company's apps and people come together seamlessly. And where you and your team can get on the same page, and get things done.",
+   "industry_tags": [
+    "Artificial Intelligence",
+    "SaaS"
+   ],
+   "country": "US",
+   "batch": "W20"
+  },
+  "mentor": {
+   "title": "Former Head of Product at Slack and Enterprise SaaS Advisor",
+   "bio": "With over a decade of experience scaling enterprise productivity tools, I specialize in helping startups refine their core value propositions and user onboarding flows. I offer actionable insights on product-led growth strategies to help Dashworks become an indispensable part of the modern digital workspace.",
+   "skills": [
+    "Product Roadmap Strategy",
+    "Customer Acquisition",
+    "Enterprise Onboarding",
+    "SaaS Pricing Models"
+   ],
+   "industry_tags": [
+    "Product-Led Growth",
+    "Enterprise SaaS",
+    "Productivity Software",
+    "User Experience"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 100,
+   "rubric": 100,
+   "similarity_pct": 100,
+   "grades": {
+    "domain_fit": 5,
+    "need_fit": 5,
+    "market_fit": 5
+   },
+   "reasoning": "The mentor's background as Head of Product at Slack is a near-perfect match for Dashworks, as both operate in the enterprise productivity and knowledge management space. Her expertise in product-led growth and enterprise onboarding directly addresses the core challenges of a startup aiming to become a central hub for team workflows. The only minor gap is that while she understands the product space, she may need to provide specific guidance on the AI-integration aspect of Dashworks' search and aggregation technology."
+  }
+ },
+ {
+  "startup_name": "Cambly",
+  "mentor_name": "Marcus Holloway",
+  "startup": {
+   "description": "On-demand access to English tutors over video chat.",
+   "long_description": "The Cambly app gives English learners instant 1-on-1 access to friendly native speakers over video chat 24/7. Students get an affordable and convenient way to practice their English and gain confidence. Tutors get to make money helping people from around the world practice English.",
+   "industry_tags": [
+    "Education"
+   ],
+   "country": "US",
+   "batch": "W14"
+  },
+  "mentor": {
+   "title": "Former VP of Operations at DraftKings",
+   "bio": "With over a decade of experience scaling high-growth real-money gaming platforms, I specialize in navigating complex regulatory landscapes and optimizing user acquisition funnels. I offer startups strategic guidance on balancing aggressive growth with robust compliance and risk management frameworks.",
+   "skills": [
+    "Regulatory Compliance",
+    "Growth Hacking",
+    "Risk Management",
+    "Monetization Strategy",
+    "Platform Scaling"
+   ],
+   "industry_tags": [
+    "iGaming",
+    "FinTech",
+    "Sports Betting",
+    "User Acquisition"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 35,
+   "rubric": 33,
+   "similarity_pct": 39,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 3,
+    "market_fit": 2
+   },
+   "reasoning": "The mentor brings strong expertise in scaling high-growth platforms and user acquisition, which is relevant for Cambly's growth stage. However, there is a significant domain mismatch as the mentor's background in iGaming and sports betting does not translate directly to the EdTech sector or the specific challenges of language learning marketplaces. The mentor can provide general growth strategies, but lacks the specific pedagogical or language-learning market context."
+  }
+ },
+ {
+  "startup_name": "Posh",
+  "mentor_name": "Weiyuan Liu",
+  "startup": {
+   "description": "Making sustainable batteries",
+   "long_description": "We design, develop and manufacture sustainable battery solutions.",
+   "industry_tags": [
+    "Energy Storage",
+    "Robotics",
+    "Climate",
+    "ClimateTech"
+   ],
+   "country": "US",
+   "batch": "W22"
+  },
+  "mentor": {
+   "title": "Health AI Researcher & Investor",
+   "bio": "AI researcher turned investor with a background in predictive diagnostics, clinical machine learning models, and health data infrastructure at scale.",
+   "skills": [
+    "ML Diagnostics",
+    "Clinical Data",
+    "Predictive Analytics",
+    "Health Infrastructure"
+   ],
+   "industry_tags": [
+    "Health AI",
+    "MedTech",
+    "Deep Learning"
+   ],
+   "availability_hours": 5
+  },
+  "ai": {
+   "synergy": 18,
+   "rubric": 8,
+   "similarity_pct": 31,
+   "grades": {
+    "domain_fit": 1,
+    "need_fit": 2,
+    "market_fit": 1
+   },
+   "reasoning": "The mentor's expertise is heavily concentrated in Health AI and clinical diagnostics, which has very little overlap with the hardware-intensive field of sustainable battery manufacturing. While the mentor has experience with deep learning and investment, these skills are not directly applicable to the specific engineering and supply chain challenges faced by a battery startup. There is a significant domain mismatch between the mentor's background and the startup's core technology."
+  }
+ },
+ {
+  "startup_name": "GoGoGrandparent",
+  "mentor_name": "Dr. Evelyn Vance-Wright",
+  "startup": {
+   "description": "GoGoGrandparent is an automated concierge for seniors and their…",
+   "long_description": "GoGoGrandparent is a virtual retirement community that offers rides, meals, medication and groceries for older adults living at home. All services are accessible via regular phone call (no special technology required) and all service providers are vetted & screened. All requests are monitored for greater than 99% reliability, many of our clients rely on us to live years longer in their home. ",
+   "industry_tags": [
+    "Assistive Tech",
+    "Consumer Health Services"
+   ],
+   "country": "US",
+   "batch": "S16"
+  },
+  "mentor": {
+   "title": "Former Chief Data Officer at Blue Cross Blue Shield",
+   "bio": "With over two decades of experience navigating the complexities of health insurance data interoperability and regulatory compliance, I specialize in helping infrastructure startups scale their enterprise integrations. I provide strategic guidance on navigating the payer landscape and optimizing data architecture to meet rigorous industry standards.",
+   "skills": [
+    "Payer Relations",
+    "Enterprise API Strategy",
+    "Regulatory Compliance (HIPAA)",
+    "Data Governance",
+    "B2B Sales Cycles"
+   ],
+   "industry_tags": [
+    "Health Insurance",
+    "Data Infrastructure",
+    "Enterprise SaaS",
+    "Interoperability",
+    "Healthcare Policy"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 81,
+   "rubric": 83,
+   "similarity_pct": 79,
+   "grades": {
+    "domain_fit": 4,
+    "need_fit": 4,
+    "market_fit": 5
+   },
+   "reasoning": "The mentor brings deep expertise in health insurance and data infrastructure, which is highly relevant for GoGoGrandparent as they look to integrate with payer systems or scale their service delivery. However, the startup is primarily a consumer-facing concierge service rather than a pure-play health-tech infrastructure company, creating a slight misalignment in business model focus. The mentor's background in regulatory compliance and payer relations is a strong asset for navigating the complexities of the US healthcare market."
+  }
+ },
+ {
+  "startup_name": "Ridecell",
+  "mentor_name": "Marcus Thorne-Vance",
+  "startup": {
+   "description": "Fleet Transformation Cloud-Automate to Maximize 🌎 usage &…",
+   "long_description": "Ridecell is leading the way in the digital transformation of fleet businesses and operations. Our Fleet Automation and Mobility solutions modernize and monetize fleets by combining data insights with digital vehicle control to turn today’s manual processes into automated workflows. The result is unmatched levels of efficiency and control for leasing, rental,  government, commercial and shared fleets.\r\n\r\nToday Ridecell powers some of the most successful fleet businesses and the leading government fleets in cities across Europe and North America. Our customers and partners include:\r\nPenske  - the largest truck fleet in America with 400,000 trucks\r\nMobility fleets for Toyota, Ford, Daimler, BMW - - the largest OEMs in the world and\r\nBNP Paribas, Arval: 1,500,000 vehicles, the 2nd largest fleet in Europe\r\nAnd  the largest government fleets in the world including San Francisco, New York City, the Belgian Government \r\n\r\nOur platform makes these businesses more intelligent, accessible, efficient and safer by connecting and automating the core technology pillars including vehicle technology like telematics, camera and ADAS system, and enterprise platforms including CRM, commerce and finance systems. \r\n\r\n\r\n\r\n\r\nRidecell is headquartered in San Francisco, California with offices in Madrid, Paris, Berlin and Pune, India.",
+   "industry_tags": [
+    "SaaS",
+    "IoT",
+    "B2B",
+    "Enterprise",
+    "AI"
+   ],
+   "country": "US",
+   "batch": "W12"
+  },
+  "mentor": {
+   "title": "Former COO of CloudKitchens and Operations Strategist",
+   "bio": "With over a decade of experience scaling ghost kitchen operations and last-mile delivery logistics, I specialize in optimizing unit economics for tech-heavy food service ventures. I offer deep insights into supply chain automation and fleet management to help founders bridge the gap between prototype and profitable scale.",
+   "skills": [
+    "Unit Economics Modeling",
+    "Automated Fulfillment",
+    "Go-to-Market Strategy",
+    "Operational Scalability"
+   ],
+   "industry_tags": [
+    "Logistics & Supply Chain",
+    "Food Tech",
+    "Operations Management",
+    "Last-Mile Delivery"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 72,
+   "rubric": 58,
+   "similarity_pct": 93,
+   "grades": {
+    "domain_fit": 3,
+    "need_fit": 4,
+    "market_fit": 3
+   },
+   "reasoning": "The mentor brings strong operational expertise in last-mile logistics and supply chain automation, which aligns well with Ridecell's focus on fleet management and digital workflows. While the mentor's background is heavily rooted in food tech rather than enterprise SaaS or automotive OEMs, the operational challenges of scaling complex logistics networks are highly transferable. The primary gap is the mentor's lack of direct experience with enterprise-grade B2B SaaS sales cycles and automotive industry partnerships."
+  }
+ },
+ {
+  "startup_name": "Genecis Bio",
+  "mentor_name": "Faiz Hassan",
+  "startup": {
+   "description": "Makes guilt-free plastics from food waste",
+   "long_description": null,
+   "industry_tags": [
+    "Bioplastic",
+    "Synthetic Biology",
+    "Climate",
+    "ClimateTech"
+   ],
+   "country": "CA",
+   "batch": "W20"
+  },
+  "mentor": {
+   "title": "B2B SaaS Growth Lead",
+   "bio": "Ecosystem builder with expertise in B2B SaaS scaling, developer tool ecosystems, and cloud infrastructure for Southeast Asian markets.",
+   "skills": [
+    "Growth Strategy",
+    "Cloud Infrastructure",
+    "Developer Ecosystems",
+    "Market Expansion"
+   ],
+   "industry_tags": [
+    "B2B",
+    "SaaS",
+    "Developer Tools"
+   ],
+   "availability_hours": 10
+  },
+  "ai": {
+   "synergy": 21,
+   "rubric": 8,
+   "similarity_pct": 41,
+   "grades": {
+    "domain_fit": 1,
+    "need_fit": 2,
+    "market_fit": 1
+   },
+   "reasoning": "The mentor's expertise in B2B SaaS and developer ecosystems is largely disconnected from the hardware-heavy, synthetic biology nature of Genecis Bio. While growth strategy is universally applicable, the mentor lacks the specific domain knowledge in bioplastics or industrial manufacturing required to provide high-impact guidance. There is a significant gap between the mentor's software-focused background and the startup's physical product development needs."
+  }
+ },
+ {
+  "startup_name": "GrowthBook",
+  "mentor_name": "Marcus Holloway",
+  "startup": {
+   "description": "Open source feature flagging and A/B testing",
+   "long_description": "GrowthBook is an open source platform to help companies make data-driven product decisions with feature flags and A/B tests.  \r\n\r\nExisting SaaS solutions like LaunchDarkly require a company to send all of their data to them. This results in high costs, data compliance issues, and vendor lock-in.  As a result, many companies end up building their own platforms in-house, which can take thousands of hours of work and lots of headaches.  To solve this, GrowthBook uses a company's existing data infrastructure and business metrics.\r\n\r\nWe believe feature flags and experimentation are the right way to build products at scale and that they will become a standard part of the development process.  GrowthBook is well positioned to be a leader in this growing market.",
+   "industry_tags": [
+    "Developer Tools",
+    "B2B",
+    "Analytics",
+    "Open Source"
+   ],
+   "country": "US",
+   "batch": "W22"
+  },
+  "mentor": {
+   "title": "Former VP of Operations at DraftKings",
+   "bio": "With over a decade of experience scaling high-growth real-money gaming platforms, I specialize in navigating complex regulatory landscapes and optimizing user acquisition funnels. I offer startups strategic guidance on balancing aggressive growth with robust compliance and risk management frameworks.",
+   "skills": [
+    "Regulatory Compliance",
+    "Growth Hacking",
+    "Risk Management",
+    "Monetization Strategy",
+    "Platform Scaling"
+   ],
+   "industry_tags": [
+    "iGaming",
+    "FinTech",
+    "Sports Betting",
+    "User Acquisition"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 56,
+   "rubric": 33,
+   "similarity_pct": 91,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 3,
+    "market_fit": 2
+   },
+   "reasoning": "The mentor's background in high-scale gaming platforms provides relevant experience in managing complex data infrastructure and user acquisition funnels, which aligns with GrowthBook's B2B analytics focus. However, there is a significant gap in open-source business model expertise and developer tool product strategy, as the mentor's experience is heavily weighted toward regulated consumer-facing platforms. While the mentor can help with scaling operations, they lack direct experience in the specific challenges of the open-source developer tools market."
+  }
+ },
+ {
+  "startup_name": "Noya Software",
+  "mentor_name": "Dr. L. Wong",
+  "startup": {
+   "description": "Product design tool that lets everyone design like a designer",
+   "long_description": "Noya is a new kind of product design tool for non-designers. This is our second time co-founding a design tools company – our first company was acquired by Airbnb in 2017 and we became the design tools team there.\r\n\r\nAt Airbnb, we built the design infrastructure that the entire company relied on to scale design without increasing headcount costs. We did this by letting non-designers (such as marketing, PMs, and engineering) design screens and websites.  Now we're making these tools available to every company.",
+   "industry_tags": [
+    "Developer Tools",
+    "SaaS",
+    "B2B",
+    "Design Tools",
+    "Open Source"
+   ],
+   "country": "US",
+   "batch": "W23"
+  },
+  "mentor": {
+   "title": "Blockchain & DeFi Architect",
+   "bio": "Former academic turned blockchain architect. Advised on DeFi protocol design for 5 fintech startups with combined TVL of $200M.",
+   "skills": [
+    "DeFi",
+    "Smart Contracts",
+    "Web3 Security",
+    "Blockchain"
+   ],
+   "industry_tags": [
+    "DeFi",
+    "Smart Contracts",
+    "Web3 Security"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 26,
+   "rubric": 0,
+   "similarity_pct": 66,
+   "grades": {
+    "domain_fit": 1,
+    "need_fit": 1,
+    "market_fit": 1
+   },
+   "reasoning": "The mentor's expertise in DeFi and smart contracts is entirely disconnected from Noya's focus on product design tools and B2B SaaS infrastructure. While the mentor has experience in startup advisory, there is no overlap in technical domain, customer base, or product challenges. This pairing lacks the necessary industry alignment to provide meaningful guidance for a design-focused software company."
+  }
+ },
+ {
+  "startup_name": "Somos",
+  "mentor_name": "Sarah Jenkins-Wu",
+  "startup": {
+   "description": "Internet for the urban developing world.",
+   "long_description": "We use cutting-edge radio tech operating in unlicensed spectrum to rapidly build fiber-quality networks (1Gbps ) in the urban developing world.",
+   "industry_tags": [
+    "Latin America",
+    "Telecommunications"
+   ],
+   "country": "CO",
+   "batch": "W21"
+  },
+  "mentor": {
+   "title": "Former VP of Growth at Duolingo",
+   "bio": "With over a decade of experience scaling global language-learning platforms, I specialize in user acquisition and retention strategies for marketplace models. I help startups navigate the complexities of international expansion and product-led growth to achieve sustainable engagement.",
+   "skills": [
+    "Growth Hacking",
+    "International Expansion",
+    "User Retention Metrics",
+    "Marketplace Liquidity"
+   ],
+   "industry_tags": [
+    "EdTech",
+    "Marketplaces",
+    "Consumer Apps"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 51,
+   "rubric": 33,
+   "similarity_pct": 77,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 3,
+    "market_fit": 2
+   },
+   "reasoning": "The mentor has deep expertise in consumer growth and international expansion, which is valuable for a B2C-facing infrastructure play, but she lacks specific experience in telecommunications hardware or unlicensed spectrum technology. While her growth strategies are applicable, the startup's primary challenges likely involve regulatory hurdles, infrastructure deployment, and B2B/B2G partnerships rather than consumer app retention. The fit is moderate because the mentor's growth playbook is useful but not perfectly aligned with the technical and operational realities of building physical networks in Latin America."
+  }
+ },
+ {
+  "startup_name": "Belvo",
+  "mentor_name": "Marcus Thorne",
+  "startup": {
+   "description": "Open Finance API platform for Latam.",
+   "long_description": "We are Belvo, a financial API platform for Latam that enables any company or developer to access and interpret their end-users' financial information, through one easy-to-use API. Think Plaid for Latam.\r\n\r\nOur vision is to power the next generation of financial services in Latam by enabling more inclusive, efficient and empowering offerings through tech and data. Latam is a very exciting and dynamic place to be right now and a great place to build infrastructure for the next generation of financial products for a huge market.",
+   "industry_tags": [
+    "Fintech",
+    "SaaS"
+   ],
+   "country": "BR",
+   "batch": "W20"
+  },
+  "mentor": {
+   "title": "Former Head of Data Governance at Salesforce",
+   "bio": "With over two decades of experience scaling enterprise data infrastructure and compliance frameworks, I specialize in helping startups navigate the complexities of data integrity and regulatory reporting. I offer founders strategic guidance on building trust-based software architectures that meet rigorous institutional audit standards.",
+   "skills": [
+    "Enterprise Sales Strategy",
+    "Data Governance Frameworks",
+    "Regulatory Compliance",
+    "Product-Market Fit",
+    "Scalable Architecture"
+   ],
+   "industry_tags": [
+    "SaaS",
+    "Data Governance",
+    "Enterprise Software",
+    "Compliance",
+    "FinTech"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 76,
+   "rubric": 67,
+   "similarity_pct": 89,
+   "grades": {
+    "domain_fit": 4,
+    "need_fit": 5,
+    "market_fit": 2
+   },
+   "reasoning": "The mentor brings deep expertise in data governance and compliance, which are critical pillars for an Open Finance API platform like Belvo. While the mentor lacks specific Latam regional experience, their background in enterprise-grade data infrastructure is highly relevant for scaling a fintech API. The pairing is strong on technical and regulatory needs but misses the regional market context."
+  }
+ },
+ {
+  "startup_name": "Corvus Robotics",
+  "mentor_name": "Ehtisham Raza",
+  "startup": {
+   "description": "Autonomous drones to help warehouses scan inventory.",
+   "long_description": "Our software allows drones to fly indoors and collect analytics, helping warehouses automate inventory collection.",
+   "industry_tags": [
+    "Warehouse Management Tech",
+    "Robotics",
+    "Drones"
+   ],
+   "country": "US",
+   "batch": "S18"
+  },
+  "mentor": {
+   "title": "AI Security Architect & Serial Founder",
+   "bio": "15 years building AI-powered fraud detection systems and cybersecurity infrastructure for fintech companies across Southeast Asia. Has scaled 3 startups to Series B.",
+   "skills": [
+    "Fraud Detection",
+    "AI Architecture",
+    "Security Protocols",
+    "Enterprise SaaS"
+   ],
+   "industry_tags": [
+    "AI Security",
+    "Fintech",
+    "B2B"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 49,
+   "rubric": 25,
+   "similarity_pct": 85,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 3,
+    "market_fit": 1
+   },
+   "reasoning": "The mentor has strong expertise in AI architecture and scaling B2B SaaS, which is highly relevant for the software component of Corvus Robotics. However, there is a significant gap in domain expertise as the mentor's background is strictly in fintech and cybersecurity rather than physical robotics or warehouse logistics. While the mentor can assist with scaling and AI infrastructure, they lack the specific operational knowledge required for hardware-integrated autonomous systems."
+  }
+ },
+ {
+  "startup_name": "Edoome",
+  "mentor_name": "Faiz Hassan",
+  "startup": {
+   "description": "Edoome is a social learning platform focused on teachers and students…",
+   "long_description": "Edoome turns the classroom into an online community, so teachers, students and parents can communicate and collaborate in an easy and secure way.\r\n\r\nEdoome is a free service where teachers, students and parents can create or join a course to start collaborating, posting assignments, generating online quizzes and sharing files.",
+   "industry_tags": [],
+   "country": "US",
+   "batch": "IK12"
+  },
+  "mentor": {
+   "title": "B2B SaaS Growth Lead",
+   "bio": "Ecosystem builder with expertise in B2B SaaS scaling, developer tool ecosystems, and cloud infrastructure for Southeast Asian markets.",
+   "skills": [
+    "Growth Strategy",
+    "Cloud Infrastructure",
+    "Developer Ecosystems",
+    "Market Expansion"
+   ],
+   "industry_tags": [
+    "B2B",
+    "SaaS",
+    "Developer Tools"
+   ],
+   "availability_hours": 10
+  },
+  "ai": {
+   "synergy": 15,
+   "rubric": 17,
+   "similarity_pct": 12,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 2,
+    "market_fit": 1
+   },
+   "reasoning": "The mentor's expertise in B2B SaaS growth and developer ecosystems is largely misaligned with Edoome's B2C/B2B2C social learning platform model. While growth strategy is generally useful, the mentor lacks specific experience in the EdTech sector or the US K-12 market, creating a significant gap in domain and market relevance."
+  }
+ },
+ {
+  "startup_name": "Filadd",
+  "mentor_name": "Sarah Jenkins-Wu",
+  "startup": {
+   "description": "We help students in Latin America graduate from College.",
+   "long_description": "With online courses, we help students graduate from University, starting from the admissions and throughout their entire college education until they graduate. All our courses include 24/7 interaction with our Tutors and Teachers making 95% of our users reach their desire score. We have prepared more than 10,000 students and in 2021 we have already made 800K which means 6X Year-over-Year growth.",
+   "industry_tags": [
+    "Education",
+    "eLearning",
+    "Community"
+   ],
+   "country": "CL",
+   "batch": "S21"
+  },
+  "mentor": {
+   "title": "Former VP of Growth at Duolingo",
+   "bio": "With over a decade of experience scaling global language-learning platforms, I specialize in user acquisition and retention strategies for marketplace models. I help startups navigate the complexities of international expansion and product-led growth to achieve sustainable engagement.",
+   "skills": [
+    "Growth Hacking",
+    "International Expansion",
+    "User Retention Metrics",
+    "Marketplace Liquidity"
+   ],
+   "industry_tags": [
+    "EdTech",
+    "Marketplaces",
+    "Consumer Apps"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 89,
+   "rubric": 83,
+   "similarity_pct": 97,
+   "grades": {
+    "domain_fit": 5,
+    "need_fit": 5,
+    "market_fit": 3
+   },
+   "reasoning": "The mentor's background as VP of Growth at Duolingo provides a near-perfect match for Filadd's EdTech business model and growth stage. While the mentor lacks specific experience in the Latin American market, her expertise in scaling global consumer learning apps is highly transferable to Filadd's current trajectory. The pairing is exceptionally strong due to the alignment in product-led growth strategies for education platforms."
+  }
+ },
+ {
+  "startup_name": "GoGoGrandparent",
+  "mentor_name": "Marcus Thorne-Smith",
+  "startup": {
+   "description": "GoGoGrandparent is an automated concierge for seniors and their…",
+   "long_description": "GoGoGrandparent is a virtual retirement community that offers rides, meals, medication and groceries for older adults living at home. All services are accessible via regular phone call (no special technology required) and all service providers are vetted & screened. All requests are monitored for greater than 99% reliability, many of our clients rely on us to live years longer in their home. ",
+   "industry_tags": [
+    "Assistive Tech",
+    "Consumer Health Services"
+   ],
+   "country": "US",
+   "batch": "S16"
+  },
+  "mentor": {
+   "title": "Former VP of Logistics Engineering at FedEx Express",
+   "bio": "With over twenty years of experience optimizing complex supply chain networks, I specialize in scaling novel freight technologies from pilot programs to global operations. I offer founders strategic guidance on navigating regulatory hurdles and integrating autonomous systems into existing logistics infrastructure.",
+   "skills": [
+    "Network Optimization",
+    "Regulatory Compliance",
+    "Operations Scaling",
+    "Freight Economics",
+    "Strategic Partnerships"
+   ],
+   "industry_tags": [
+    "Logistics",
+    "Supply Chain Management",
+    "Autonomous Systems",
+    "Aviation Operations"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 57,
+   "rubric": 50,
+   "similarity_pct": 68,
+   "grades": {
+    "domain_fit": 3,
+    "need_fit": 4,
+    "market_fit": 2
+   },
+   "reasoning": "The mentor brings world-class expertise in logistics and supply chain optimization, which is highly relevant to GoGoGrandparent's operational model of coordinating rides, meals, and groceries. While the mentor lacks direct experience in the assistive tech or senior care sector, the core challenge of scaling a reliable, multi-service logistics network is a strong match for his background. The primary gap is the mentor's lack of experience with the specific regulatory and social nuances of the aging-in-place market."
+  }
+ },
+ {
+  "startup_name": "Corvus Robotics",
+  "mentor_name": "Dr. L. Wong",
+  "startup": {
+   "description": "Autonomous drones to help warehouses scan inventory.",
+   "long_description": "Our software allows drones to fly indoors and collect analytics, helping warehouses automate inventory collection.",
+   "industry_tags": [
+    "Warehouse Management Tech",
+    "Robotics",
+    "Drones"
+   ],
+   "country": "US",
+   "batch": "S18"
+  },
+  "mentor": {
+   "title": "Blockchain & DeFi Architect",
+   "bio": "Former academic turned blockchain architect. Advised on DeFi protocol design for 5 fintech startups with combined TVL of $200M.",
+   "skills": [
+    "DeFi",
+    "Smart Contracts",
+    "Web3 Security",
+    "Blockchain"
+   ],
+   "industry_tags": [
+    "DeFi",
+    "Smart Contracts",
+    "Web3 Security"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 27,
+   "rubric": 0,
+   "similarity_pct": 66,
+   "grades": {
+    "domain_fit": 1,
+    "need_fit": 1,
+    "market_fit": 1
+   },
+   "reasoning": "There is a significant mismatch between the startup's focus on physical robotics and warehouse automation and the mentor's expertise in blockchain and DeFi. The mentor lacks the hardware, logistics, or industrial automation experience required to provide meaningful technical or operational guidance to Corvus Robotics. While the mentor has startup experience, their specific skill set does not align with the core challenges of autonomous drone deployment."
+  }
+ },
+ {
+  "startup_name": "Cambly",
+  "mentor_name": "Sarah Jenkins-Vance",
+  "startup": {
+   "description": "On-demand access to English tutors over video chat.",
+   "long_description": "The Cambly app gives English learners instant 1-on-1 access to friendly native speakers over video chat 24/7. Students get an affordable and convenient way to practice their English and gain confidence. Tutors get to make money helping people from around the world practice English.",
+   "industry_tags": [
+    "Education"
+   ],
+   "country": "US",
+   "batch": "W14"
+  },
+  "mentor": {
+   "title": "Former VP of Product at Algolia",
+   "bio": "With a deep background in scaling search-as-a-service platforms, I specialize in optimizing technical documentation workflows and developer experience. I help early-stage B2B startups refine their product-market fit and implement robust search infrastructure.",
+   "skills": [
+    "Product Strategy",
+    "Developer Relations",
+    "Search Engine Optimization",
+    "Go-to-Market Strategy",
+    "API Design"
+   ],
+   "industry_tags": [
+    "SaaS",
+    "API Economy",
+    "Search Infrastructure",
+    "Developer Experience"
+   ],
+   "availability_hours": 8
+  },
+  "ai": {
+   "synergy": 39,
+   "rubric": 25,
+   "similarity_pct": 60,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 2,
+    "market_fit": 2
+   },
+   "reasoning": "The mentor's expertise in B2B developer experience and search infrastructure is highly specialized and does not align well with Cambly's B2C language learning marketplace model. While product strategy is universally applicable, the mentor lacks the specific experience in consumer-facing edtech or marketplace dynamics required to provide high-impact guidance for this startup."
+  }
+ },
+ {
+  "startup_name": "Belvo",
+  "mentor_name": "Faiz Hassan",
+  "startup": {
+   "description": "Open Finance API platform for Latam.",
+   "long_description": "We are Belvo, a financial API platform for Latam that enables any company or developer to access and interpret their end-users' financial information, through one easy-to-use API. Think Plaid for Latam.\r\n\r\nOur vision is to power the next generation of financial services in Latam by enabling more inclusive, efficient and empowering offerings through tech and data. Latam is a very exciting and dynamic place to be right now and a great place to build infrastructure for the next generation of financial products for a huge market.",
+   "industry_tags": [
+    "Fintech",
+    "SaaS"
+   ],
+   "country": "BR",
+   "batch": "W20"
+  },
+  "mentor": {
+   "title": "B2B SaaS Growth Lead",
+   "bio": "Ecosystem builder with expertise in B2B SaaS scaling, developer tool ecosystems, and cloud infrastructure for Southeast Asian markets.",
+   "skills": [
+    "Growth Strategy",
+    "Cloud Infrastructure",
+    "Developer Ecosystems",
+    "Market Expansion"
+   ],
+   "industry_tags": [
+    "B2B",
+    "SaaS",
+    "Developer Tools"
+   ],
+   "availability_hours": 10
+  },
+  "ai": {
+   "synergy": 70,
+   "rubric": 58,
+   "similarity_pct": 88,
+   "grades": {
+    "domain_fit": 4,
+    "need_fit": 4,
+    "market_fit": 2
+   },
+   "reasoning": "The mentor brings strong expertise in developer ecosystems and B2B SaaS scaling, which is highly relevant for an API-first company like Belvo. However, there is a significant geographic mismatch as the mentor's experience is focused on Southeast Asia, while Belvo operates in the distinct Latam market. While the functional skills are a strong match, the lack of regional context limits the mentor's ability to provide specific go-to-market guidance for Brazil and the broader Latam region."
+  }
+ },
+ {
+  "startup_name": "Konta.com",
+  "mentor_name": "Camila Rojas",
+  "startup": {
+   "description": "Turbotax for México and LATAM",
+   "long_description": "Konta.com is a tax filing and accounting platform for small businesses in México.",
+   "industry_tags": [
+    "Artificial Intelligence",
+    "Fintech",
+    "SaaS"
+   ],
+   "country": "MX",
+   "batch": "S21"
+  },
+  "mentor": {
+   "title": "Head of Growth at EdTech LatAm",
+   "bio": "With over a decade of experience scaling digital education platforms across emerging markets, I specialize in student retention strategies and community-led growth models. I offer hands-on mentorship to help founders navigate the unique friction points of the Latin American academic ecosystem.",
+   "skills": [
+    "Product-Led Growth",
+    "Community Building",
+    "Customer Acquisition Strategy",
+    "B2C SaaS Metrics"
+   ],
+   "industry_tags": [
+    "EdTech",
+    "Growth Hacking",
+    "User Retention",
+    "LatAm Markets"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 69,
+   "rubric": 58,
+   "similarity_pct": 84,
+   "grades": {
+    "domain_fit": 2,
+    "need_fit": 3,
+    "market_fit": 5
+   },
+   "reasoning": "The mentor has strong expertise in growth and scaling within the LatAm market, which is highly relevant for a regional SaaS startup. However, there is a significant domain gap as the mentor's experience is rooted in EdTech rather than the highly regulated Fintech and tax compliance sector. While her growth strategies are transferable, she lacks the specific regulatory or accounting domain knowledge required to guide a tax-filing platform."
+  }
+ },
+ {
+  "startup_name": "Mendable",
+  "mentor_name": "Faiz Hassan",
+  "startup": {
+   "description": "Allowing developers to search and chat with docs and resources. ",
+   "long_description": "We’re building a chat-powered search tool that’s embeddable in your docs, product, or community to answer developer questions and reduce their time to hello world.\r\n\r\nPreviously SideGuide.",
+   "industry_tags": [
+    "Developer Tools",
+    "B2B",
+    "Customer Support"
+   ],
+   "country": "US",
+   "batch": "S22"
+  },
+  "mentor": {
+   "title": "B2B SaaS Growth Lead",
+   "bio": "Ecosystem builder with expertise in B2B SaaS scaling, developer tool ecosystems, and cloud infrastructure for Southeast Asian markets.",
+   "skills": [
+    "Growth Strategy",
+    "Cloud Infrastructure",
+    "Developer Ecosystems",
+    "Market Expansion"
+   ],
+   "industry_tags": [
+    "B2B",
+    "SaaS",
+    "Developer Tools"
+   ],
+   "availability_hours": 10
+  },
+  "ai": {
+   "synergy": 88,
+   "rubric": 83,
+   "similarity_pct": 96,
+   "grades": {
+    "domain_fit": 5,
+    "need_fit": 5,
+    "market_fit": 3
+   },
+   "reasoning": "The mentor has deep, relevant experience in developer tools and B2B SaaS growth, which aligns perfectly with Mendable's core product and business model. While the mentor's regional focus is Southeast Asia and the startup is US-based, the functional expertise in developer ecosystems is highly transferable and directly addresses the startup's scaling needs."
+  }
+ },
+ {
+  "startup_name": "Mindee",
+  "mentor_name": "Razif Kamaruddin",
+  "startup": {
+   "description": "AI Document Understanding API",
+   "long_description": "Documents are everywhere. Through all industries, understanding their content is a critical step of many processes that software builders throughout the globe want to automate.\r\n\r\nWe focus on the science, the AI, the deep learning to give these builders the one API they need to automate the understanding of documents and give their software human-like superpowers.\r\n\r\nBased on three pillars:\r\n- A product: a universal self-service platform where builders can train their own models\r\n- A catalog of use-cases: We push critical use cases to the limits of human performances in critical markets such as Accounting software, AP Automation, Expense Management, KYC and many others\r\n- A internal capability to make tailor-made AI: We answer to specific needs from large customers that needs a custom AI of their own to handle their use cases",
+   "industry_tags": [
+    "Artificial Intelligence",
+    "Deep Learning",
+    "Developer Tools",
+    "Automation",
+    "APIs"
+   ],
+   "country": "US",
+   "batch": "W21"
+  },
+  "mentor": {
+   "title": "ML Infrastructure Lead, ex-Google Brain",
+   "bio": "CTO background in machine learning infrastructure, LLM deployment, and NLP systems at enterprise scale. Previously at Google Brain.",
+   "skills": [
+    "LLM Deployment",
+    "NLP Systems",
+    "ML Infrastructure",
+    "Deep Learning"
+   ],
+   "industry_tags": [
+    "AI/ML",
+    "NLP",
+    "Infrastructure"
+   ],
+   "availability_hours": 6
+  },
+  "ai": {
+   "synergy": 88,
+   "rubric": 83,
+   "similarity_pct": 95,
+   "grades": {
+    "domain_fit": 5,
+    "need_fit": 5,
+    "market_fit": 3
+   },
+   "reasoning": "The mentor's background in ML infrastructure and LLM deployment at Google Brain is a near-perfect technical match for a company building a document understanding API. While the mentor's experience is heavily focused on the technical architecture and scaling of AI systems, they may have less direct experience with the specific B2B developer-tool go-to-market strategy Mindee requires. Overall, the technical alignment is exceptionally strong and directly addresses the core product challenges."
+  }
+ }
+]
