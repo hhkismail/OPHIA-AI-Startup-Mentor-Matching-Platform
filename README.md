@@ -4,6 +4,8 @@
 
 AI mentor matching for startup accelerator programmes.
 
+**[▶ Live demo](https://ophia-mentor-match.streamlit.app/)**: read-only snapshot of real output; see the *Evaluation* tab for how match quality was measured.
+
 Built at **GDG KL Build With AI 2026 — MyHack** for the Cradle Fund challenge *"Automating Ecosystem Linkages Instead of Manual Coordination"*. Not affiliated with Cradle Fund.
 
 ---
