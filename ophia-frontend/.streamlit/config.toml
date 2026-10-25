@@ -1,0 +1,13 @@
+# Fixed light theme: otherwise Streamlit follows the visitor's OS dark mode.
+# Streamlit reads this from the folder it is launched in, so the same file
+# also lives in ophia-frontend/.streamlit/ (for `cd ophia-frontend && streamlit run app.py`).
+[theme]
+base = "light"
+primaryColor = "#0F766E"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F4F5F7"
+textColor = "#1F2328"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"

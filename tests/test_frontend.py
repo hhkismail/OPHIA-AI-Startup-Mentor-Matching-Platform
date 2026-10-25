@@ -11,7 +11,8 @@ APP = str(Path(__file__).resolve().parent.parent / "ophia-frontend" / "app.py")
 
 
 def page_text(at) -> str:
-    return "\n".join(str(el.value) for el in [*at.markdown, *at.caption, *at.warning, *at.error])
+    els = [*at.markdown, *at.caption, *at.warning, *at.error, *at.info, *at.success, *at.subheader]
+    return "\n".join([str(el.value) for el in els] + [f"{m.label} {m.value}" for m in at.metric])
 
 
 def start(**kw) -> AppTest:
@@ -48,7 +49,7 @@ def test_demo_approve_moves_match_to_workspaces_without_pretending():
     assert not at.exception
     assert len(at.session_state.pending_matches) == pending - 1
     assert len(at.session_state.workspaces) == workspaces + 1
-    assert "Demo mode — no email sent" in page_text(at)
+    assert "Not sent (demo: nothing is saved)" in page_text(at)
 
 
 def test_approve_with_nothing_selected_warns():
@@ -69,8 +70,8 @@ def test_mentors_page_search():
     at.session_state.page = "mentors"
     at.run()
     at.text_input(key="mentor_search").input("climate").run()
-    text = page_text(at)
-    assert "Sarah Chen" in text and "Ehtisham Raza" not in text
+    names = list(at.dataframe[0].value["Name"])
+    assert "Sarah Chen" in names and "Ehtisham Raza" not in names
 
 
 def test_contact_page_is_gone():
@@ -220,14 +221,24 @@ def test_export_reads_stored_data_without_admin(snapshot):
     assert not any(k.endswith("_embedding") for m in snapshot["mentors"] for k in m)
 
 
-def test_snapshot_mode_is_read_only_with_banner(snapshot):
+def test_snapshot_mode_banner_and_data(snapshot):
     at = start()
     assert at.session_state.data_source == "snapshot"
-    text = page_text(at) + "\n".join(str(i.value) for i in at.info)
-    assert "Read-only snapshot of real OPHIA output" in text and "Snapshot" in text
+    text = page_text(at)
+    assert "Read-only snapshot of real OPHIA output" in text and "nothing is saved" in text
     assert "Domain 5/5 · Need 5/5 · Market 4/5" in text
-    assert at.button(key="approve_btn").disabled
-    assert at.button(key=f"reject_{snapshot['linkages'][0]['match_id']}").disabled
+
+
+def test_snapshot_mode_is_try_able_but_session_only(snapshot, monkeypatch):
+    import requests
+    monkeypatch.setattr(requests, "request", lambda *a, **k: pytest.fail("snapshot mode must not call any API"))
+    at = start()
+    assert not at.button(key="approve_btn").disabled
+    at.checkbox[0].check().run()
+    at.button(key="approve_btn").click().run()
+    assert not at.exception
+    assert at.session_state.pending_matches == [] and len(at.session_state.workspaces) == 1
+    assert "nothing is saved" in page_text(at)
 
 
 def test_backend_url_takes_priority_over_snapshot(snapshot, live_backend):

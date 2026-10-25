@@ -236,10 +236,10 @@ def generate_workspace_entity(startup: str, mentor: str, synergy: int) -> dict:
         "status": "Active",
         "day": 0,
         "synergy": synergy,
-        "drive_url": "Demo mode — no folder created",
-        "calendar_id": "Demo mode — no invite sent",
+        "drive_url": "Not created (demo: nothing is saved)",
+        "calendar_id": "Not sent (demo: nothing is saved)",
         "created_at": now.strftime("%d %b %Y, %H:%M"),
         "lifecycle_end": (now + timedelta(days=90)).strftime("%d %b %Y"),
-        "email_status": "Demo mode — no email sent",
+        "email_status": "Not sent (demo: nothing is saved)",
         "milestones": _milestones(done_through=0),
     }

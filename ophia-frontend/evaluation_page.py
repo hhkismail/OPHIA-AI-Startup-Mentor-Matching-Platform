@@ -16,8 +16,7 @@ def _load(name: str):
 
 
 def render():
-    st.markdown('<div class="page-eyebrow">How well does it work?</div>', unsafe_allow_html=True)
-    st.markdown('<h1 class="page-title">Evaluation</h1>', unsafe_allow_html=True)
+    st.subheader("Evaluation")
     st.write(
         "Each suggestion comes from embeddings (shortlist), Gemini grading three criteria "
         "against a rubric (domain, need, market fit), a blend of the two, a domain-fit gate, "
@@ -29,7 +28,7 @@ def render():
         st.subheader("1. Agreement with human judgement")
         st.write(f"{human['n']} startup–mentor pairs, sampled evenly across the AI's score range, "
                  "labelled Good / OK / Bad **blind** (AI score hidden).")
-        st.table([{"Signal": name, "Rank correlation (Spearman)": m["spearman"],
+        st.dataframe(hide_index=True, use_container_width=True, data=[{"Signal": name, "Rank correlation (Spearman)": m["spearman"],
                    "AUC good vs bad": m["auc_good_vs_bad"], "Weighted kappa": m["weighted_kappa"]}
                   for name, m in human["signals"].items()])
         st.caption("Gemini's rubric agrees with people far better than embedding similarity alone. "
@@ -70,7 +69,7 @@ def render():
         st.subheader("4. Capacity-aware assignment")
         st.write("Mentors have limited hours. Picking each startup's favourite independently "
                  "overloads popular mentors; OPHIA assigns all startups jointly (Hungarian algorithm).")
-        st.table([{"Mentors available": size,
+        st.dataframe(hide_index=True, use_container_width=True, data=[{"Mentors available": size,
                    "Overloaded mentors (independent)": s["independent"]["mentors_over_capacity"],
                    "Mean synergy, first-come": s["sequential"]["mean_synergy"],
                    "Mean synergy, optimal": s["optimal"]["mean_synergy"],
