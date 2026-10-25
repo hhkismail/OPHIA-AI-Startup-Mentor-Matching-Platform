@@ -139,6 +139,22 @@ python ophia-nlp/eval_human.py report     # agreement (Spearman, AUC, weighted k
 
 ---
 
+## Evaluation results
+
+| Question | Method | Result |
+|---|---|---|
+| Does the score separate good from bad matches? | 49 startups; intended mentor vs random mentors (`eval_scoring.py`) | Old 0-100 prompt: random mentors averaged **61**. Rubric + similarity blend: **36** |
+| Does re-ranking pick the right mentor? | Same data; is the final pick the mentor generated for that startup? | Embeddings alone **73%**, old prompt 76%, blend **86%** (ceiling 90%) |
+| Does the AI agree with a human? | 40 pairs labelled blind, stratified across the score range (`eval_human.py`) | Spearman **0.91**, AUC good-vs-bad **1.0**, weighted kappa **0.85** |
+| Which signal matters? | Same 40 labels | Gemini rubric ≫ embedding similarity (kappa 0.90 vs 0.52 overall, 0.80 vs 0.24 on hard cases); the 0.4 blend weight is within noise of the best |
+| Fix for the main error pattern | Domain gate (domain fit ≤ 2 → score capped at 49), **pre-registered**, tested on 20 fresh pairs labelled by a second person | Kappa **0.64 → 0.96**; 9 of 10 affected pairs judged bad → adopted |
+| Does capacity-aware assignment help? | Mentor pool shrunk from 61 to 10 (`eval_assignment.py`) | No effect on the seeded 1:1 data. With scarce mentors, independent picking overloads 7-9 mentors; optimal vs first-come: mean synergy **87 vs 68** at 10 mentors |
+
+**Limitations.** Mentors are AI-generated, not real people. Human labels come from two
+team members (not independent of the project) and total 60 pairs, so differences
+smaller than about 0.05 kappa are within noise. The approve/reject feedback loop is wired
+up (`eval_human.py report`) but has no real decisions yet.
+
 ## Team
 
 | Member | Role |

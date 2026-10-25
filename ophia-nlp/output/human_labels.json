@@ -1,0 +1,362 @@
+{
+ "Keylika|Dr. Evelyn Vance-Wright": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-24T23:53:23.335386+00:00"
+ },
+ "Sleep Reset|Dr. Julianna Vance-Kovacs": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-24T23:55:34.023772+00:00"
+ },
+ "Sleep Reset|Dr. Priya Kulkarni": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-24T23:56:50.576717+00:00"
+ },
+ "Tranch|Jonathan Sterling-Wells": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-24T23:58:44.419681+00:00"
+ },
+ "Sero|Marcus Vane": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:01:15.086792+00:00"
+ },
+ "Tranch|Beatriz Soler": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:01:24.291616+00:00"
+ },
+ "Mirrorful|Julian Vane": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:04:29.912372+00:00"
+ },
+ "Edoome|Dr. Alistair Finch": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:05:33.161723+00:00"
+ },
+ "Dashworks|Sophie Laurent": {
+  "label": "ok",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:06:22.939551+00:00"
+ },
+ "Keylika|Dr. Fiona Abernathy": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:06:33.876420+00:00"
+ },
+ "Datlo|Marcus Thorne-Bennett": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:06:48.953236+00:00"
+ },
+ "The Mercer Club|Elena Rodriguez": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:07:14.653856+00:00"
+ },
+ "Reverie Labs|Vriraj Singh": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:07:40.238970+00:00"
+ },
+ "Mobydish|Marcus Sterling-Vance": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:07:51.823993+00:00"
+ },
+ "Somos|Thiago Alencar": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:07:59.010358+00:00"
+ },
+ "Konta.com|Sophie Laurent": {
+  "label": "ok",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:08:06.642488+00:00"
+ },
+ "Fuell|Beatriz Soler": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:08:17.517681+00:00"
+ },
+ "Elto|Marcus Sterling": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:08:28.463790+00:00"
+ },
+ "Reverie Labs|Dr. Silas Thorne-Vance": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:08:37.597297+00:00"
+ },
+ "Mindee|Soren Lindholm": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:08:57.163444+00:00"
+ },
+ "Dashworks|Sarah Jenkins": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:09:12.680541+00:00"
+ },
+ "Cambly|Marcus Holloway": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:09:23.774547+00:00"
+ },
+ "Posh|Weiyuan Liu": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:09:30.562816+00:00"
+ },
+ "GoGoGrandparent|Dr. Evelyn Vance-Wright": {
+  "label": "ok",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:09:39.728545+00:00"
+ },
+ "Ridecell|Marcus Thorne-Vance": {
+  "label": "ok",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:09:48.105654+00:00"
+ },
+ "Genecis Bio|Faiz Hassan": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:09:55.592676+00:00"
+ },
+ "GrowthBook|Marcus Holloway": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:10:02.741434+00:00"
+ },
+ "Noya Software|Dr. L. Wong": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:10:09.608694+00:00"
+ },
+ "Somos|Sarah Jenkins-Wu": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:10:16.625940+00:00"
+ },
+ "Belvo|Marcus Thorne": {
+  "label": "ok",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:10:23.237482+00:00"
+ },
+ "Corvus Robotics|Ehtisham Raza": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:10:30.413913+00:00"
+ },
+ "Edoome|Faiz Hassan": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:10:37.019137+00:00"
+ },
+ "Filadd|Sarah Jenkins-Wu": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:10:44.013865+00:00"
+ },
+ "GoGoGrandparent|Marcus Thorne-Smith": {
+  "label": "ok",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:10:51.871674+00:00"
+ },
+ "Corvus Robotics|Dr. L. Wong": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:10:58.275045+00:00"
+ },
+ "Cambly|Sarah Jenkins-Vance": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:11:05.765532+00:00"
+ },
+ "Belvo|Faiz Hassan": {
+  "label": "ok",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:11:28.221644+00:00"
+ },
+ "Konta.com|Camila Rojas": {
+  "label": "ok",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:11:37.017774+00:00"
+ },
+ "Mendable|Faiz Hassan": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:11:48.936884+00:00"
+ },
+ "Mindee|Razif Kamaruddin": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_A",
+  "at": "2026-10-25T00:11:57.495857+00:00"
+ },
+ "Streak|Sarah MacLeod": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:27:12.281593+00:00"
+ },
+ "Streak|Jonathan Sterling-Wells": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:27:35.141466+00:00"
+ },
+ "True Link|Jonathan Sterling-Wells": {
+  "label": "ok",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:28:13.827376+00:00"
+ },
+ "Logarithm Labs|Marcus Holloway": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:28:40.099980+00:00"
+ },
+ "Filadd|Sarah Whitmore": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:29:54.246252+00:00"
+ },
+ "Ridecell|Razif Kamaruddin": {
+  "label": "ok",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:30:36.358325+00:00"
+ },
+ "Charityvest|Camila Rojas": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:30:46.174738+00:00"
+ },
+ "Filadd|Vikram Sethi": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:31:01.317931+00:00"
+ },
+ "ShipBob|Marcus Vane": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:31:26.976555+00:00"
+ },
+ "Sleep Reset|Marcus Chen-Holloway": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:31:43.417591+00:00"
+ },
+ "Reverie Labs|Dr. Marcus Thorne-Vance": {
+  "label": "ok",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:32:17.081733+00:00"
+ },
+ "Mobydish|Elena Rodriguez": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:32:35.784070+00:00"
+ },
+ "Mobydish|Marcus Thorne-Vance": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:32:44.972776+00:00"
+ },
+ "Posh|Marcus Thorne-Smith": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:33:05.174774+00:00"
+ },
+ "Avion|Dr. Alistair Finch": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:33:33.938631+00:00"
+ },
+ "Charityvest|Sarah Chen": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:33:44.803980+00:00"
+ },
+ "Belvo|Thiago Alencar": {
+  "label": "good",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:33:54.476734+00:00"
+ },
+ "Mindee|David Sterling-Vance": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:34:03.361110+00:00"
+ },
+ "Mendable|Marcus Holloway": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:34:09.977799+00:00"
+ },
+ "ShipBob|Elena Rodriguez": {
+  "label": "bad",
+  "note": "",
+  "labeller": "labeller_B",
+  "at": "2026-10-25T00:34:17.383124+00:00"
+ }
+}
