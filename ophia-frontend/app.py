@@ -14,18 +14,12 @@ import streamlit as st
 
 import api_client
 import evaluation_page
+import ui
 from mock_data import INITIAL_WORKSPACES, MENTORS, PENDING_MATCHES, generate_workspace_entity
 
 st.set_page_config(page_title="OPHIA · Mentor matching", layout="wide")
 
-# Only layout tweaks; colours come from the theme (.streamlit/config.toml) so
-# text stays readable in every mode.
-st.markdown("""
-<style>
-  .block-container { padding-top: 2rem; max-width: 1200px; }
-  div[data-testid="stMetricValue"] { font-variant-numeric: tabular-nums; }
-</style>
-""", unsafe_allow_html=True)
+st.markdown(ui.CSS, unsafe_allow_html=True)
 
 
 # ── State ────────────────────────────────────────────────────────────────────
@@ -144,15 +138,16 @@ SOURCE_LABEL = {"live": "Live data", "snapshot": "Snapshot", "mock": "Demo data"
 
 
 def render_header():
-    left, right = st.columns([3, 2], vertical_alignment="bottom")
+    left, right = st.columns([3, 2], vertical_alignment="center")
     with left:
-        st.markdown("## OPHIA")
-        st.caption("Mentor matching for startup accelerator programmes")
+        st.markdown('<div class="o-bar"><div class="o-logo">O</div><div><div class="o-name">OPHIA</div>'
+                    '<div class="o-tag">Mentor matching for startup accelerator programmes</div></div></div>',
+                    unsafe_allow_html=True)
     with right:
-        cols = st.columns(len(PAGES) + 1)
+        cols = st.columns(len(PAGES) + 1, vertical_alignment="center")
         for col, (page, label, key) in zip(cols, PAGES):
             if col.button(label, key=key, use_container_width=True,
-                          type="primary" if st.session_state.page == page else "secondary"):
+                          type="primary" if st.session_state.page == page else "tertiary"):
                 st.session_state.page = page
                 st.rerun()
         cols[-1].caption(SOURCE_LABEL[st.session_state.data_source])
@@ -175,27 +170,29 @@ def render_header():
 
 def render_match(match: dict):
     with st.container(border=True):
-        pick, body, score = st.columns([0.35, 6, 1.2])
+        pick, startup, arrow, mentor, score = st.columns([0.3, 3.2, 0.3, 3.2, 1.1], vertical_alignment="center")
         pick.checkbox(f"Select {plain(match['startup'])}", key=match["key"], label_visibility="collapsed",
                       disabled=read_only())
+        startup.markdown(ui.person(match["startup"], match.get("startup_desc", "")), unsafe_allow_html=True)
+        arrow.markdown('<div style="color:#8C959F;text-align:center">→</div>', unsafe_allow_html=True)
+        mentor.markdown(ui.person(match["mentor"], match.get("mentor_title", "")), unsafe_allow_html=True)
+        score.markdown(ui.score_badge(match["synergy"]), unsafe_allow_html=True)
+
+        body, action = st.columns([6.5, 1.1], vertical_alignment="bottom")
         with body:
-            st.markdown(f"**{match['startup']}** &nbsp;→&nbsp; **{match['mentor']}**")
-            st.caption(f"{match.get('startup_desc', '')}  \n{match.get('mentor_title', '')}")
-            st.write(match["insight"])
-            details = [match.get("score_detail", "")] + [", ".join(match.get("tags", []))]
-            st.caption(" · ".join(d for d in details if d))
-        with score:
-            st.metric("Match score", match["synergy"])
-            if st.button("Reject", key=f"reject_{match['key']}", disabled=read_only(),
+            st.write(plain(match["insight"]))
+            st.markdown(ui.grade_meters(match.get("grades")) + ui.chips(match.get("tags", [])),
+                        unsafe_allow_html=True)
+            st.caption(match.get("score_detail", ""))
+        if action.button("Reject", key=f"reject_{match['key']}", disabled=read_only(),
                          use_container_width=True):
-                reject_match(match)
+            reject_match(match)
 
 
 def render_workspace(i: int, ws: dict):
     with st.container(border=True):
-        st.markdown(f"**{ws['startup']}** × **{ws['mentor']}**")
-        day = ws.get("day", 0)
-        st.caption(f"{ws['status']} · day {day} of 90 · score {ws['synergy']}")
+        st.markdown(ui.person(ws["startup"], f"with {plain(ws['mentor'])}"), unsafe_allow_html=True)
+        st.caption(f"{ws['status']} · day {ws.get('day', 0)} of 90 · match score {ws['synergy']}")
         milestones = ws.get("milestones", [])
         if milestones:
             done = sum(m["done"] for m in milestones)
@@ -251,21 +248,37 @@ def render_dashboard():
 def render_mentors():
     mentors = st.session_state.mentors
     st.subheader("Mentors")
-    st.caption(f"{len(mentors)} mentors · {sum(m['status'] == 'Available' for m in mentors)} available")
-    query = st.text_input("Search mentors", placeholder="Search by name, expertise or title",
-                          key="mentor_search", label_visibility="collapsed").strip().lower()
-    rows = [{
-        "Name": plain(m["name"]),
-        "Title": plain(m["title"]),
-        "Expertise": ", ".join(plain(e) for e in m["expertise"]),
-        "Hours / month": m.get("availability_hours", 0),
-        "Status": plain(m["status"]),
-    } for m in mentors if not query or any(
-        query in plain(v).lower() for v in [m["name"], m["title"], m.get("bio", ""), *m["expertise"]])]
-    if rows:
-        st.dataframe(rows, hide_index=True, use_container_width=True)
-    else:
+    st.caption(f"{len(mentors)} mentors · {sum(m['status'] == 'Available' for m in mentors)} available. "
+               "Capacity is monthly hours ÷ 3 hours per mentorship.")
+
+    search, expertise, order = st.columns([2.2, 2.2, 1.2])
+    query = search.text_input("Search", placeholder="Name, title, bio or expertise", key="mentor_search",
+                              label_visibility="collapsed").strip().lower()
+    all_tags = sorted({plain(t) for m in mentors for t in m["expertise"]}, key=str.lower)
+    wanted = expertise.multiselect("Expertise", all_tags, key="mentor_filter", placeholder="Filter by expertise",
+                                   label_visibility="collapsed")
+    sort = order.selectbox("Sort", ["Name", "Most hours", "Available first"], key="mentor_sort",
+                           label_visibility="collapsed")
+
+    def matches(m):
+        text = [plain(v).lower() for v in [m["name"], m["title"], m.get("bio", ""), *m["expertise"]]]
+        tags = {plain(t) for t in m["expertise"]}
+        return (not query or any(query in t for t in text)) and (not wanted or tags & set(wanted))
+
+    shown = [m for m in mentors if matches(m)]
+    key = {"Name": lambda m: plain(m["name"]).lower(),
+           "Most hours": lambda m: -m.get("availability_hours", 0),
+           "Available first": lambda m: (m["status"] != "Available", plain(m["name"]).lower())}[sort]
+    shown.sort(key=key)
+
+    if not shown:
         st.info("No mentors match your search.")
+        return
+    st.caption(f"Showing {len(shown)}")
+    for row in range(0, len(shown), 3):
+        cols = st.columns(3)
+        for col, m in zip(cols, shown[row:row + 3]):
+            col.markdown(ui.mentor_card(m), unsafe_allow_html=True)
 
 
 # ── Router ───────────────────────────────────────────────────────────────────

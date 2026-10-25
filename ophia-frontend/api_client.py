@@ -85,6 +85,7 @@ def _to_match(item: dict) -> dict:
         "insight": _esc(item.get("insight")),
         "tags": [_esc(t) for t in item.get("tags", [])],
         "score_detail": _esc(_score_detail(item)),
+        "grades": item.get("grades"),
     }
 
 

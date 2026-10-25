@@ -17,6 +17,7 @@ def _match(key, startup, desc, batch, country, mentor, title, synergy, grades, p
         "synergy": synergy, "insight": insight, "tags": tags,
         "score_detail": f"Domain {domain}/5 · Need {need}/5 · Market {market}/5 · "
                         f"Closer than {pct}% of pairs (demo)",
+        "grades": {"domain_fit": domain, "need_fit": need, "market_fit": market},
     }
 
 

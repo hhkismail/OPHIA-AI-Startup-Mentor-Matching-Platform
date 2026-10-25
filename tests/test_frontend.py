@@ -70,8 +70,21 @@ def test_mentors_page_search():
     at.session_state.page = "mentors"
     at.run()
     at.text_input(key="mentor_search").input("climate").run()
-    names = list(at.dataframe[0].value["Name"])
-    assert "Sarah Chen" in names and "Ehtisham Raza" not in names
+    text = page_text(at)
+    assert "Sarah Chen" in text and "Ehtisham Raza" not in text
+
+
+def test_mentors_expertise_filter_and_sort():
+    at = start()
+    at.session_state.page = "mentors"
+    at.run()
+    at.multiselect(key="mentor_filter").select("Health AI").run()
+    text = page_text(at)
+    assert "Weiyuan Liu" in text and "Hernando Cruz" not in text
+    at.multiselect(key="mentor_filter").unselect("Health AI").run()
+    at.selectbox(key="mentor_sort").select("Most hours").run()
+    cards = [m.value for m in at.markdown if "o-card" in str(m.value)]
+    assert len(cards) > 10 and not at.exception
 
 
 def test_contact_page_is_gone():
