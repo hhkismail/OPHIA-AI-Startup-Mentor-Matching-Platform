@@ -10,6 +10,7 @@ Application Default Credentials; clients are created lazily, so importing
 this module never needs credentials.
 """
 
+import logging
 import os
 import json
 import random
@@ -20,6 +21,8 @@ from typing import Optional
 
 import numpy as np
 from dotenv import load_dotenv
+
+log = logging.getLogger(__name__)
 
 # One .env at the repo root, shared by every module
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
@@ -226,7 +229,7 @@ def get_embedding(text: str) -> list[float]:
         result = get_client().models.embed_content(model=EMBED_MODEL, contents=text)
         return list(result.embeddings[0].values)
     except Exception as e:
-        print(f"[ai_engine] Embedding error: {e}")
+        log.warning(f"Embedding error: {e}")
         return []
 
 
@@ -289,7 +292,7 @@ def grade_pair(startup: dict, mentor: dict) -> Optional[dict]:
         _grade_cache[cache_key] = grades
         return dict(grades)
     except Exception as e:
-        print(f"[ai_engine] Gemini grading error: {e}")
+        log.warning(f"Gemini grading error: {e}")
         return None
 
 
@@ -329,7 +332,7 @@ def match_startup(startup: dict, mentors: list[dict], top_n: int = TOP_N_MATCHES
     """
     startup_vec = startup.get("description_embedding")
     if not startup_vec:
-        print("[ai_engine] No stored embedding — re-embedding on the fly...")
+        log.info("No stored embedding — re-embedding on the fly...")
         startup_vec = get_embedding(startup_embedding_text(startup))
     if not startup_vec:
         return []
@@ -343,7 +346,7 @@ def match_startup(startup: dict, mentors: list[dict], top_n: int = TOP_N_MATCHES
 
     results = []
     for similarity, mentor in scored[:top_n]:
-        print(f"[ai_engine]  → Gemini grading: {mentor.get('name')}")
+        log.debug(f"Gemini grading: {mentor.get('name')}")
         scored_pair = score_pair(startup, mentor, similarity, reference)
         results.append({
             "startup_name": startup.get("company_name"),

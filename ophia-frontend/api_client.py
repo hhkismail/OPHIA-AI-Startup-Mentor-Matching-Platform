@@ -4,6 +4,7 @@
 # backend is not configured or not reachable, so the caller can fall back to
 # mock data.
 
+import logging
 import html
 import os
 from datetime import datetime, timezone
@@ -11,6 +12,8 @@ from pathlib import Path
 
 import requests
 from dotenv import load_dotenv
+
+log = logging.getLogger(__name__)
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
@@ -41,7 +44,7 @@ def _request(method: str, path: str, **kwargs):
     except requests.RequestException as e:
         detail = getattr(e.response, "text", "") if getattr(e, "response", None) is not None else ""
         last_error = f"{e} {detail}".strip()
-        print(f"[api_client] {method} {path} failed: {last_error}")
+        log.warning(f"{method} {path} failed: {last_error}")
         return None
 
 

@@ -12,8 +12,10 @@ Docs at http://localhost:8000/docs
 """
 
 import hmac
+import logging
 import os
 import sys
+import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -23,23 +25,33 @@ from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Query, Req
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
 
-# Log lines contain emoji/arrows; on Windows a redirected stdout uses cp1252
-# and print() would crash the request. Never let logging kill a request.
-if hasattr(sys.stdout, "reconfigure"):  # not on pytest's captured stdout
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-
 REPO_ROOT = Path(__file__).resolve().parent.parent
-for p in (REPO_ROOT, REPO_ROOT / "ophia-nlp", REPO_ROOT / "ophia-data"):
+for p in (REPO_ROOT / "ophia-nlp", REPO_ROOT / "ophia-data"):
     sys.path.insert(0, str(p))
 
 import database                                                  # noqa: E402
 import state_machine as sm                                       # noqa: E402
 from ai_engine import build_similarity_reference, match_startup  # noqa: E402
 from assignment import assign_optimal, mentor_capacity           # noqa: E402
-from models import ApproveRequest, RejectRequest                 # noqa: E402
+from schemas import (ApproveRequest, ApproveResult, Health, Match, Mentor,  # noqa: E402
+                     RejectRequest, Startup, Stats, Workspace)
 from repository import FirestoreRepository, NotFound, Repository, new_match  # noqa: E402
 
+logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"),
+                    format="%(asctime)s %(levelname)-7s %(name)s: %(message)s")
+log = logging.getLogger("ophia.backend")
+
 app = FastAPI(title="OPHIA Core Orchestration Engine")
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    """One line per request: method, path, status and duration."""
+    start = time.perf_counter()
+    response = await call_next(request)
+    log.info("%s %s -> %d (%.0f ms)", request.method, request.url.path, response.status_code,
+             (time.perf_counter() - start) * 1000)
+    return response
 
 # Suggestions below this synergy are not made; the startup waits for capacity
 MIN_SYNERGY = int(os.getenv("MIN_SYNERGY", "50"))
@@ -102,13 +114,10 @@ def _db_call(fn, *args):
         raise HTTPException(status_code=503, detail=f"Firestore unavailable: {e}")
 
 
-def _strip_embeddings(record: dict) -> dict:
-    return {k: v for k, v in record.items() if not k.endswith("_embedding")}
-
 
 # ── READ ─────────────────────────────────────────────────────────────────────
 
-@app.get("/api/health")
+@app.get("/api/health", response_model=Health)
 def health():
     try:
         database.get_db()
@@ -117,17 +126,17 @@ def health():
         return {"status": "degraded", "firestore": False, "error": str(e)}
 
 
-@app.get("/api/startups")
+@app.get("/api/startups", response_model=list[Startup])
 def list_startups(repo: Repository = Depends(get_repo)):
-    return [_strip_embeddings(s) for s in _db_call(repo.all_startups)]
+    return _db_call(repo.all_startups)
 
 
-@app.get("/api/mentors")
+@app.get("/api/mentors", response_model=list[Mentor])
 def list_mentors(repo: Repository = Depends(get_repo)):
-    return [_strip_embeddings(m) for m in _db_call(repo.all_mentors)]
+    return _db_call(repo.all_mentors)
 
 
-@app.get("/api/stats")
+@app.get("/api/stats", response_model=Stats)
 def stats(repo: Repository = Depends(get_repo)):
     """Counts for the dashboard header."""
     return {
@@ -136,13 +145,13 @@ def stats(repo: Repository = Depends(get_repo)):
     }
 
 
-@app.get("/api/matches")
+@app.get("/api/matches", response_model=list[Match])
 def list_matches(status: Optional[sm.MatchStatus] = None, repo: Repository = Depends(get_repo)):
     """Every suggested match with its decision — the record of admin choices."""
     return _db_call(repo.matches, status.value if status else None)
 
 
-@app.get("/api/workspaces")
+@app.get("/api/workspaces", response_model=list[Workspace])
 def list_workspaces(repo: Repository = Depends(get_repo)):
     """Approved matches: 90-day workspaces (active, completed or cancelled)."""
     return _db_call(repo.workspaces)
@@ -150,7 +159,7 @@ def list_workspaces(repo: Repository = Depends(get_repo)):
 
 # ── MATCHING ─────────────────────────────────────────────────────────────────
 
-@app.get("/api/linkages")
+@app.get("/api/linkages", response_model=list[Match])
 def pending_linkages(limit: int = Query(5, ge=1, le=50), refresh: bool = False,
                      repo: Repository = Depends(get_repo), admin: bool = Depends(is_admin)):
     """
@@ -224,15 +233,15 @@ def _suggest(repo: Repository, existing: list[dict]) -> list[dict]:
     }) for startup_name, mentor_name in chosen.items()]
     unassigned = len(eligible) - len(new)
     if unassigned:
-        print(f"[backend] {unassigned} startup(s) got no suggestion: no candidate mentor with free "
-              f"capacity scored ≥ {MIN_SYNERGY}")
+        log.info("%d startup(s) got no suggestion: no candidate mentor with free capacity "
+                 "scored >= %d", unassigned, MIN_SYNERGY)
     _db_call(repo.add_matches, new)
     return new
 
 
 # ── DECISIONS ────────────────────────────────────────────────────────────────
 
-@app.post("/api/matches/{match_id}/approve", dependencies=ADMIN_ONLY)
+@app.post("/api/matches/{match_id}/approve", dependencies=ADMIN_ONLY, response_model=ApproveResult)
 def approve_match(match_id: str, background_tasks: BackgroundTasks,
                   body: Optional[ApproveRequest] = None, repo: Repository = Depends(get_repo)):
     """
@@ -247,14 +256,15 @@ def approve_match(match_id: str, background_tasks: BackgroundTasks,
     return {"workspace": workspace, "created": created}
 
 
-@app.post("/api/matches/{match_id}/reject", dependencies=ADMIN_ONLY)
+@app.post("/api/matches/{match_id}/reject", dependencies=ADMIN_ONLY, response_model=Match)
 def reject_match(match_id: str, body: Optional[RejectRequest] = None, repo: Repository = Depends(get_repo)):
     return _db_call(repo.reject_match, match_id, body.reason if body else None)
 
 
 # ── WORKSPACES ───────────────────────────────────────────────────────────────
 
-@app.post("/api/workspaces/{workspace_id}/milestones/{day}/complete", dependencies=ADMIN_ONLY)
+@app.post("/api/workspaces/{workspace_id}/milestones/{day}/complete", dependencies=ADMIN_ONLY,
+          response_model=Workspace)
 def complete_milestone(workspace_id: str, day: int, repo: Repository = Depends(get_repo)):
     """Milestones complete in order; the last one completes the workspace."""
     def change(ws):
@@ -264,7 +274,7 @@ def complete_milestone(workspace_id: str, day: int, repo: Repository = Depends(g
     return _db_call(repo.update_workspace, workspace_id, change)
 
 
-@app.post("/api/workspaces/{workspace_id}/cancel", dependencies=ADMIN_ONLY)
+@app.post("/api/workspaces/{workspace_id}/cancel", dependencies=ADMIN_ONLY, response_model=Workspace)
 def cancel_workspace(workspace_id: str, repo: Repository = Depends(get_repo)):
     def change(ws):
         status = sm.transition_workspace(ws["status"], sm.WorkspaceStatus.CANCELLED)
@@ -272,7 +282,7 @@ def cancel_workspace(workspace_id: str, repo: Repository = Depends(get_repo)):
     return _db_call(repo.update_workspace, workspace_id, change)
 
 
-@app.post("/api/workspaces/{workspace_id}/provision", dependencies=ADMIN_ONLY)
+@app.post("/api/workspaces/{workspace_id}/provision", dependencies=ADMIN_ONLY, response_model=Workspace)
 def retry_provisioning(workspace_id: str, background_tasks: BackgroundTasks,
                        body: Optional[ApproveRequest] = None, repo: Repository = Depends(get_repo)):
     """Re-runs email/Drive/Calendar for a workspace whose provisioning didn't fully succeed."""
@@ -297,8 +307,8 @@ def _provision_workspace(repo: Repository, workspace_id: str, contact_email: Opt
     # The first Google login opens a browser, which can't happen inside the
     # server. Run `python ophia-data/workspace_trigger.py` once to create it.
     if not os.path.exists(TOKEN_PATH):
-        print(f"[backend] Skipping Workspace automation for {workspace_id}: no {TOKEN_PATH}. "
-              "Run `python ophia-data/workspace_trigger.py` once to log in.")
+        log.warning("Skipping Workspace automation for %s: no %s. Run "
+                    "`python ophia-data/workspace_trigger.py` once to log in.", workspace_id, TOKEN_PATH)
         finish(sm.ProvisioningStatus.SKIPPED, provisioning_errors=["Google Workspace not connected"])
         return
 

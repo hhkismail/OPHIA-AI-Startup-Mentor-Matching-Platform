@@ -48,7 +48,7 @@ ophia-frontend (Streamlit) ◄──► ophia-backend/app.py (FastAPI) ◄──
 | `ophia-data/` | `database.py` Firestore CRUD, `seed_db.py` loads data into Firestore, `workspace_trigger.py` sends the intro email, creates the Drive folder + milestone doc, and books the Calendar kick-off. |
 | `ophia-backend/` | FastAPI server (`app.py`), lifecycle rules (`state_machine.py`) and storage (`repository.py`: Firestore with transactions, or in-memory for tests). API below; interactive docs at `/docs`. |
 | `ophia-frontend/` | Streamlit admin dashboard. Uses the backend when `OPHIA_API_URL` is set, otherwise mock data. |
-| `models.py` | Shared Pydantic schemas. |
+| `ophia-backend/schemas.py` | Request and response schemas for every endpoint (shown at `/docs`). |
 
 ---
 

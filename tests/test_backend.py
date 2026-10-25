@@ -343,3 +343,24 @@ def test_no_suggestion_rather_than_a_poor_one(monkeypatch, client, repo):
         return {"reasoning": "r", "domain_fit": 1, "need_fit": 1, "market_fit": 1, "insight": "i", "tags": []}
     monkeypatch.setattr(ai_engine, "grade_pair", grade)
     assert client.get("/api/linkages?limit=10").json() == []
+
+
+def test_requests_are_logged(client, repo, caplog):
+    import logging
+    with caplog.at_level(logging.INFO, logger="ophia.backend"):
+        client.get("/api/stats")
+    assert any("GET /api/stats -> 200" in r.getMessage() for r in caplog.records)
+
+
+def test_openapi_documents_response_schemas():
+    schema = backend.app.openapi()
+    ok = lambda path, method="get": schema["paths"][path][method]["responses"]["200"]["content"]["application/json"]["schema"]  # noqa: E731
+    assert ok("/api/linkages")["items"]["$ref"].endswith("/Match")
+    assert ok("/api/matches/{match_id}/approve", "post")["$ref"].endswith("/ApproveResult")
+    assert "grades" in schema["components"]["schemas"]["Match"]["properties"]
+
+
+def test_responses_never_leak_embeddings_or_unknown_fields(client, repo):
+    repo._mentors[0]["secret_internal_note"] = "x"
+    body = client.get("/api/mentors").json()
+    assert not any(k.endswith("_embedding") or k == "secret_internal_note" for m in body for k in m)

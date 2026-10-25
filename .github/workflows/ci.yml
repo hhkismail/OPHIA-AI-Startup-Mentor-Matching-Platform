@@ -38,3 +38,30 @@ jobs:
       # no credentials or network access needed.
       - name: Test
         run: pytest -v
+
+  # The production FirestoreRepository against Google's Firestore emulator:
+  # real transactions and contention, no credentials or cloud project needed.
+  firestore-emulator:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            ophia-*/requirements.txt
+            requirements-dev.txt
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Install dependencies
+        run: pip install -r ophia-backend/requirements.txt -r ophia-frontend/requirements.txt -r requirements-dev.txt
+
+      - name: Integration tests on the Firestore emulator
+        run: npx --yes firebase-tools@13.29.1 emulators:exec --only firestore --project demo-ophia "pytest tests/integration -v"

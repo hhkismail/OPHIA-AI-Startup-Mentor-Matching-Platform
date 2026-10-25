@@ -8,6 +8,7 @@
 #
 # ophia-backend/app.py runs trigger_workspace_automation() as a FastAPI BackgroundTask
 
+import logging
 import os
 import base64
 import datetime
@@ -24,6 +25,8 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaInMemoryUpload
+
+log = logging.getLogger(__name__)
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 repo_root = os.path.dirname(script_dir)
@@ -71,7 +74,7 @@ def get_google_credentials():
             creds.refresh(Request())
         else:
             if not os.path.exists(CREDENTIALS_PATH):
-                print(f"[workspace] ❌ credentials file not found at: {CREDENTIALS_PATH}")
+                log.warning(f"credentials file not found at: {CREDENTIALS_PATH}")
                 return None
 
             flow = InstalledAppFlow.from_client_secrets_file(CREDENTIALS_PATH, SCOPES)
@@ -81,7 +84,7 @@ def get_google_credentials():
         # Save the token for next time
         with open(TOKEN_PATH, "w") as f:
             f.write(creds.to_json())
-        print(f"[workspace] ✅ Saved token to {TOKEN_PATH}")
+        log.info(f"Saved token to {TOKEN_PATH}")
 
     return creds
 
@@ -162,11 +165,11 @@ def send_intro_email(
             body={"raw": raw}
         ).execute()
 
-        print(f"[workspace] ✅ Intro email sent to {recipient_email}")
+        log.info(f"Intro email sent to {recipient_email}")
         return True
 
     except Exception as e:
-        print(f"[workspace] ❌ Email failed: {e}")
+        log.warning(f"Email failed: {e}")
         return False
 
 
@@ -203,7 +206,7 @@ def create_drive_workspace(
 
         folder_id = folder.get("id")
         folder_url = folder.get("webViewLink")
-        print(f"[workspace] ✅ Created Drive folder: {folder_name}")
+        log.info(f"Created Drive folder: {folder_name}")
 
         # Step 2b: Create the 90-day milestones doc inside the folder.
         # Uploading plain text with a Google Doc mimeType makes Drive convert
@@ -220,7 +223,7 @@ def create_drive_workspace(
             fields="id"
         ).execute()
 
-        print("[workspace] ✅ Created 90-day milestone doc in folder")
+        log.info("Created 90-day milestone doc in folder")
 
         # Step 2c: Share the folder with the participant only
         if share_with:
@@ -229,13 +232,13 @@ def create_drive_workspace(
                 body={"type": "user", "role": "writer", "emailAddress": share_with},
                 sendNotificationEmail=False,
             ).execute()
-            print(f"[workspace] ✅ Shared folder with {share_with}")
+            log.info(f"Shared folder with {share_with}")
 
-        print(f"[workspace] ✅ Drive folder URL: {folder_url}")
+        log.info(f"Drive folder URL: {folder_url}")
         return folder_url
 
     except Exception as e:
-        print(f"[workspace] ❌ Drive creation failed: {e}")
+        log.warning(f"Drive creation failed: {e}")
         return None
 
 
@@ -355,12 +358,12 @@ def create_calendar_event(
             .get("uri", "No Meet link")
         )
 
-        print(f"[workspace] ✅ Calendar event created: {created_event.get('summary')}")
-        print(f"[workspace] ✅ Google Meet link: {meet_link}")
+        log.info(f"Calendar event created: {created_event.get('summary')}")
+        log.info(f"Google Meet link: {meet_link}")
         return event_id
 
     except Exception as e:
-        print(f"[workspace] ❌ Calendar event failed: {e}")
+        log.warning(f"Calendar event failed: {e}")
         return None
 
 
@@ -385,7 +388,7 @@ def trigger_workspace_automation(
     Returns a dict with all the created resource URLs/IDs.
     
     """
-    print(f"\n[workspace] 🚀 Starting workspace automation for: {startup_name} × {mentor_name}")
+    log.info(f"Starting workspace automation for: {startup_name} × {mentor_name}")
 
     result = {
         "startup_name": startup_name,
@@ -405,7 +408,7 @@ def trigger_workspace_automation(
 
     if not creds:
         result["errors"].append("Failed to get Google credentials")
-        print("[workspace] ❌ Could not get Google credentials. Check setup.")
+        log.warning("Could not get Google credentials. Check setup.")
         return result
 
     # ── Step 1: Send email ────────────────────────────────────────────────────
@@ -441,8 +444,8 @@ def trigger_workspace_automation(
         if not ok:
             result["errors"].append(f"{step} failed (see server log)")
 
-    print(f"[workspace] ✅ Automation complete for {startup_name} × {mentor_name}")
-    print(f"[workspace] Result: {result}")
+    log.info(f"Automation complete for {startup_name} × {mentor_name}")
+    log.debug(f"Result: {result}")
 
     return result
 

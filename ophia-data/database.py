@@ -2,11 +2,14 @@
 # Firestore connection and reads of the seeded startups and mentors.
 # Matches and workspaces are handled by ophia-backend/repository.py.
 
+import logging
 import os
 from pathlib import Path
 import firebase_admin
 from firebase_admin import credentials, firestore
 from dotenv import load_dotenv
+
+log = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -56,7 +59,7 @@ def get_all_startups() -> list:
         data = doc.to_dict()
         data["doc_id"] = doc.id
         startups.append(data)
-    print(f"[database] Fetched {len(startups)} startups")
+    log.debug(f"Fetched {len(startups)} startups")
     return startups
 
 
@@ -71,7 +74,7 @@ def get_active_startups() -> list:
         .stream()
     )
     startups = [doc.to_dict() for doc in docs]
-    print(f"[database] Fetched {len(startups)} active startups")
+    log.debug(f"Fetched {len(startups)} active startups")
     return startups
 
 
@@ -90,7 +93,7 @@ def get_all_mentors() -> list:
         data = doc.to_dict()
         data["doc_id"] = doc.id
         mentors.append(data)
-    print(f"[database] Fetched {len(mentors)} mentors")
+    log.debug(f"Fetched {len(mentors)} mentors")
     return mentors
 
 
@@ -105,7 +108,7 @@ def get_available_mentors() -> list:
         .stream()
     )
     mentors = [doc.to_dict() for doc in docs]
-    print(f"[database] Fetched {len(mentors)} available mentors")
+    log.debug(f"Fetched {len(mentors)} available mentors")
     return mentors
 
 
