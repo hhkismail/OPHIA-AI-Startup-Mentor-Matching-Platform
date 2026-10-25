@@ -1,47 +1,70 @@
+<div align="center">
+
 # OPHIA
 
+**AI mentor matching for startup accelerators: match, explain, approve, track.**
+
 [![CI](https://github.com/hhkismail/OPHIA-AI-Startup-Mentor-Matching-Platform/actions/workflows/ci.yml/badge.svg)](https://github.com/hhkismail/OPHIA-AI-Startup-Mentor-Matching-Platform/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
+![Gemini](https://img.shields.io/badge/Vertex%20AI-Gemini-4285F4?logo=googlecloud&logoColor=white)
+![Firestore](https://img.shields.io/badge/Firestore-FFCA28?logo=firebase&logoColor=black)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)
 
-AI mentor matching for startup accelerator programmes: embeddings shortlist mentors,
-Gemini grades each pair against a rubric, an optimiser assigns mentors within their
-capacity, and an admin approves through an authenticated API that starts a tracked
-90-day mentorship.
+[**Live demo**](https://ophia-mentor-match.streamlit.app/) ·
+[**Case study**](docs/CASE_STUDY.md) ·
+[Evaluation](#results) ·
+[Run it locally](#getting-started)
 
-**[▶ Live demo](https://ophia-mentor-match.streamlit.app/)** (a snapshot of real output; try approving and rejecting)
+![OPHIA dashboard: suggested startup–mentor matches with scores, grades and approve/reject](docs/screenshots/matches.png)
 
-![Matches page: suggested startup–mentor pairs with scores, grades and approve/reject](docs/screenshots/matches.png)
+</div>
 
 Built at **GDG KL Build With AI 2026 (MyHack)** for the Cradle Fund challenge *"Automating
-Ecosystem Linkages Instead of Manual Coordination"*, then rebuilt on this fork. Not
-affiliated with Cradle Fund.
+Ecosystem Linkages Instead of Manual Coordination"*. Not affiliated with Cradle Fund.
 
 **My role.** Team role was Backend & State Machine. At the hackathon I built the embedding
 pipeline, the AI matching engine and the FastAPI backend. Afterwards I rebuilt the project
 on my own fork: lifecycle state machine, auth, capacity-aware assignment, evaluation
 against human labels, tests and CI, and deployment.
 
----
+<details>
+<summary><b>Table of contents</b></summary>
 
-## Results at a glance
+- [Inspiration](#inspiration)
+- [What it does](#what-it-does)
+- [How it works](#how-it-works)
+- [Results](#results)
+- [Challenges and what I learned](#challenges-and-what-i-learned)
+- [Getting started](#getting-started)
+- [API](#api)
+- [Tests](#tests)
+- [Roadmap](#roadmap)
+- [Team](#team)
 
-| | Hackathon approach¹ | Now |
-|---|---|---|
-| Score given to a **random** (wrong) mentor | 61 / 100 | **36** / 100 |
-| Right mentor picked for a startup | 76% | **86%** (embeddings alone: 73%, ceiling 90%) |
-| Agreement with a human, 40 blind-labelled pairs | not measured | Spearman **0.91**, weighted kappa **0.85** |
-| Concurrent approvals of one match | no state, no checks | exactly one workspace (Firestore transaction, tested on the emulator) |
-| Popular mentors overloaded when mentors are scarce | 7–9 | **0** (mean synergy 87 vs 68 first-come, 10 mentors) |
-| Tests | none | 239 (230 unit + 9 on the Firestore emulator), CI on every push |
+</details>
 
-¹ Scores measured by re-running the hackathon's single 0–100 Gemini prompt on the same data.
-
----
-
-## The problem
+## Inspiration
 
 Accelerator administrators match startups to mentors by hand: read every profile, guess a
 fit, email both sides, set up a shared folder, book a kick-off, then chase progress.
-Nothing is reused between cohorts and nobody can say whether the matches were good.
+Nothing is reused between cohorts, and nobody can say whether the matches were any good.
+
+## What it does
+
+- 🔎 **Suggests a mentor for every startup**, with a 0–100 score and a written reason
+- 📏 **Grades each pair on a rubric**: domain fit, need fit and market fit, 1–5 each
+- ⚖️ **Respects mentor capacity**: assigns all startups at once so no mentor exceeds their monthly hours
+- ✅ **Puts a human in charge**: an admin approves or rejects; rejected pairs are never suggested again
+- 🗓️ **Runs the mentorship**: approval starts a 90-day workspace with milestones at days 30, 60 and 90, and can send the intro email, create a Drive folder and book a Calendar kick-off
+
+<details>
+<summary><b>More screenshots</b></summary>
+
+![Mentor directory with search, expertise filter and capacity](docs/screenshots/mentors.png)
+![Evaluation: score separation and capacity-aware assignment](docs/screenshots/evaluation-assignment.png)
+
+</details>
 
 ## How it works
 
@@ -59,140 +82,112 @@ Nothing is reused between cohorts and nobody can say whether the matches were go
                             ▼
  5. Assign   Hungarian algorithm across all startups, within each mentor's hours
                             ▼
- 6. Review   admin approves / rejects in the dashboard (API key required)
+ 6. Review   admin approves / rejects (FastAPI, API key required)
                             ▼
- 7. Run      90-day workspace, milestones 30 → 60 → 90; email, Drive folder and
-             Calendar kick-off provisioned in the background
+ 7. Run      90-day workspace; email, Drive and Calendar provisioned in the background
 ```
 
-**1. Shortlist.** Each startup and mentor is embedded with `text-embedding-004`. Raw cosine
-similarity bunches between 0.3 and 0.7, so it is converted to a percentile against typical
-pairs before use.
+| Layer | Built with |
+|---|---|
+| Matching | Vertex AI `text-embedding-004`, Gemini `gemini-3.1-flash-lite`, SciPy (Hungarian algorithm) |
+| Backend | FastAPI, Pydantic, explicit state machines, Firestore transactions |
+| Frontend | Streamlit |
+| Automation | Gmail, Google Drive and Google Calendar APIs |
+| Quality | pytest, Firestore emulator, ruff, GitHub Actions |
 
-**2. Grade.** Gemini grades each shortlisted pair on three criteria, 1–5, each with written
-anchors for what every score means. It writes its reasoning before the scores, runs at
-temperature 0, and results are cached per prompt so a pair is never paid for twice.
+## Results
 
-**3–4. Blend and gate.** The rubric carries most of the weight because it agrees with
-people far better than similarity does (below). Most remaining errors were mentors from the
-wrong industry scoring "OK" on generic skills, so a domain gate caps them below the
-"possible match" line.
+Every scoring decision was measured, and the main fix was tested on held-out labels.
 
-**5. Assign.** Picking each startup's favourite independently overloads popular mentors.
-OPHIA solves all startups at once: mentor slots (monthly hours ÷ 3) are columns of a cost
-matrix, plus an "unassigned" column per startup, so a startup with only weak options is
-left for a human rather than given a bad mentor.
-
-**6–7. Lifecycle.** Matches, workspaces and provisioning each follow an explicit state
-machine; anything else is rejected with `409` and a reason.
-
-```
-Match:         pending ──approve──► approved (creates a workspace)
-                  └─────reject───► rejected (never suggested again)
-
-Workspace:     active ──day-90 milestone done──► completed
-                  └──────────cancel────────────► cancelled
-
-Provisioning:  queued ──► succeeded | partial | skipped | failed ──retry──► queued
-```
-
----
-
-## Engineering decisions
-
-**Measure the scorer before tuning it.** The hackathon version asked Gemini for a 0–100
-score. Evaluated properly, it gave *random* mentors 61 on average, so the score barely
-separated good from bad. Replacing it with a three-criterion rubric blended with
-similarity brought random mentors down to 36 and raised top-1 accuracy from 76% to 86%.
-
-**Don't grade the AI with its own answers.** The first evaluation used mentors that Gemini
-had generated *for* each startup as the right answer, which is circular. So I built a blind
-labelling app (AI score hidden, pairs sampled evenly across the score range) and measured
-agreement with people instead.
-
-**Pre-register the fix.** The human labels showed one main error pattern (wrong-industry
-mentors scored as OK). I proposed the domain gate and committed its pass mark *before* a
-second person labelled 20 fresh pairs
-([`91afa6c`](https://github.com/hhkismail/OPHIA-AI-Startup-Mentor-Matching-Platform/commit/91afa6c)).
-It passed (kappa 0.64 → 0.96, 9 of 10 affected pairs judged bad) and was adopted
-([`fe98ee3`](https://github.com/hhkismail/OPHIA-AI-Startup-Mentor-Matching-Platform/commit/fe98ee3)).
-
-**Make the state the source of truth.** Approving a match runs in a Firestore transaction
-that checks the match is still pending and creates the workspace with a deterministic ID.
-Five simultaneous approvals produce exactly one workspace, and that test runs against the
-real Firestore emulator in CI, not just a mock. Approval is idempotent, so a retry after a
-timeout is safe.
-
-**Fail closed, and keep the bill at zero.** Every change and every Gemini call needs the
-admin key; if the server has no key configured, changes return `503` instead of being
-open. Anonymous visitors only read stored suggestions. The public demo is a static
-snapshot, so nobody visiting it can spend money.
-
-**Slow side effects don't block the request.** Email, Drive and Calendar run in the
-background after approval, each step's result is recorded (`partial` if some succeed), and
-an admin can retry. A Google outage can't lose an approval.
-
-**Tests that can fail.** After writing the race-condition and auth tests I re-introduced
-the original bugs to check the tests caught them. One check found a real fail-open path
-when no key was set, which is now fixed and tested.
-
----
-
-## Evaluation
+| Question | Result |
+|---|---|
+| Does the score separate good from bad mentors? | Random mentors score **36**/100 (the hackathon's 0–100 prompt gave them 61) |
+| Does it pick the right mentor? | **86%** top-1 (embeddings alone 73%, hackathon prompt 76%) |
+| Does it agree with people? | 40 blind-labelled pairs: Spearman **0.91**, weighted kappa **0.85** |
+| Did the domain gate help? | Pre-registered, tested on 20 fresh pairs by a second labeller: kappa **0.64 → 0.96** |
+| Does capacity-aware assignment help? | With 10 mentors: mean synergy **87** vs 68 first-come, no mentor overloaded |
+| Is approval safe under concurrency? | 5 simultaneous approvals → exactly **1** workspace, tested on the Firestore emulator |
 
 ![Evaluation page: agreement with human labels and the domain gate](docs/screenshots/evaluation-agreement.png)
 
-| Question | Method | Result |
-|---|---|---|
-| Does the score separate good from bad matches? | 49 startups; the intended mentor vs random mentors (`eval_scoring.py`) | Random mentors: old 0–100 prompt **61**, rubric blend **36** |
-| Does re-ranking pick the right mentor? | Same data; is the final pick the mentor written for that startup? | Embeddings alone **73%**, old prompt 76%, blend **86%** (ceiling 90%) |
-| Does the AI agree with a human? | 40 pairs labelled blind, stratified across the score range (`eval_human.py`) | Spearman **0.91**, AUC good-vs-bad **1.0**, weighted kappa **0.85** |
-| Which signal matters? | Same 40 labels | Gemini rubric ≫ embedding similarity (kappa 0.90 vs 0.52 overall, 0.80 vs 0.24 on hard cases); the 0.4 blend weight is within noise of the best |
-| Fix for the main error pattern | Domain gate, **pre-registered**, tested on 20 fresh pairs labelled by a second person | Kappa **0.64 → 0.96**; 9 of 10 affected pairs judged bad → adopted |
-| Does capacity-aware assignment help? | Mentor pool shrunk from 61 to 10 (`eval_assignment.py`) | No effect with 61 mentors (seeded ~1:1). With 10: independent picking overloads 7–9 mentors; mean synergy **87 optimal vs 68 first-come** |
+**Limitations.** Mentors are AI-generated, not real people. Human labels come from two team
+members (60 pairs). Gmail/Drive/Calendar provisioning is tested against fakes only. Details,
+method and full tables are in the **[case study](docs/CASE_STUDY.md)**.
 
-![Evaluation page: score separation and capacity-aware assignment](docs/screenshots/evaluation-assignment.png)
+## Challenges and what I learned
 
-## Limitations
+- **A plausible score can be meaningless.** The hackathon prompt rated random mentors 61/100.
+  Measuring first, then switching to an anchored rubric, cut that to 36.
+- **Don't grade an AI with its own answers.** Testing against mentors Gemini had generated was
+  circular, so I built a blind labelling tool and measured agreement with people instead.
+- **Fix the error you can see, then prove it on data you haven't seen.** Most mistakes were
+  wrong-industry mentors scored "OK". I committed the fix and its pass mark *before* fresh
+  labels existed, so the result couldn't be tuned after the fact.
+- **Greedy matching breaks when resources are scarce.** Each startup taking its favourite
+  overloaded 7–9 mentors; solving the assignment jointly fixed it.
+- **Correctness lives in the database, not the UI.** Approval is a Firestore transaction with
+  a deterministic ID, so double-clicks and retries can't create duplicate workspaces.
+- **A test that can't fail proves nothing.** I re-introduced old bugs to check the tests caught
+  them. One check found a real fail-open path in the auth, now fixed.
 
-- **Mentors are AI-generated**, not real people; startups come from the public YC dataset.
-- **Human labels** come from two team members (not independent of the project) and total
-  60 pairs, so differences smaller than about 0.05 kappa are within noise.
-- **The approve/reject feedback loop** is wired up (`eval_human.py report` reads real
-  decisions) but has no real admin decisions yet.
-- **Workspace provisioning** (Gmail, Drive, Calendar) is tested against fakes only; it has
-  not been run against real Google accounts.
-- **"Synergy" is OPHIA's own score.** The assignment experiment shows the solver optimises
-  it, not that people would prefer every assignment.
+The full story, with numbers for each decision, is in [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md).
 
----
+## Getting started
 
-## Screenshots
+**Demo mode (no keys, no cloud):**
 
-| Mentor directory | |
-|---|---|
-| ![Mentor directory with search, expertise filter and capacity](docs/screenshots/mentors.png) | Search, filter by expertise, sort; capacity is monthly hours ÷ 3 hours per mentorship. |
+```bash
+cd ophia-frontend
+pip install -r requirements.txt
+streamlit run app.py
+```
 
----
+The dashboard uses the live backend if `OPHIA_API_URL` is set, otherwise
+`snapshot.json` (real exported output, also what the public demo runs on), otherwise
+built-in sample data.
 
-## Project layout
+<details>
+<summary><b>Live mode (Vertex AI + Firestore)</b></summary>
+
+1. Copy `.env.example` to `.env` in the repo root and fill it in. Never commit `.env`.
+2. Google Cloud login: `gcloud auth application-default login`
+   (or put a Firebase service-account key at `ophia-data/credentials/firebase-adminsdk.json`).
+3. `pip install -r ophia-backend/requirements.txt -r ophia-frontend/requirements.txt`
+4. Build the data (optional; `seed_db.py` embeds anything missing): `cd ophia-nlp && python embed_data.py`
+5. Load Firestore: `python ophia-data/seed_db.py`
+6. Google Workspace login (once; needs an OAuth client at
+   `ophia-data/credentials/workspace-credentials.json`): `python ophia-data/workspace_trigger.py`
+7. Backend: `cd ophia-backend && uvicorn app:app --reload` (interactive docs at `/docs`)
+8. Frontend: set `OPHIA_API_URL="http://localhost:8000"` in `.env`, then `cd ophia-frontend && streamlit run app.py`
+
+If you change `EMBED_MODEL`, re-run steps 4–5: vectors from different models can't be compared.
+
+To refresh the public demo: `python ophia-frontend/export_snapshot.py` (reads Firestore,
+no Gemini calls), then commit `ophia-frontend/snapshot.json`.
+
+</details>
+
+<details>
+<summary><b>Project layout</b></summary>
 
 | Folder | What it does |
 |---|---|
 | `ophia-nlp/` | `embed_data.py` builds startups (YC CSV) and generated mentors with embeddings. `ai_engine.py` shortlists, grades and scores. `assignment.py` is the capacity-aware optimiser. `eval_*.py` and `label_app.py` are the evaluation. |
-| `ophia-backend/` | FastAPI server (`app.py`), lifecycle rules (`state_machine.py`), storage (`repository.py`: Firestore with transactions, or in-memory for tests), response schemas (`schemas.py`). Interactive docs at `/docs`. |
-| `ophia-data/` | `database.py` Firestore reads, `seed_db.py` loads data, `workspace_trigger.py` sends the intro email, creates the Drive folder and milestone doc, and books the Calendar kick-off. |
-| `ophia-frontend/` | Streamlit admin dashboard: live backend, snapshot, or built-in sample data. |
-| `tests/` | Unit tests (fakes for Firestore, Vertex AI and Workspace) and `integration/` tests on the Firestore emulator. |
+| `ophia-backend/` | FastAPI server (`app.py`), lifecycle rules (`state_machine.py`), storage (`repository.py`: Firestore with transactions, or in-memory for tests), response schemas (`schemas.py`). |
+| `ophia-data/` | `database.py` Firestore reads, `seed_db.py` loads data, `workspace_trigger.py` provisions email, Drive folder and Calendar kick-off. |
+| `ophia-frontend/` | Streamlit admin dashboard. |
+| `tests/` | Unit tests with fakes, and `integration/` tests on the Firestore emulator. |
 
-**Stack:** Python, FastAPI, Pydantic, Streamlit, Vertex AI (`text-embedding-004`, Gemini
-`gemini-3.1-flash-lite`), Firestore, SciPy, Gmail / Drive / Calendar APIs, GitHub Actions.
+</details>
 
 ## API
 
+<details>
+<summary><b>Endpoints and lifecycle</b></summary>
+
 | Endpoint | What it does |
 |---|---|
-| `GET /api/linkages?limit=5&refresh=false` | Pending suggestions. When they run low, an admin refresh suggests for all unmatched startups at once, assigned jointly within capacity |
+| `GET /api/linkages?limit=5&refresh=false` | Pending suggestions. An admin refresh suggests for all unmatched startups at once, assigned jointly within capacity |
 | `POST /api/matches/{id}/approve` | Creates the workspace. Idempotent: approving twice returns the same workspace |
 | `POST /api/matches/{id}/reject` | Optional `{"reason": "..."}` |
 | `GET /api/matches?status=approved` | Every decision: the record of admin choices |
@@ -202,42 +197,22 @@ when no key was set, which is now fixed and tested.
 | `POST /api/workspaces/{id}/provision` | Retry email/Drive/Calendar after `partial`, `skipped` or `failed` |
 | `GET /api/stats`, `/api/startups`, `/api/mentors`, `/api/health` | |
 
-Every `POST`, and generating new suggestions, requires the admin key (`ADMIN_API_KEY`) in an
-`X-API-Key` header, otherwise `401`. Lifecycle violations return `409` with the reason;
-unknown IDs `404`; storage outages `503`.
+```
+Match:         pending ──approve──► approved (creates a workspace)
+                  └─────reject───► rejected (never suggested again)
 
-## Running it
+Workspace:     active ──day-90 milestone done──► completed
+                  └──────────cancel────────────► cancelled
+               (milestones 30 → 60 → 90, in order)
 
-**Demo mode (no keys needed)**
-
-```bash
-cd ophia-frontend
-pip install -r requirements.txt
-streamlit run app.py
+Provisioning:  queued ──► succeeded | partial | skipped | failed ──retry──► queued
 ```
 
-The dashboard picks its data source automatically: the live backend if `OPHIA_API_URL` is
-set, otherwise `snapshot.json` (real exported output), otherwise built-in sample data.
+Every `POST`, and generating new suggestions, requires the admin key (`ADMIN_API_KEY`) in an
+`X-API-Key` header, otherwise `401`. With no key configured, changes are disabled (`503`),
+not left open. Lifecycle violations return `409` with the reason, unknown IDs `404`.
 
-**Live mode**
-
-1. Copy `.env.example` to `.env` in the repo root and fill it in. Never commit `.env`.
-2. Google Cloud login (Vertex AI + Firestore): `gcloud auth application-default login`
-   (or put a Firebase service-account key at `ophia-data/credentials/firebase-adminsdk.json`).
-3. `pip install -r ophia-backend/requirements.txt -r ophia-frontend/requirements.txt`
-4. Build the data (optional; `seed_db.py` embeds anything missing): `cd ophia-nlp && python embed_data.py`
-5. Load Firestore: `python ophia-data/seed_db.py`
-6. Google Workspace login (once; needs an OAuth client at
-   `ophia-data/credentials/workspace-credentials.json`): `python ophia-data/workspace_trigger.py`
-7. Backend: `cd ophia-backend && uvicorn app:app --reload`
-8. Frontend: set `OPHIA_API_URL="http://localhost:8000"` in `.env`, then `cd ophia-frontend && streamlit run app.py`
-
-> If you change `EMBED_MODEL`, re-run steps 4–5: vectors from different models can't be compared.
-
-**Public demo.** Streamlit Community Cloud runs `ophia-frontend/app.py` on
-`ophia-frontend/snapshot.json`. It never calls Google Cloud. To refresh it:
-`python ophia-frontend/export_snapshot.py` (reads Firestore, no Gemini calls), then commit
-`snapshot.json`.
+</details>
 
 ## Tests
 
@@ -247,19 +222,21 @@ ruff check .
 pytest
 ```
 
-Unit tests replace Firestore, Vertex AI and Google Workspace with fakes, so they need no
-credentials or network. The integration tests in `tests/integration/` run the production
-Firestore code against Google's emulator (they skip locally unless
-`FIRESTORE_EMULATOR_HOST` is set). CI runs both on every push.
+239 tests: 230 unit tests (fakes for Firestore, Vertex AI and Google Workspace, so no
+credentials or network) and 9 integration tests that run the production Firestore code on
+Google's emulator. CI runs both on every push, on Python 3.11 and 3.12.
 
-Match quality is measured separately, with real Gemini calls:
+## Roadmap
 
-```bash
-python ophia-nlp/eval_scoring.py          # separation and top-1 accuracy
-python ophia-nlp/eval_assignment.py       # capacity experiment
-streamlit run ophia-nlp/label_app.py      # blind human labelling
-python ophia-nlp/eval_human.py report     # agreement with the labels
-```
+- [x] Rubric scoring, evaluated against human labels
+- [x] Domain gate, validated on held-out labels
+- [x] Capacity-aware assignment
+- [x] Lifecycle state machine with transactional approval
+- [x] Admin auth, tests and CI, public demo
+- [ ] Run Gmail / Drive / Calendar provisioning against real accounts
+- [ ] Collect real approve/reject decisions to feed the evaluation loop
+- [ ] Real mentor profiles instead of generated ones
+- [ ] Dockerfile for one-command local setup
 
 ## Team
 
@@ -269,3 +246,5 @@ python ophia-nlp/eval_human.py report     # agreement with the labels
 | Fitri | NLP Data Pipeline |
 | Ismail | Backend & State Machine |
 | Razin | Linkage Scoring & Data |
+
+Startup data: the public Y Combinator companies dataset.
