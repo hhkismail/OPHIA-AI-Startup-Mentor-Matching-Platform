@@ -25,14 +25,13 @@ At the end of the hackathon the embedding pipeline and AI engine existed, but:
   and approval printed a line without storing anything.
 - The engine asked Gemini for a single 0–100 "synergy" score per pair, with no way to tell
   whether it meant anything.
-- A Gemini API key was hardcoded and committed.
 - Every generated mentor had fallen back to the same placeholder, "Alex Morgan", so the
   mentor data was unusable.
 - There was no lifecycle: `state_machine.py` was a one-line placeholder, and nothing
   stopped a match being approved twice.
 - There were no tests.
 
-The key was revoked, the data pipeline was rebuilt (retries, no placeholder fallback, 49
+The data pipeline was rebuilt (retries, no placeholder fallback, 49
 unique mentors), the backend was wired to the engine and Firestore, and then each design
 question below was answered with a measurement.
 
