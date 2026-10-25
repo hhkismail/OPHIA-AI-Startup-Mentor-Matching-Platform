@@ -12,7 +12,13 @@ ACCENT = "#0F766E"
 
 CSS = """
 <style>
-  .block-container { padding-top: 1.2rem; max-width: 1200px; }
+  /* Streamlit Cloud's toolbar overlays the top ~3.5rem of the page */
+  .block-container { padding-top: 4rem; max-width: 1200px; }
+
+  /* Reject buttons (Streamlit tags keyed widgets with .st-key-<key>) */
+  [class*="st-key-reject_"] button { background:#FFFFFF; color:#B42318; border:1px solid #F1A9A0; }
+  [class*="st-key-reject_"] button:hover { background:#FEF3F2; color:#912018; border-color:#D92D20; }
+  [class*="st-key-reject_"] button:disabled { background:#FFFFFF; color:#C9A8A4; border-color:#EEDAD7; }
   .o-bar { display:flex; align-items:center; gap:.7rem; padding:.2rem 0 .6rem; }
   .o-logo { width:34px; height:34px; border-radius:9px; background:#0F766E; color:#FFFFFF;
             display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.05rem; }

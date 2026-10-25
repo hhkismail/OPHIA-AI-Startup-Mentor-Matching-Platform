@@ -183,7 +183,6 @@ def render_match(match: dict):
             st.write(plain(match["insight"]))
             st.markdown(ui.grade_meters(match.get("grades")) + ui.chips(match.get("tags", [])),
                         unsafe_allow_html=True)
-            st.caption(match.get("score_detail", ""))
         if action.button("Reject", key=f"reject_{match['key']}", disabled=read_only(),
                          use_container_width=True):
             reject_match(match)

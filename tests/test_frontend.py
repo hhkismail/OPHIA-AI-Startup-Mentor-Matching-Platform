@@ -15,6 +15,17 @@ def page_text(at) -> str:
     return "\n".join([str(el.value) for el in els] + [f"{m.label} {m.value}" for m in at.metric])
 
 
+def ui_grades(at) -> list[tuple]:
+    """(domain, need, market) read back from the dot meters on each match card."""
+    import re
+    found = []
+    for m in at.markdown:
+        dots = re.findall(r'<span class="o-dots">(●*)<span class="off">', str(m.value))
+        if dots:  # skips the stylesheet, which mentions the class names
+            found.append(tuple(len(x) for x in dots))
+    return found
+
+
 def start(**kw) -> AppTest:
     at = AppTest.from_file(APP, default_timeout=60)
     at.run()
@@ -145,7 +156,7 @@ def test_live_mode_shows_backend_data(live_backend):
     text = page_text(at)
     assert at.session_state.data_source == "live"
     assert "Live data" in text and "50" in text and "61" in text
-    assert "Domain 5/5 · Need 4/5 · Market 5/5 · Closer than 98% of pairs" in text
+    assert ui_grades(at) == [(5, 4, 5)]
 
 
 def test_unreachable_backend_falls_back_to_demo_with_warning(monkeypatch):
@@ -239,7 +250,7 @@ def test_snapshot_mode_banner_and_data(snapshot):
     assert at.session_state.data_source == "snapshot"
     text = page_text(at)
     assert "Read-only snapshot of real OPHIA output" in text and "nothing is saved" in text
-    assert "Domain 5/5 · Need 5/5 · Market 4/5" in text
+    assert ui_grades(at) == [(5, 5, 4)]
 
 
 def test_snapshot_mode_is_try_able_but_session_only(snapshot, monkeypatch):
@@ -266,3 +277,9 @@ def test_evaluation_page_renders_committed_results():
     text = page_text(at) + "\n".join(str(s.value) for s in at.subheader)
     for section in ("Agreement with human judgement", "held-out labels", "Capacity-aware assignment", "Limitations"):
         assert section in text, section
+
+
+def test_grades_shown_once_as_dots_not_repeated_as_text():
+    at = start()
+    assert ui_grades(at)
+    assert not any("Domain 5/5" in str(c.value) for c in at.caption)
