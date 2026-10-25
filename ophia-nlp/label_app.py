@@ -11,13 +11,16 @@ Then run: python ophia-nlp/eval_human.py report
 
 import html
 import os
+import sys
 from pathlib import Path
 
 import streamlit as st
 
 import eval_human as eh
 
-SAMPLE_PATH = Path(os.getenv("OPHIA_LABEL_SAMPLE", eh.SAMPLE_PATH))
+# `streamlit run label_app.py -- validation` labels the held-out batch
+_default = eh.VALIDATION_PATH if "validation" in sys.argv[1:] else eh.SAMPLE_PATH
+SAMPLE_PATH = Path(os.getenv("OPHIA_LABEL_SAMPLE", _default))
 LABELS_PATH = Path(os.getenv("OPHIA_LABELS_PATH", eh.LABELS_PATH))
 
 st.set_page_config(page_title="OPHIA — Label pairs", layout="wide")
@@ -54,8 +57,9 @@ with st.sidebar:
             st.rerun()
 
 if not remaining:
+    next_step = "validate" if SAMPLE_PATH == eh.VALIDATION_PATH else "report"
     st.success(f"All {len(sample)} pairs labelled — thank you! "
-               "Now run `python ophia-nlp/eval_human.py report`.")
+               f"Now run `python ophia-nlp/eval_human.py {next_step}`.")
     st.stop()
 
 pair = remaining[0]

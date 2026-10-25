@@ -144,3 +144,43 @@ def test_ui_without_sample(tmp_path, monkeypatch):
     monkeypatch.setenv("OPHIA_LABEL_SAMPLE", str(tmp_path / "missing.json"))
     at = AppTest.from_file(APP, default_timeout=30).run()
     assert "eval_human.py build" in text(at)
+
+
+# ── Held-out validation of the domain gate ───────────────────────────────────
+
+def gated_pair(s, synergy, domain):
+    p = pair(s, "m", synergy)
+    p["ai"]["grades"]["domain_fit"] = domain
+    return p
+
+
+def test_domain_gate_caps_only_low_domain_fit():
+    assert eh.domain_gate(72, {"domain_fit": 2}) == 49
+    assert eh.domain_gate(30, {"domain_fit": 1}) == 30
+    assert eh.domain_gate(72, {"domain_fit": 3}) == 72
+
+
+def test_validation_sample_is_fresh_and_half_gate_affected():
+    pairs = [gated_pair(f"a{i}", 60 + i % 30, domain=2) for i in range(30)] + \
+            [gated_pair(f"o{i}", i % 100, domain=4) for i in range(60)]
+    exclude = {eh.pair_key(p) for p in pairs[:5]}
+    sample = eh.validation_sample(pairs, exclude)
+    assert len(sample) == 20
+    assert not exclude & {eh.pair_key(p) for p in sample}
+    assert sum(map(eh.gate_changes, sample)) == 10
+
+
+def label_all(sample, labels):
+    return {eh.pair_key(p): {"label": lab, "note": ""} for p, lab in zip(sample, labels)}
+
+
+def test_validate_adopts_gate_when_affected_pairs_are_bad():
+    sample = [gated_pair("a1", 70, 2), gated_pair("a2", 65, 2), gated_pair("g1", 95, 5), gated_pair("b1", 20, 1)]
+    data = eh.validate_data(sample, label_all(sample, ["bad", "bad", "good", "bad"]))
+    assert data["affected_labelled_bad"] == 1.0 and data["adopt_gate"] is True
+
+
+def test_validate_rejects_gate_when_humans_liked_those_pairs():
+    sample = [gated_pair("a1", 70, 2), gated_pair("a2", 65, 2), gated_pair("g1", 95, 5), gated_pair("b1", 20, 1)]
+    data = eh.validate_data(sample, label_all(sample, ["ok", "ok", "good", "bad"]))
+    assert data["criterion_2_bad_share"] is False and data["adopt_gate"] is False
