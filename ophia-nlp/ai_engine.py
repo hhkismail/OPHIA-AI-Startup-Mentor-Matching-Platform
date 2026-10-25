@@ -184,6 +184,22 @@ def rubric_score(grades: dict) -> float:
     return (sum(vals) / len(vals) - 1) / 4
 
 
+# Domain gate, adopted after a pre-registered held-out test (eval_human.py,
+# commit 91afa6c). Human labels showed the AI was too generous to mentors from
+# the wrong industry: averaging let generic need/market grades lift a poor
+# domain_fit into the "ok" range. With domain_fit <= 2 the score is capped
+# below MIN_SYNERGY, so such pairs are never suggested. On 20 fresh labelled
+# pairs: weighted kappa 0.64 -> 0.96; 9 of the 10 pairs it changed were "bad".
+DOMAIN_GATE_MAX_FIT = 2
+DOMAIN_GATE_CAP = 49
+
+
+def apply_domain_gate(synergy: int, grades: dict | None) -> int:
+    if grades and grades["domain_fit"] <= DOMAIN_GATE_MAX_FIT:
+        return min(synergy, DOMAIN_GATE_CAP)
+    return synergy
+
+
 def blend_synergy(sim_pct: float, rubric: float | None, sim_weight: float = SIM_WEIGHT) -> int:
     """Final 0-100 synergy. Without a rubric (Gemini failed) it's similarity only."""
     if rubric is None:
@@ -302,7 +318,7 @@ def score_pair(startup: dict, mentor: dict, similarity: float, reference=None) -
             "grades": None,
         }
     return {
-        "synergy": blend_synergy(sim_pct, rubric_score(grades)),
+        "synergy": apply_domain_gate(blend_synergy(sim_pct, rubric_score(grades)), grades),
         "insight": grades["insight"],
         "tags": grades.get("tags", []),
         "grades": {k: grades[k] for k in ("domain_fit", "need_fit", "market_fit")},

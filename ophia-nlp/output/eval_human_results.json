@@ -1,0 +1,105 @@
+{
+  "n": 40,
+  "label_counts": {
+    "bad": 17,
+    "good": 15,
+    "ok": 8
+  },
+  "signals": {
+    "blended synergy (what OPHIA uses)": {
+      "spearman": 0.908,
+      "auc_good_vs_bad": 1.0,
+      "weighted_kappa": 0.849,
+      "exact_agreement": 0.775
+    },
+    "Gemini rubric only": {
+      "spearman": 0.906,
+      "auc_good_vs_bad": 1.0,
+      "weighted_kappa": 0.904,
+      "exact_agreement": 0.85
+    },
+    "embedding similarity only": {
+      "spearman": 0.776,
+      "auc_good_vs_bad": 0.963,
+      "weighted_kappa": 0.522,
+      "exact_agreement": 0.6
+    }
+  },
+  "confusion": {
+    "ai=0 human=0": 11,
+    "ai=1 human=0": 6,
+    "ai=1 human=1": 6,
+    "ai=1 human=2": 1,
+    "ai=2 human=1": 2,
+    "ai=2 human=2": 14
+  },
+  "disagreements": [
+    {
+      "pair": "Sleep Reset|Dr. Priya Kulkarni",
+      "human": "bad",
+      "human_note": "",
+      "ai_synergy": 72,
+      "ai_grades": {
+        "domain_fit": 4,
+        "need_fit": 3,
+        "market_fit": 3
+      },
+      "ai_reasoning": "The mentor has strong expertise in digital health and clinical validation, which aligns well with Sleep Reset's focus on evidence-based CBT-i. However, the mentor's primary experience is in medical hardware and diagnostic tech, whereas Sleep Reset is a consumer-facing digital wellness app. The gap lies in the mentor's focus on regulatory hardware pathways versus the startup's need for consumer growth and behavioral health engagement."
+    },
+    {
+      "pair": "Somos|Thiago Alencar",
+      "human": "bad",
+      "human_note": "",
+      "ai_synergy": 62,
+      "ai_grades": {
+        "domain_fit": 2,
+        "need_fit": 3,
+        "market_fit": 4
+      },
+      "ai_reasoning": "The mentor has deep experience in infrastructure and regional scaling in Latin America, which provides a strong foundation for the startup's operational needs. However, there is a significant gap between the mentor's fintech-specific payment orchestration expertise and the startup's core business of telecommunications hardware and radio technology. While the regional and infrastructure experience is valuable, the mentor lacks the specific technical domain knowledge required for building fiber-quality radio networks."
+    },
+    {
+      "pair": "Reverie Labs|Vriraj Singh",
+      "human": "bad",
+      "human_note": "",
+      "ai_synergy": 57,
+      "ai_grades": {
+        "domain_fit": 2,
+        "need_fit": 3,
+        "market_fit": 2
+      },
+      "ai_reasoning": "The mentor possesses strong technical expertise in AI infrastructure and security, which is valuable for a computational drug discovery startup. However, there is a significant gap in domain-specific knowledge regarding biotech, clinical trials, or drug development pipelines. The pairing is technically relevant but lacks the industry-specific guidance required for a high-impact biotech venture."
+    },
+    {
+      "pair": "GrowthBook|Marcus Holloway",
+      "human": "bad",
+      "human_note": "",
+      "ai_synergy": 56,
+      "ai_grades": {
+        "domain_fit": 2,
+        "need_fit": 3,
+        "market_fit": 2
+      },
+      "ai_reasoning": "The mentor's background in high-scale gaming platforms provides relevant experience in managing complex data infrastructure and user acquisition funnels, which aligns with GrowthBook's B2B analytics focus. However, there is a significant gap in open-source business model expertise and developer tool product strategy, as the mentor's experience is heavily weighted toward regulated consumer-facing platforms. While the mentor can help with scaling operations, they lack direct experience in the specific challenges of the open-source developer tools market."
+    },
+    {
+      "pair": "Datlo|Marcus Thorne-Bennett",
+      "human": "bad",
+      "human_note": "",
+      "ai_synergy": 52,
+      "ai_grades": {
+        "domain_fit": 2,
+        "need_fit": 4,
+        "market_fit": 1
+      },
+      "ai_reasoning": "The mentor has strong experience in SaaS growth and GTM strategy, which is highly relevant for Datlo's sales-focused platform. However, there is a significant gap in domain expertise, as the mentor's background is heavily focused on fintech and nonprofit tech rather than geointelligence or B2B market research tools. Additionally, there is no overlap in regional experience between the mentor's background and the startup's focus on the Brazilian market."
+    }
+  ],
+  "decisions": {
+    "approved": 0,
+    "rejected": 0,
+    "mean_synergy_approved": null,
+    "mean_synergy_rejected": null,
+    "auc_approved_vs_rejected": NaN
+  }
+}

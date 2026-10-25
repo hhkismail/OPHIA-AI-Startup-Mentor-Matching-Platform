@@ -1,0 +1,20 @@
+{
+  "n": 20,
+  "gate_affected": 10,
+  "current": {
+    "spearman": 0.719,
+    "auc_good_vs_bad": 1.0,
+    "weighted_kappa": 0.64,
+    "exact_agreement": 0.55
+  },
+  "with_gate": {
+    "spearman": 0.836,
+    "auc_good_vs_bad": 1.0,
+    "weighted_kappa": 0.962,
+    "exact_agreement": 0.95
+  },
+  "affected_labelled_bad": 0.9,
+  "criterion_1_kappa_improves": true,
+  "criterion_2_bad_share": true,
+  "adopt_gate": true
+}

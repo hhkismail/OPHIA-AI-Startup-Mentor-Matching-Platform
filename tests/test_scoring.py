@@ -85,3 +85,23 @@ def test_embedding_text_recipes_include_context():
 def test_embedding_text_recipes_skip_missing_fields():
     assert ai.startup_embedding_text({"description": "Only this"}) == "Only this"
     assert ai.mentor_embedding_text({"bio": "Only bio"}) == "Only bio"
+
+
+def test_domain_gate_caps_wrong_industry_matches():
+    # Adopted after held-out human validation (see ai_engine.DOMAIN_GATE_*)
+    assert ai.apply_domain_gate(72, {"domain_fit": 2}) == 49
+    assert ai.apply_domain_gate(30, {"domain_fit": 1}) == 30
+    assert ai.apply_domain_gate(72, {"domain_fit": 3}) == 72
+    assert ai.apply_domain_gate(72, None) == 72  # no grades (Gemini failed): similarity only
+
+
+def test_score_pair_applies_the_gate(monkeypatch):
+    monkeypatch.setattr(ai, "grade_pair", lambda s, m: {
+        "reasoning": "r", "domain_fit": 2, "need_fit": 5, "market_fit": 5, "insight": "i", "tags": []})
+    result = ai.score_pair({"company_name": "S"}, {"name": "M"}, similarity=0.7)
+    assert result["synergy"] == ai.DOMAIN_GATE_CAP
+
+
+def test_gate_keeps_gated_pairs_below_the_suggestion_threshold():
+    import app as backend
+    assert ai.DOMAIN_GATE_CAP < backend.MIN_SYNERGY
