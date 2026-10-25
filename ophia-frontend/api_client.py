@@ -23,6 +23,8 @@ API_URL = os.getenv("OPHIA_API_URL", "").rstrip("/")
 API_KEY = os.getenv("OPHIA_API_KEY", "")
 # The first batch of suggestions grades every startup with Gemini, so allow plenty of time
 TIMEOUT = 300
+# Pending suggestions loaded per session (the backend caps it at 50)
+PENDING_LIMIT = min(max(int(os.getenv("OPHIA_PENDING_LIMIT", "5")), 1), 50)
 
 last_error = None
 
@@ -149,7 +151,7 @@ def fetch_stats():
     return _request("GET", "/api/stats")
 
 
-def fetch_pending_matches(limit: int = 5):
+def fetch_pending_matches(limit: int = PENDING_LIMIT):
     data = _request("GET", "/api/linkages", params={"limit": limit})
     return None if data is None else [_to_match(item) for item in data]
 
