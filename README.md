@@ -142,6 +142,13 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
+Or with Docker:
+
+```bash
+docker build -t ophia . && docker run -p 8501:8501 ophia      # dashboard on the snapshot
+docker compose up                                             # backend + dashboard, live (needs .env + gcloud login)
+```
+
 The dashboard uses the live backend if `OPHIA_API_URL` is set, otherwise
 `snapshot.json` (real exported output, also what the public demo runs on), otherwise
 built-in sample data.
@@ -211,6 +218,8 @@ Provisioning:  queued ──► succeeded | partial | skipped | failed ──ret
 Every `POST`, and generating new suggestions, requires the admin key (`ADMIN_API_KEY`) in an
 `X-API-Key` header, otherwise `401`. With no key configured, changes are disabled (`503`),
 not left open. Lifecycle violations return `409` with the reason, unknown IDs `404`.
+`SUGGEST_NEW_MATCHES=false` is a cost switch: the backend then never calls Gemini and only
+serves stored suggestions.
 
 </details>
 
@@ -222,9 +231,10 @@ ruff check .
 pytest
 ```
 
-239 tests: 230 unit tests (fakes for Firestore, Vertex AI and Google Workspace, so no
+243 tests: 234 unit tests (fakes for Firestore, Vertex AI and Google Workspace, so no
 credentials or network) and 9 integration tests that run the production Firestore code on
-Google's emulator. CI runs both on every push, on Python 3.11 and 3.12.
+Google's emulator. CI runs both on every push, on Python 3.11 and 3.12, and builds the
+Docker image and checks that the dashboard renders and the backend starts.
 
 ## Roadmap
 
@@ -235,8 +245,8 @@ Google's emulator. CI runs both on every push, on Python 3.11 and 3.12.
 - [x] Admin auth, tests and CI, public demo
 - [ ] Run Gmail / Drive / Calendar provisioning against real accounts
 - [ ] Collect real approve/reject decisions to feed the evaluation loop
+- [x] Docker image and compose file, built and smoke-tested in CI
 - [ ] Real mentor profiles instead of generated ones
-- [ ] Dockerfile for one-command local setup
 
 ## Team
 

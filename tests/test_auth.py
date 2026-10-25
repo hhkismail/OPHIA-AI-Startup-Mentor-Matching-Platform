@@ -101,6 +101,22 @@ def test_anonymous_refresh_is_rejected(repo, gemini_calls):
     assert anon.get("/api/linkages?refresh=true").status_code == 401
 
 
+@pytest.mark.parametrize("value", ["false", "0", "no", "FALSE"])
+def test_cost_switch_stops_even_the_admin_from_calling_gemini(monkeypatch, repo, gemini_calls, value):
+    admin = TestClient(backend.app, headers=ADMIN_HEADERS)
+    admin.get("/api/linkages?limit=1")  # suggestions for every startup stored while enabled
+    stored = repo.matches()
+    repo.reject_match(stored[0]["match_id"])  # that startup now needs a new suggestion
+    gemini_calls.clear()
+    monkeypatch.setenv("SUGGEST_NEW_MATCHES", value)
+    # Fewer pending than asked for would normally top up with Gemini
+    assert len(admin.get("/api/linkages?limit=50").json()) == len(stored) - 1
+    r = admin.get("/api/linkages?refresh=true")
+    assert r.status_code == 503 and "SUGGEST_NEW_MATCHES" in r.json()["detail"]
+    assert gemini_calls == []
+    assert len(repo.matches()) == len(stored)  # refresh didn't discard stored suggestions
+
+
 @pytest.mark.parametrize("limit", [0, 51, -1])
 def test_linkage_limit_is_bounded(repo, limit):
     # Caps how many Gemini calls one admin request can make

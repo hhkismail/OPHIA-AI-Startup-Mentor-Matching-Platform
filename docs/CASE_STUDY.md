@@ -145,7 +145,7 @@ can't lose an approval.
 
 ## 7. Tests that can fail
 
-239 tests: 230 unit tests with fakes for Firestore, Vertex AI and Google Workspace, and 9
+243 tests: 234 unit tests with fakes for Firestore, Vertex AI and Google Workspace, and 9
 integration tests on the Firestore emulator. CI runs both on Python 3.11 and 3.12.
 
 After writing the race-condition and auth tests, I re-introduced the original bugs to check

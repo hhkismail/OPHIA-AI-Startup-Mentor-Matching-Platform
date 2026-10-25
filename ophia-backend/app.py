@@ -58,6 +58,11 @@ MIN_SYNERGY = int(os.getenv("MIN_SYNERGY", "50"))
 # Parallel Gemini grading calls when generating a batch of suggestions
 GRADING_WORKERS = int(os.getenv("GRADING_WORKERS", "8"))
 
+
+def suggestions_enabled() -> bool:
+    """Cost switch: SUGGEST_NEW_MATCHES=false never calls Gemini, only serves stored suggestions."""
+    return os.getenv("SUGGEST_NEW_MATCHES", "true").strip().lower() not in ("false", "0", "no")
+
 _repo = FirestoreRepository(database)
 
 
@@ -171,15 +176,18 @@ def pending_linkages(limit: int = Query(5, ge=1, le=50), refresh: bool = False,
 
     Without the admin key this only returns stored suggestions: generating
     new ones costs Gemini calls, so anonymous visitors can't trigger it.
+    With SUGGEST_NEW_MATCHES=false nobody can.
     """
     if refresh:
         if not admin:
             require_admin(None)  # raises 401/503
+        if not suggestions_enabled():
+            raise HTTPException(status_code=503, detail="New suggestions are disabled (SUGGEST_NEW_MATCHES=false)")
         _db_call(repo.delete_pending_matches)
 
     matches = _db_call(repo.matches)
     pending = [m for m in matches if m["status"] == sm.MatchStatus.PENDING.value]
-    if admin and len(pending) < limit:
+    if admin and suggestions_enabled() and len(pending) < limit:
         pending += _suggest(repo, matches)
     return sorted(pending, key=lambda m: m["created_at"])[:limit]
 
