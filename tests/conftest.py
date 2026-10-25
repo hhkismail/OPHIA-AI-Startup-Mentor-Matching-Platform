@@ -42,7 +42,6 @@ def block_network(monkeypatch):
     import database
 
     monkeypatch.setattr(ai_engine, "get_client", _no_network)
-    monkeypatch.setattr(ai_engine, "_get_db", _no_network)
     monkeypatch.setattr(database, "get_db", _no_network)
 
 

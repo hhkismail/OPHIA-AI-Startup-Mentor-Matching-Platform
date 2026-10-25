@@ -1,13 +1,12 @@
 # workspace_trigger.py
-# Fitri's Google Workspace automation
-# Triggers when Razin's API receives an approved match
+# Google Workspace automation, run by the backend after a match is approved
 #
 # Does 3 things in sequence:
 # 1. Sends an intro email via Gmail API
 # 2. Creates a shared Drive folder with a 90-day milestones doc
 # 3. Creates a Calendar event with Meet link
 #
-# Razin calls trigger_workspace_automation() as a FastAPI BackgroundTask
+# ophia-backend/app.py runs trigger_workspace_automation() as a FastAPI BackgroundTask
 
 import os
 import base64
@@ -366,7 +365,7 @@ def create_calendar_event(
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# MASTER TRIGGER — Razin calls this function
+# MASTER TRIGGER
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def trigger_workspace_automation(
@@ -376,7 +375,7 @@ def trigger_workspace_automation(
     contact_email: str = None
 ) -> dict:
     """
-    THE MAIN FUNCTION. Razin calls this as a FastAPI BackgroundTask.
+    Entry point, run by the backend as a background task.
     
     Runs all 3 workspace automations in sequence:
     1. Send intro email
@@ -385,14 +384,6 @@ def trigger_workspace_automation(
     
     Returns a dict with all the created resource URLs/IDs.
     
-    Usage in Razin's FastAPI:
-        background_tasks.add_task(
-            trigger_workspace_automation,
-            startup_name="DataShield",
-            mentor_name="Ehtisham Raza",
-            synergy_score=96,
-            contact_email="demo@gmail.com"
-        )
     """
     print(f"\n[workspace] 🚀 Starting workspace automation for: {startup_name} × {mentor_name}")
 

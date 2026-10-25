@@ -1,13 +1,13 @@
 """
-ai_engine.py — OPHIA Cognitive Engine (Ismail's module)
+ai_engine.py — matching and scoring.
 
-Public API:
-    from ai_engine import generate_matches   # by startup name, reads Firestore
-    from ai_engine import match_startup      # pure: startup dict + mentor dicts
-    from ai_engine import get_embedding      # shared by embed_data.py / seed_db.py
+    match_startup(startup, mentors)   shortlist by embedding similarity, Gemini grades
+                                      the top N, blended synergy (used by the backend)
+    get_embedding(text)               shared by embed_data.py and seed_db.py
 
-Uses Vertex AI via ADC — all usage billed to GCP credits.
-Clients are created lazily, so importing this module never needs credentials.
+No storage access: callers pass startups and mentors in. Uses Vertex AI via
+Application Default Credentials; clients are created lazily, so importing
+this module never needs credentials.
 """
 
 import os
@@ -39,7 +39,6 @@ GEN_LOCATION = os.getenv("GEN_LOCATION", "global")
 
 _clients = {}
 _clients_lock = threading.Lock()
-_db = None
 
 
 def get_client(location: str = GCP_LOCATION):
@@ -59,14 +58,6 @@ def get_client(location: str = GCP_LOCATION):
 def get_gen_client():
     """Vertex AI client for Gemini text generation."""
     return get_client(GEN_LOCATION)
-
-
-def _get_db():
-    global _db
-    if _db is None:
-        from google.cloud import firestore
-        _db = firestore.Client(project=GCP_PROJECT_ID)
-    return _db
 
 
 # ── SYNERGY SCORING ──────────────────────────────────────────────────────────
@@ -332,8 +323,9 @@ def match_startup(startup: dict, mentors: list[dict], top_n: int = TOP_N_MATCHES
     the top N, and sorts them by blended synergy. Never raises — returns [] on
     failure. `reference` is from build_similarity_reference (default: built-in).
 
-    Each result matches the MatchResult schema plus `similarity` (raw cosine,
-    0-1) and `grades` (the rubric, or None if Gemini failed).
+    Each result: startup_name, mentor_name, synergy (0-100), insight, tags,
+    similarity (raw cosine), similarity_percentile (0-1) and grades (the
+    rubric, or None if Gemini failed).
     """
     startup_vec = startup.get("description_embedding")
     if not startup_vec:
@@ -364,51 +356,4 @@ def match_startup(startup: dict, mentors: list[dict], top_n: int = TOP_N_MATCHES
             "grades":       scored_pair["grades"],
         })
     results.sort(key=lambda r: r["synergy"], reverse=True)
-    return results
-
-
-def _fetch_startup(startup_name: str) -> Optional[dict]:
-    try:
-        docs = _get_db().collection("startups") \
-                 .where("company_name", "==", startup_name) \
-                 .limit(1) \
-                 .stream()
-        for doc in docs:
-            return doc.to_dict()
-        return None
-    except Exception as e:
-        print(f"[ai_engine] Firestore startup fetch error: {e}")
-        return None
-
-
-def _fetch_all_mentors() -> list[dict]:
-    try:
-        docs = _get_db().collection("mentors") \
-                 .where("status", "==", "Available") \
-                 .stream()
-        return [doc.to_dict() for doc in docs]
-    except Exception as e:
-        print(f"[ai_engine] Firestore mentor fetch error: {e}")
-        return []
-
-
-def generate_matches(startup_name: str) -> list[dict]:
-    """
-    Takes a startup name, returns top N mentor matches from Firestore.
-    Never raises — returns empty list on failure.
-    """
-    print(f"[ai_engine] Generating matches for: {startup_name}")
-
-    startup = _fetch_startup(startup_name)
-    if not startup:
-        print(f"[ai_engine] Startup not found: {startup_name}")
-        return []
-
-    mentors = _fetch_all_mentors()
-    if not mentors:
-        print("[ai_engine] No available mentors found")
-        return []
-
-    results = match_startup(startup, mentors)
-    print(f"[ai_engine] Done. {len(results)} matches returned.")
     return results

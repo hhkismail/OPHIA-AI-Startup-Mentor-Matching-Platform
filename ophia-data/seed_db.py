@@ -105,7 +105,7 @@ def load_startups() -> list:
 def get_sample_startups() -> list:
     """
     Fallback sample startups if the pipeline hasn't been run.
-    Matches the mock data already in Anna's UI.
+    Same startups as the dashboard's demo data.
     """
     return [
         {
