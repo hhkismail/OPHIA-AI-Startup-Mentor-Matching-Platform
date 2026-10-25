@@ -86,6 +86,29 @@ def test_one_failing_step_does_not_stop_the_others(google):
     assert r["drive_folder_url"] and r["calendar_event_id"]
 
 
+def test_doc_failure_keeps_the_folder(google):
+    # What happened on a real account: folder created, doc upload refused (storage full)
+    google.files().create().execute.side_effect = [
+        {"id": "F1", "webViewLink": "https://drive/F1"}, RuntimeError("storageQuotaExceeded")]
+    r = run()
+    assert r["drive_folder_id"] == "F1" and r["drive_folder_url"] == "https://drive/F1"
+    assert r["milestone_doc_created"] is False
+    assert r["errors"] == ["milestone doc failed (see server log)"]
+
+
+def test_retry_resumes_without_repeating_finished_steps(google):
+    previous = {"intro_email_sent": True, "calendar_event_id": "EV0",
+                "drive_folder_id": "F0", "drive_folder_url": "https://drive/F0", "milestone_doc_created": False}
+    google.reset_mock()
+    r = run(previous=previous)
+    google.users().messages().send.assert_not_called()   # no second email
+    google.events().insert.assert_not_called()           # no second kick-off
+    creates = [c.kwargs for c in google.files().create.call_args_list if c.kwargs]
+    assert len(creates) == 1 and creates[0]["body"]["parents"] == ["F0"]  # doc only, in the old folder
+    assert r["drive_folder_url"] == "https://drive/F0" and r["milestone_doc_created"] is True
+    assert r["calendar_event_id"] == "EV0" and r["errors"] == []
+
+
 def test_template_has_no_third_party_affiliation():
     text = wt.get_milestone_doc_content("S", "M")
     assert "Cradle" not in text and "{startup_name}" not in text

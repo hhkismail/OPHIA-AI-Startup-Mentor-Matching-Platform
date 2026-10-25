@@ -110,7 +110,9 @@ class Workspace(BaseModel):
     milestones: list[Milestone]
     provisioning_status: ProvisioningStatus
     provisioning_errors: list[str] = []
+    drive_folder_id: Optional[str] = None
     drive_folder_url: Optional[str] = None
+    milestone_doc_created: bool = False
     calendar_event_id: Optional[str] = None
     intro_email_sent: bool = False
 

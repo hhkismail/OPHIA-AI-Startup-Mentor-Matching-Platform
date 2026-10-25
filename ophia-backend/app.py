@@ -327,16 +327,19 @@ def _provision_workspace(repo: Repository, workspace_id: str, contact_email: Opt
             mentor_name=ws["mentor_name"],
             synergy_score=ws["synergy_score"],
             contact_email=contact_email,
+            previous=ws,  # a retry resumes: steps that already succeeded are skipped
         )
     except Exception as e:
         finish(sm.ProvisioningStatus.FAILED, provisioning_errors=[str(e)])
         return
 
+    drive_done = bool(result.get("drive_folder_url") and result.get("milestone_doc_created"))
     finish(
-        sm.provisioning_outcome(result.get("email_sent"), result.get("drive_folder_url"),
-                                result.get("calendar_event_id")),
+        sm.provisioning_outcome(result.get("email_sent"), drive_done, result.get("calendar_event_id")),
         intro_email_sent=bool(result.get("email_sent")),
+        drive_folder_id=result.get("drive_folder_id") or ws.get("drive_folder_id"),
         drive_folder_url=result.get("drive_folder_url") or ws.get("drive_folder_url"),
+        milestone_doc_created=bool(result.get("milestone_doc_created")),
         calendar_event_id=result.get("calendar_event_id") or ws.get("calendar_event_id"),
         provisioning_errors=result.get("errors", []),
     )

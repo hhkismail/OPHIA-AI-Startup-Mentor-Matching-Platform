@@ -243,7 +243,8 @@ def test_provisioning_skipped_without_google_login(monkeypatch, tmp_path, repo, 
 
 def test_provisioning_success_records_results(monkeypatch, repo, ws_in_repo, google_logged_in):
     monkeypatch.setattr(google_logged_in, "trigger_workspace_automation", lambda **kw: {
-        "email_sent": True, "drive_folder_url": "https://drive/x", "calendar_event_id": "ev", "errors": []})
+        "email_sent": True, "drive_folder_url": "https://drive/x", "milestone_doc_created": True,
+        "calendar_event_id": "ev", "errors": []})
     backend._provision_workspace(repo, ws_in_repo, "founder@example.com")
     ws = repo.get_workspace(ws_in_repo)
     assert ws["provisioning_status"] == "succeeded"
@@ -264,6 +265,25 @@ def test_provisioning_partial_then_retry(monkeypatch, client, repo, ws_in_repo, 
     assert r.json()["provisioning_status"] == "queued" and retried == [ws_in_repo]
 
 
+def test_folder_without_doc_is_partial_and_retry_gets_previous_state(monkeypatch, repo, ws_in_repo, google_logged_in):
+    calls = []
+
+    def automation(**kw):
+        calls.append(kw["previous"])
+        return {"email_sent": True, "drive_folder_id": "F1", "drive_folder_url": "https://drive/F1",
+                "milestone_doc_created": False, "calendar_event_id": "ev", "errors": ["milestone doc failed"]}
+    monkeypatch.setattr(google_logged_in, "trigger_workspace_automation", automation)
+    backend._provision_workspace(repo, ws_in_repo, None)
+    ws = repo.get_workspace(ws_in_repo)
+    assert ws["provisioning_status"] == "partial"
+    assert ws["drive_folder_url"] == "https://drive/F1" and ws["drive_folder_id"] == "F1"
+
+    # The retry is handed what already exists, so it can skip those steps
+    repo.update_workspace(ws_in_repo, lambda w: {"provisioning_status": "queued"})
+    backend._provision_workspace(repo, ws_in_repo, None)
+    assert calls[1]["drive_folder_id"] == "F1" and calls[1]["intro_email_sent"] is True
+
+
 def test_provisioning_crash_is_recorded_as_failed(monkeypatch, repo, ws_in_repo, google_logged_in):
     def boom(**kw):
         raise RuntimeError("token revoked")
@@ -275,7 +295,8 @@ def test_provisioning_crash_is_recorded_as_failed(monkeypatch, repo, ws_in_repo,
 
 def test_cannot_retry_succeeded_provisioning(monkeypatch, client, repo, ws_in_repo, google_logged_in):
     monkeypatch.setattr(google_logged_in, "trigger_workspace_automation", lambda **kw: {
-        "email_sent": True, "drive_folder_url": "u", "calendar_event_id": "e", "errors": []})
+        "email_sent": True, "drive_folder_url": "u", "milestone_doc_created": True,
+        "calendar_event_id": "e", "errors": []})
     backend._provision_workspace(repo, ws_in_repo, None)
     assert client.post(f"/api/workspaces/{ws_in_repo}/provision").status_code == 409
 

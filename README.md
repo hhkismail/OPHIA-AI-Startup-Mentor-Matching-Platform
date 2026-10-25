@@ -111,8 +111,14 @@ Every scoring decision was measured, and the main fix was tested on held-out lab
 ![Evaluation page: agreement with human labels and the domain gate](docs/screenshots/evaluation-agreement.png)
 
 **Limitations.** Mentors are AI-generated, not real people. Human labels come from two team
-members (60 pairs). Gmail/Drive/Calendar provisioning is tested against fakes only. Details,
-method and full tables are in the **[case study](docs/CASE_STUDY.md)**.
+members (60 pairs). Details, method and full tables are in the
+**[case study](docs/CASE_STUDY.md)**.
+
+**Run on a real Google account.** Approving a match sent the intro email and booked the
+Calendar kick-off with a Meet link. The Drive folder was created, but the milestone doc was
+rejected because the account's storage was full, and OPHIA recorded the workspace as
+`partial` with the failed step. A retry resumes from there: it reuses the folder and
+doesn't send a second email or invite.
 
 ## Challenges and what I learned
 
@@ -231,7 +237,7 @@ ruff check .
 pytest
 ```
 
-243 tests: 234 unit tests (fakes for Firestore, Vertex AI and Google Workspace, so no
+246 tests: 237 unit tests (fakes for Firestore, Vertex AI and Google Workspace, so no
 credentials or network) and 9 integration tests that run the production Firestore code on
 Google's emulator. CI runs both on every push, on Python 3.11 and 3.12, and builds the
 Docker image and checks that the dashboard renders and the backend starts.
@@ -243,7 +249,7 @@ Docker image and checks that the dashboard renders and the backend starts.
 - [x] Capacity-aware assignment
 - [x] Lifecycle state machine with transactional approval
 - [x] Admin auth, tests and CI, public demo
-- [ ] Run Gmail / Drive / Calendar provisioning against real accounts
+- [x] Gmail / Drive / Calendar provisioning run on a real Google account, with resumable retries
 - [ ] Collect real approve/reject decisions to feed the evaluation loop
 - [x] Docker image and compose file, built and smoke-tested in CI
 - [ ] Real mentor profiles instead of generated ones

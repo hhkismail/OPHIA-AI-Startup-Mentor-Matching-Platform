@@ -66,7 +66,9 @@ def new_workspace(match: dict) -> dict:
         "milestones": [{"day": d, "objective": o, "completed": False} for d, o in MILESTONES],
         "provisioning_status": sm.ProvisioningStatus.QUEUED.value,
         "provisioning_errors": [],
+        "drive_folder_id": None,
         "drive_folder_url": None,
+        "milestone_doc_created": False,
         "calendar_event_id": None,
         "intro_email_sent": False,
     }
@@ -79,6 +81,8 @@ def normalize_workspace(doc: dict) -> dict:
     doc.setdefault("provisioning_status", sm.ProvisioningStatus.QUEUED.value
                    if not doc.get("drive_folder_url") else sm.ProvisioningStatus.SUCCEEDED.value)
     doc.setdefault("provisioning_errors", [])
+    # Older code only saved the folder URL once its milestone doc existed
+    doc.setdefault("milestone_doc_created", bool(doc.get("drive_folder_url")))
     return doc
 
 

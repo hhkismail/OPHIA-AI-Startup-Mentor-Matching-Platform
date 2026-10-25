@@ -134,6 +134,16 @@ Email, Drive and Calendar provisioning runs in the background after approval. Ea
 outcome is recorded (`partial` if some succeed) and can be retried, so a Google outage
 can't lose an approval.
 
+**On a real Google account** this was tested by a real failure. The intro email was sent and
+the Calendar kick-off was booked with a Meet link. The Drive folder was created, but the
+milestone doc was rejected: the account's storage was full (`storageQuotaExceeded`). OPHIA
+recorded the workspace as `partial` with the failed step, as designed. The run also exposed a
+flaw: the folder's link was only saved once the doc existed, and a retry repeated *every*
+step, so it would have sent a second email, booked a second kick-off and created a second
+folder. Retries now resume. The workspace stores what each step produced (folder ID, doc
+created, email sent, event ID), and a retry only does what is missing. Tests reproduce the
+quota failure and the resumed retry, and were checked by re-introducing the old behaviour.
+
 ## 6. Fail closed, and keep the bill at zero
 
 - Every change, and every action that spends Gemini calls, requires the admin key
@@ -145,7 +155,7 @@ can't lose an approval.
 
 ## 7. Tests that can fail
 
-243 tests: 234 unit tests with fakes for Firestore, Vertex AI and Google Workspace, and 9
+246 tests: 237 unit tests with fakes for Firestore, Vertex AI and Google Workspace, and 9
 integration tests on the Firestore emulator. CI runs both on Python 3.11 and 3.12.
 
 After writing the race-condition and auth tests, I re-introduced the original bugs to check
@@ -182,7 +192,7 @@ python ophia-nlp/eval_human.py report     # agreement with the labels
   60 pairs, so differences smaller than about 0.05 kappa are within noise.
 - **The approve/reject feedback loop** is wired up (`eval_human.py report` reads real
   decisions) but has no real admin decisions yet.
-- **Workspace provisioning** (Gmail, Drive, Calendar) is tested against fakes only; it has
-  not been run against real Google accounts.
+- **Workspace provisioning** has run on one real Google account; the Drive milestone doc
+  step was blocked by that account's full storage, so it has only succeeded in tests.
 - **"Synergy" is OPHIA's own score.** The assignment experiment shows the solver optimises
   it, not that people would prefer every assignment.

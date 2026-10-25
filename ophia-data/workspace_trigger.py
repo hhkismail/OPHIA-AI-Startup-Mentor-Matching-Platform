@@ -181,33 +181,48 @@ def create_drive_workspace(
     creds,
     startup_name: str,
     mentor_name: str,
-    share_with: str = None
-) -> str:
+    share_with: str = None,
+    folder_id: str = None,
+    folder_url: str = None,
+) -> dict:
     """
     Creates a Google Drive folder and a 90-day milestones Google Doc inside it,
     shared with `share_with` (if given) as an editor. The folder is NOT made
     public — only the owner and the invited person can open it.
 
-    Returns the URL of the created folder (stored in Firestore).
+    Pass `folder_id`/`folder_url` from an earlier attempt to reuse that folder
+    instead of creating a second one.
+
+    Returns {"folder_id", "folder_url", "doc_created"}; the folder is reported
+    even if the doc fails, so a retry only has to create the doc.
     """
+    result = {"folder_id": folder_id, "folder_url": folder_url, "doc_created": False}
     try:
         service = build("drive", "v3", credentials=creds)
-        folder_name = f"OPHIA — {startup_name} × {mentor_name}"
+    except Exception as e:
+        log.warning(f"Drive creation failed: {e}")
+        return result
 
-        # Step 2a: Create the folder
-        folder_metadata = {
-            "name": folder_name,
-            "mimeType": "application/vnd.google-apps.folder"
-        }
-        folder = service.files().create(
-            body=folder_metadata,
-            fields="id, webViewLink"
-        ).execute()
+    folder_name = f"OPHIA — {startup_name} × {mentor_name}"
+    if not folder_id:
+        try:
+            # Step 2a: Create the folder
+            folder_metadata = {
+                "name": folder_name,
+                "mimeType": "application/vnd.google-apps.folder"
+            }
+            folder = service.files().create(
+                body=folder_metadata,
+                fields="id, webViewLink"
+            ).execute()
+            result["folder_id"], result["folder_url"] = folder.get("id"), folder.get("webViewLink")
+            folder_id = result["folder_id"]
+            log.info(f"Created Drive folder: {folder_name}")
+        except Exception as e:
+            log.warning(f"Drive folder creation failed: {e}")
+            return result
 
-        folder_id = folder.get("id")
-        folder_url = folder.get("webViewLink")
-        log.info(f"Created Drive folder: {folder_name}")
-
+    try:
         # Step 2b: Create the 90-day milestones doc inside the folder.
         # Uploading plain text with a Google Doc mimeType makes Drive convert
         # it, so the doc is created WITH the milestone content inside.
@@ -234,12 +249,11 @@ def create_drive_workspace(
             ).execute()
             log.info(f"Shared folder with {share_with}")
 
-        log.info(f"Drive folder URL: {folder_url}")
-        return folder_url
-
+        result["doc_created"] = True
+        log.info(f"Drive folder URL: {result['folder_url']}")
     except Exception as e:
-        log.warning(f"Drive creation failed: {e}")
-        return None
+        log.warning(f"Milestone doc creation failed (folder kept: {result['folder_url']}): {e}")
+    return result
 
 
 def get_milestone_doc_content(startup_name: str, mentor_name: str) -> str:
@@ -375,27 +389,35 @@ def trigger_workspace_automation(
     startup_name: str,
     mentor_name: str,
     synergy_score: int,
-    contact_email: str = None
+    contact_email: str = None,
+    previous: dict = None,
 ) -> dict:
     """
     Entry point, run by the backend as a background task.
-    
+
     Runs all 3 workspace automations in sequence:
     1. Send intro email
     2. Create Drive folder + milestone doc
     3. Create Calendar event with Meet link
-    
+
+    `previous` is the workspace from an earlier attempt: steps it already
+    completed are skipped, so a retry never sends a second email, books a
+    second kick-off or creates a second folder.
+
     Returns a dict with all the created resource URLs/IDs.
-    
+
     """
     log.info(f"Starting workspace automation for: {startup_name} × {mentor_name}")
+    previous = previous or {}
 
     result = {
         "startup_name": startup_name,
         "mentor_name": mentor_name,
-        "email_sent": False,
-        "drive_folder_url": None,
-        "calendar_event_id": None,
+        "email_sent": bool(previous.get("intro_email_sent")),
+        "drive_folder_id": previous.get("drive_folder_id"),
+        "drive_folder_url": previous.get("drive_folder_url"),
+        "milestone_doc_created": bool(previous.get("milestone_doc_created")),
+        "calendar_event_id": previous.get("calendar_event_id"),
         "errors": []
     }
 
@@ -412,35 +434,43 @@ def trigger_workspace_automation(
         return result
 
     # ── Step 1: Send email ────────────────────────────────────────────────────
-    email_sent = send_intro_email(
-        creds,
-        startup_name=startup_name,
-        mentor_name=mentor_name,
-        recipient_email=contact_email,
-        synergy_score=synergy_score
-    )
-    result["email_sent"] = email_sent
+    if not result["email_sent"]:
+        result["email_sent"] = send_intro_email(
+            creds,
+            startup_name=startup_name,
+            mentor_name=mentor_name,
+            recipient_email=contact_email,
+            synergy_score=synergy_score
+        )
 
     # ── Step 2: Create Drive workspace ────────────────────────────────────────
-    folder_url = create_drive_workspace(
-        creds,
-        startup_name=startup_name,
-        mentor_name=mentor_name,
-        share_with=contact_email if contact_email != SENDER_EMAIL else None
-    )
-    result["drive_folder_url"] = folder_url
+    if not result["milestone_doc_created"]:
+        drive = create_drive_workspace(
+            creds,
+            startup_name=startup_name,
+            mentor_name=mentor_name,
+            share_with=contact_email if contact_email != SENDER_EMAIL else None,
+            folder_id=result["drive_folder_id"],
+            folder_url=result["drive_folder_url"],
+        )
+        result["drive_folder_id"] = drive["folder_id"]
+        result["drive_folder_url"] = drive["folder_url"]
+        result["milestone_doc_created"] = drive["doc_created"]
 
     # ── Step 3: Create Calendar event ────────────────────────────────────────
-    event_id = create_calendar_event(
-        creds,
-        startup_name=startup_name,
-        mentor_name=mentor_name,
-        attendee_email=contact_email
-    )
-    result["calendar_event_id"] = event_id
+    if not result["calendar_event_id"]:
+        result["calendar_event_id"] = create_calendar_event(
+            creds,
+            startup_name=startup_name,
+            mentor_name=mentor_name,
+            attendee_email=contact_email
+        )
 
     # Each step logs its own exception; record which ones failed for the backend
-    for ok, step in ((email_sent, "intro email"), (folder_url, "Drive folder"), (event_id, "Calendar kick-off")):
+    for ok, step in ((result["email_sent"], "intro email"),
+                     (result["drive_folder_url"], "Drive folder"),
+                     (result["drive_folder_url"] is None or result["milestone_doc_created"], "milestone doc"),
+                     (result["calendar_event_id"], "Calendar kick-off")):
         if not ok:
             result["errors"].append(f"{step} failed (see server log)")
 
