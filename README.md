@@ -106,6 +106,7 @@ Every scoring decision was measured, and the main fix was tested on held-out lab
 | Does it agree with people? | 40 blind-labelled pairs: Spearman **0.91**, weighted kappa **0.85** |
 | Did the domain gate help? | Pre-registered, tested on 20 fresh pairs by a second labeller: kappa **0.64 → 0.96** |
 | Does capacity-aware assignment help? | With 10 mentors: mean synergy **87** vs 68 first-come, no mentor overloaded |
+| Do real admin decisions match the score? | 50 decisions in the live dashboard (31 approved, 19 rejected): approved averaged **98.9**, rejected **90.9**, AUC **1.0** (score was visible; used only as a tie-breaker) |
 | Is approval safe under concurrency? | 5 simultaneous approvals → exactly **1** workspace, tested on the Firestore emulator |
 
 ![Evaluation page: agreement with human labels and the domain gate](docs/screenshots/evaluation-agreement.png)
@@ -250,7 +251,8 @@ Docker image and checks that the dashboard renders and the backend starts.
 - [x] Lifecycle state machine with transactional approval
 - [x] Admin auth, tests and CI, public demo
 - [x] Gmail / Drive / Calendar provisioning run on a real Google account, with resumable retries
-- [ ] Collect real approve/reject decisions to feed the evaluation loop
+- [x] 50 real approve/reject decisions feeding the evaluation loop
+- [ ] Blind review mode (score hidden) so decisions are independent evidence
 - [x] Docker image and compose file, built and smoke-tested in CI
 - [ ] Real mentor profiles instead of generated ones
 

@@ -12,6 +12,7 @@ what I changed, and the evidence for each change. For a quick overview, see the
 - [5. Make the state the source of truth](#5-make-the-state-the-source-of-truth)
 - [6. Fail closed, and keep the bill at zero](#6-fail-closed-and-keep-the-bill-at-zero)
 - [7. Tests that can fail](#7-tests-that-can-fail)
+- [8. Close the loop with real decisions](#8-close-the-loop-with-real-decisions)
 - [Full evaluation results](#full-evaluation-results)
 - [Limitations](#limitations)
 
@@ -163,6 +164,25 @@ the tests caught them (mutation testing by hand). The race test initially *could
 so a delay was injected to force the interleaving. The auth check found a real **fail-open**
 path when no key was configured, which is now fixed and tested.
 
+## 8. Close the loop with real decisions
+
+**Question.** Do real admin decisions in the dashboard agree with the score?
+
+**Method.** All 50 stored suggestions were reviewed in the live dashboard: 31 approved,
+19 rejected. Decisions were made on the startup, the mentor and Gemini's reasoning; the
+score was visible and used only as a tie-breaker when unsure. `eval_human.py report` reads
+the decisions back from Firestore. The backend ran with `SUGGEST_NEW_MATCHES=false`, so
+reviewing cost nothing.
+
+**Result.** Approved matches averaged **98.9**, rejected **90.9**, and the score separated
+them perfectly (AUC **1.0**: every rejection scored 94 or lower, every approval 96 or
+higher). Even among each startup's *top* pick, the lower-90s were where the reviewer
+disagreed.
+
+**Caveat.** Because the score was visible, this is supporting evidence, not independent
+evidence. The blind labels in section 2 are the independent test. A blind review mode
+(score hidden until the decision) would make every future decision a clean label.
+
 ---
 
 ## Full evaluation results
@@ -175,6 +195,7 @@ path when no key was configured, which is now fixed and tested.
 | Which signal matters? | Same 40 labels | Gemini rubric ≫ embedding similarity (kappa 0.90 vs 0.52 overall, 0.80 vs 0.24 on hard cases) |
 | Fix for the main error pattern | Domain gate, pre-registered, 20 fresh pairs labelled by a second person | Kappa **0.64 → 0.96**; 9 of 10 affected pairs judged bad |
 | Does capacity-aware assignment help? | Mentor pool shrunk from 61 to 10 (`eval_assignment.py`) | Mean synergy **87 optimal vs 68 first-come** at 10 mentors |
+| Do real admin decisions match the score? | 50 decisions in the live dashboard, score visible as a tie-breaker | Approved **98.9** vs rejected **90.9**, AUC **1.0** |
 
 Reproduce with real Gemini calls:
 
@@ -190,8 +211,10 @@ python ophia-nlp/eval_human.py report     # agreement with the labels
 - **Mentors are AI-generated**, not real people; startups come from the public YC dataset.
 - **Human labels** come from two team members (not independent of the project) and total
   60 pairs, so differences smaller than about 0.05 kappa are within noise.
-- **The approve/reject feedback loop** is wired up (`eval_human.py report` reads real
-  decisions) but has no real admin decisions yet.
+- **The 50 dashboard decisions are not blind.** The score was visible while deciding. They
+  were made on the startup, mentor and reasoning, with the score used only as a tie-breaker
+  when unsure, but they still lean towards agreeing with the AI. All 50 suggestions were each
+  startup's top pick (scores 76–100), so they say nothing about low-scoring pairs.
 - **Workspace provisioning** has run on one real Google account; the Drive milestone doc
   step was blocked by that account's full storage, so it has only succeeded in tests.
 - **"Synergy" is OPHIA's own score.** The assignment experiment shows the solver optimises

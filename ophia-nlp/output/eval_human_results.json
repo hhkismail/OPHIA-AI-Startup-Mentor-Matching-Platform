@@ -96,10 +96,10 @@
     }
   ],
   "decisions": {
-    "approved": 0,
-    "rejected": 0,
-    "mean_synergy_approved": null,
-    "mean_synergy_rejected": null,
-    "auc_approved_vs_rejected": NaN
+    "approved": 31,
+    "rejected": 19,
+    "mean_synergy_approved": 98.9,
+    "mean_synergy_rejected": 90.9,
+    "auc_approved_vs_rejected": 1.0
   }
 }
