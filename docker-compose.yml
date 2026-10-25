@@ -1,0 +1,31 @@
+# Full stack: FastAPI backend + Streamlit dashboard on live Firestore/Vertex AI.
+#
+# Needs .env in the repo root (copy .env.example) and a Google Cloud login:
+#   gcloud auth application-default login
+# Your gcloud folder is mounted read-only so the containers can use that login.
+# On Windows set GCLOUD_CONFIG to %APPDATA%\gcloud, e.g. in PowerShell:
+#   $env:GCLOUD_CONFIG = "$env:APPDATA\gcloud"; docker compose up
+services:
+  backend:
+    build: .
+    command: ["uvicorn", "app:app", "--app-dir", "ophia-backend", "--host", "0.0.0.0", "--port", "8000"]
+    env_file: .env
+    ports: ["8000:8000"]
+    volumes:
+      - ${GCLOUD_CONFIG:-~/.config/gcloud}:/home/app/.config/gcloud:ro
+      # Google Workspace login (token.json) for email/Drive/Calendar, if set up
+      - ./ophia-data/credentials:/app/ophia-data/credentials
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 10s
+      retries: 5
+
+  frontend:
+    build: .
+    env_file: .env
+    environment:
+      OPHIA_API_URL: http://backend:8000
+    ports: ["8501:8501"]
+    depends_on:
+      backend:
+        condition: service_healthy

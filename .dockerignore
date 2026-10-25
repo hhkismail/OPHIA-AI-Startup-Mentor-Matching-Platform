@@ -1,0 +1,24 @@
+# Secrets never go into the image; compose mounts them at runtime
+.env
+**/.env
+ophia-data/credentials/*
+!ophia-data/credentials/.gitkeep
+**/token.json
+**/*-credentials.json
+**/firebase-adminsdk*.json
+
+# Not needed at runtime
+.git
+.github
+docs
+screenshots
+tests
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.ruff_cache
+.venv
+venv
+ophia-nlp/data
+ophia-nlp/output/eval_cache.json
+ophia-nlp/output/label_sample*.json
