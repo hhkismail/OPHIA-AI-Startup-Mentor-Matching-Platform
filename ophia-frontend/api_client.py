@@ -175,3 +175,25 @@ def complete_milestone(workspace_id: str, day: int):
     """Marks a milestone done; returns the updated workspace or None (see last_error)."""
     data = _request("POST", f"/api/workspaces/{workspace_id}/milestones/{day}/complete")
     return None if data is None else _to_workspace(data)
+
+
+# ── Snapshot (public demo) ───────────────────────────────────────────────────
+# export_snapshot.py saves real API responses to snapshot.json; the public demo
+# renders them through the same mapping functions as live mode, read-only.
+
+SNAPSHOT_PATH = Path(os.getenv("OPHIA_SNAPSHOT_PATH", Path(__file__).resolve().parent / "snapshot.json"))
+
+
+def load_snapshot() -> dict | None:
+    """The snapshot mapped into UI shapes, or None if there is no snapshot file."""
+    import json
+    if not SNAPSHOT_PATH.exists():
+        return None
+    raw = json.loads(SNAPSHOT_PATH.read_text(encoding="utf-8"))
+    return {
+        "exported_at": _fmt_date(raw.get("exported_at")),
+        "pending_matches": [_to_match(m) for m in raw["linkages"]],
+        "workspaces": [_to_workspace(w) for w in raw["workspaces"]],
+        "mentors": [_to_mentor(m) for m in raw["mentors"]],
+        "stats": raw["stats"],
+    }

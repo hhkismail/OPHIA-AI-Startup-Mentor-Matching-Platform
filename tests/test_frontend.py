@@ -183,3 +183,62 @@ def test_live_with_key_can_edit(live_backend, monkeypatch):
     at = start()
     assert "Read-only" not in page_text(at)
     assert not at.button(key="approve_btn").disabled
+
+
+# ── Snapshot mode (public demo) and Evaluation page ──────────────────────────
+
+@pytest.fixture
+def snapshot(tmp_path, monkeypatch):
+    import json
+    from fastapi.testclient import TestClient
+    import app as backend
+    import export_snapshot
+    from repository import InMemoryRepository
+    from conftest import ADMIN_HEADERS
+    import ai_engine
+
+    startups = [{"company_name": "BioCo", "description": "Drug discovery", "description_embedding": [1, 0]}]
+    mentors = [{"name": "Dr Bio", "title": "VP", "bio": "b", "skills": ["Bio"], "status": "Available",
+                "availability_hours": 6, "bio_embedding": [1, 0.1]}]
+    repo = InMemoryRepository(startups, mentors)
+    backend.app.dependency_overrides[backend.get_repo] = lambda: repo
+    monkeypatch.setattr(ai_engine, "grade_pair", lambda s, m: {
+        "reasoning": "r", "domain_fit": 5, "need_fit": 5, "market_fit": 4, "insight": "Fits.", "tags": ["Bio"]})
+    TestClient(backend.app, headers=ADMIN_HEADERS).get("/api/linkages")      # admin creates a suggestion
+    data = export_snapshot.export(TestClient(backend.app))                    # anonymous export
+    backend.app.dependency_overrides.clear()
+
+    path = tmp_path / "snapshot.json"
+    path.write_text(json.dumps(data))
+    monkeypatch.setattr(api_client, "SNAPSHOT_PATH", path)
+    return data
+
+
+def test_export_reads_stored_data_without_admin(snapshot):
+    assert [m["mentor_name"] for m in snapshot["linkages"]] == ["Dr Bio"]
+    assert snapshot["stats"] == {"startups": 1, "mentors": 1}
+    assert not any(k.endswith("_embedding") for m in snapshot["mentors"] for k in m)
+
+
+def test_snapshot_mode_is_read_only_with_banner(snapshot):
+    at = start()
+    assert at.session_state.data_source == "snapshot"
+    text = page_text(at) + "\n".join(str(i.value) for i in at.info)
+    assert "Read-only snapshot of real OPHIA output" in text and "Snapshot" in text
+    assert "Domain 5/5 · Need 5/5 · Market 4/5" in text
+    assert at.button(key="approve_btn").disabled
+    assert at.button(key=f"reject_{snapshot['linkages'][0]['match_id']}").disabled
+
+
+def test_backend_url_takes_priority_over_snapshot(snapshot, live_backend):
+    assert start().session_state.data_source == "live"
+
+
+def test_evaluation_page_renders_committed_results():
+    at = start()
+    at.session_state.page = "evaluation"
+    at.run()
+    assert not at.exception
+    text = page_text(at) + "\n".join(str(s.value) for s in at.subheader)
+    for section in ("Agreement with human judgement", "held-out labels", "Capacity-aware assignment", "Limitations"):
+        assert section in text, section

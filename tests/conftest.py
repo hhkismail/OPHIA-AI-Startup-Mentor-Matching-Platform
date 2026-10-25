@@ -23,6 +23,8 @@ for sub in reversed(("ophia-backend", "ophia-nlp", "ophia-data", "ophia-frontend
 os.environ["OPHIA_API_URL"] = ""          # demo mode unless a test opts in
 os.environ["OPHIA_API_KEY"] = ""
 os.environ["ADMIN_API_KEY"] = "test-admin-key"
+# Ignore the committed ophia-frontend/snapshot.json; snapshot tests supply their own
+os.environ["OPHIA_SNAPSHOT_PATH"] = str(Path(__file__).parent / "no-snapshot.json")
 ADMIN_HEADERS = {"X-API-Key": "test-admin-key"}
 
 

@@ -1,0 +1,2819 @@
+{
+ "exported_at": "2026-10-25T00:52:29.886038+00:00",
+ "linkages": [
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 4,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.95,
+   "synergy": 93,
+   "mentor_name": "Tadesse Gebre-Meskel",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Avion",
+   "insight": "The mentor is an ideal strategic partner for navigating the complex regulatory and last-mile distribution landscape in East Africa. The biggest gap is the mentor's lack of technical drone hardware experience, which the startup will need to address through additional engineering-focused advisors.",
+   "workspace_id": null,
+   "similarity": 0.516,
+   "tags": [
+    "Medical Logistics",
+    "East Africa",
+    "Last-mile Delivery",
+    "Regulatory Strategy"
+   ],
+   "startup_batch": "W20",
+   "mentor_title": "Director of Logistics & Supply Chain, East Africa Health Network",
+   "created_at": "2026-10-24T21:57:51.905229+00:00",
+   "match_id": "avion__tadesse-gebre-meskel",
+   "startup_description": "We connect remote clinics with labs and pharmacies in cities.",
+   "decided_at": null,
+   "startup_country": "ET"
+  },
+  {
+   "grades": {
+    "market_fit": 3,
+    "domain_fit": 4,
+    "need_fit": 4
+   },
+   "similarity_percentile": 0.907,
+   "synergy": 76,
+   "mentor_name": "Dr. Marcus Thorne-Vance",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Agapé",
+   "insight": "The mentor is an excellent match for scaling behavioral engagement and validating the product's impact on user well-being. The mentor should focus on helping the founder avoid over-medicalizing the product while leveraging clinical rigor to improve user retention.",
+   "workspace_id": null,
+   "similarity": 0.491,
+   "tags": [
+    "Digital Health",
+    "Behavioral Science",
+    "Retention Strategy",
+    "Product Scaling"
+   ],
+   "startup_batch": "S21",
+   "mentor_title": "Former Chief Medical Officer at Wellthier, Digital Therapeutics Advisor",
+   "created_at": "2026-10-24T21:58:18.089479+00:00",
+   "match_id": "agap__dr-marcus-thorne-vance",
+   "startup_description": "Feel close, even when apart. One meaningful conversation at a time.",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.991,
+   "synergy": 100,
+   "mentor_name": "Budi Santoso",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Bakool",
+   "insight": "The mentor's deep experience in Indonesian regional supply chains provides immediate, actionable value for Bakool's logistics-heavy business model. The mentor should focus on helping the startup transition from initial operations to sustainable unit economics as they scale across tier 2 cities.",
+   "workspace_id": null,
+   "similarity": 0.67,
+   "tags": [
+    "Logistics",
+    "Supply Chain",
+    "Indonesia",
+    "Operations"
+   ],
+   "startup_batch": "W22",
+   "mentor_title": "Former COO of Logistik Nusantara & Supply Chain Advisor",
+   "created_at": "2026-10-24T21:58:22.757028+00:00",
+   "match_id": "bakool__budi-santoso",
+   "startup_description": "Group buying for Fresh in Indonesia's tier 2 cities",
+   "decided_at": null,
+   "startup_country": "ID"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.98,
+   "synergy": 99,
+   "mentor_name": "Dr. Elena Vance",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "1910 Genetics",
+   "insight": "This is an exceptional pairing because the mentor's specific experience in scaling computational biology pipelines directly addresses the startup's core operational challenges. The mentor can best provide value by helping the startup bridge the gap between their AI-generated hits and the rigorous requirements of clinical-grade target validation.",
+   "workspace_id": null,
+   "similarity": 0.628,
+   "tags": [
+    "AI Drug Discovery",
+    "Computational Biology",
+    "R&D Scaling",
+    "Target Validation"
+   ],
+   "startup_batch": "W19",
+   "mentor_title": "Former VP of Computational Biology at Genentech",
+   "created_at": "2026-10-24T23:41:54.211857+00:00",
+   "match_id": "1910-genetics__dr-elena-vance",
+   "startup_description": "Make undruggable targets a thing of the past",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.971,
+   "synergy": 99,
+   "mentor_name": "Ricardo Mendes",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Belvo",
+   "insight": "This is an exceptional pairing because the mentor's deep knowledge of Brazilian banking infrastructure directly addresses the core technical and regulatory hurdles Belvo faces. The mentor can specifically help the startup navigate the complexities of integrating with legacy incumbents to accelerate their market adoption.",
+   "workspace_id": null,
+   "similarity": 0.595,
+   "tags": [
+    "Open Banking",
+    "Fintech Infrastructure",
+    "Regulatory Compliance",
+    "Latam Market"
+   ],
+   "startup_batch": "W20",
+   "mentor_title": "Former Head of Digital Banking at Itaú Unibanco",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "belvo__ricardo-mendes",
+   "startup_description": "Open Finance API platform for Latam.",
+   "decided_at": null,
+   "startup_country": "BR"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.978,
+   "synergy": 99,
+   "mentor_name": "Sarah MacLeod",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Breezeful",
+   "insight": "This is an exceptional pairing because the mentor's specific regulatory and underwriting background directly mitigates the startup's biggest operational risks. The mentor can best assist by helping the founder translate institutional banking requirements into a scalable, compliant digital product workflow.",
+   "workspace_id": null,
+   "similarity": 0.622,
+   "tags": [
+    "Mortgage Fintech",
+    "Regulatory Compliance",
+    "Digital Lending",
+    "Canadian Market"
+   ],
+   "startup_batch": "W20",
+   "mentor_title": "Former VP of Lending Strategy at Equitable Bank",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "breezeful__sarah-macleod",
+   "startup_description": "An online mortgage broker. Get the best mortgage, fast.",
+   "decided_at": null,
+   "startup_country": "CA"
+  },
+  {
+   "grades": {
+    "market_fit": 4,
+    "domain_fit": 4,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.966,
+   "synergy": 89,
+   "mentor_name": "Marcus Thorne-Smith",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Buoyant Aero",
+   "insight": "The mentor provides deep, relevant expertise in logistics scaling and regulatory navigation that directly addresses the startup's transition to commercial operations. The biggest gap is the mentor's potential lack of familiarity with the unique flight dynamics and maintenance requirements of lighter-than-air vehicles compared to traditional aircraft.",
+   "workspace_id": null,
+   "similarity": 0.576,
+   "tags": [
+    "Logistics Scaling",
+    "Aviation Operations",
+    "Autonomous Systems",
+    "Regulatory Compliance"
+   ],
+   "startup_batch": "S21",
+   "mentor_title": "Former VP of Logistics Engineering at FedEx Express",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "buoyant-aero__marcus-thorne-smith",
+   "startup_description": "Using drone blimps to move middle mile air freight at half the cost.",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.922,
+   "synergy": 97,
+   "mentor_name": "Sarah Jenkins-Wu",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Cambly",
+   "insight": "This is an exceptional pairing because the mentor has direct, high-level experience scaling a global language-learning product. The mentor can specifically help the startup refine its marketplace liquidity and user retention strategies to better compete in the global EdTech market.",
+   "workspace_id": null,
+   "similarity": 0.5,
+   "tags": [
+    "EdTech",
+    "Marketplace Growth",
+    "Language Learning",
+    "User Retention"
+   ],
+   "startup_batch": "W14",
+   "mentor_title": "Former VP of Growth at Duolingo",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "cambly__sarah-jenkins-wu",
+   "startup_description": "On-demand access to English tutors over video chat.",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.964,
+   "synergy": 99,
+   "mentor_name": "Marcus Thorne-Bennett",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Charityvest",
+   "insight": "This is an exceptional match because the mentor possesses deep, specialized experience in the exact intersection of fintech and nonprofit donation infrastructure. The mentor can immediately provide high-value guidance on scaling donor acquisition while maintaining strict regulatory compliance.",
+   "workspace_id": null,
+   "similarity": 0.57,
+   "tags": [
+    "Fintech",
+    "Nonprofit Tech",
+    "Donor Acquisition",
+    "Regulatory Compliance"
+   ],
+   "startup_batch": "S20",
+   "mentor_title": "Former Head of Growth at DonorDrive",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "charityvest__marcus-thorne-bennett",
+   "startup_description": "A premier charitable giving account, for everyone.",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.974,
+   "synergy": 99,
+   "mentor_name": "Jonathan Sterling-Wells",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "coil",
+   "insight": "The mentor's direct experience scaling payment infrastructure at a market leader makes them uniquely qualified to guide Coil through technical and regulatory complexities. The mentor can specifically help the startup navigate the transition from early-stage architecture to a robust, high-trust platform capable of handling recurring bank payments at scale.",
+   "workspace_id": null,
+   "similarity": 0.607,
+   "tags": [
+    "Fintech Infrastructure",
+    "Subscription Billing",
+    "Payment APIs"
+   ],
+   "startup_batch": "W23",
+   "mentor_title": "Former Head of Infrastructure at Stripe",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "coil__jonathan-sterling-wells",
+   "startup_description": "Pay-by-bank for subscriptions",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.975,
+   "synergy": 99,
+   "mentor_name": "David Sterling-Vance",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Corvus Robotics",
+   "insight": "This is a high-value pairing because the mentor understands the specific pain points and procurement hurdles of the startup's target enterprise customers. The mentor can best assist by providing a roadmap for pilot-to-scale transitions within large-scale logistics networks.",
+   "workspace_id": null,
+   "similarity": 0.612,
+   "tags": [
+    "Warehouse Automation",
+    "Enterprise Procurement",
+    "Robotics Scaling"
+   ],
+   "startup_batch": "S18",
+   "mentor_title": "Former VP of Supply Chain Operations at Global Logistics Corp",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "corvus-robotics__david-sterling-vance",
+   "startup_description": "Autonomous drones to help warehouses scan inventory.",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 1.0,
+   "synergy": 100,
+   "mentor_name": "Sarah Jenkins",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Dashworks",
+   "insight": "This is an exceptional pairing because the mentor has direct experience scaling a product that serves the exact same function and user base as the startup. The mentor can specifically help the startup navigate the transition from a productivity tool to an indispensable enterprise platform.",
+   "workspace_id": null,
+   "similarity": 0.705,
+   "tags": [
+    "Enterprise SaaS",
+    "Product-Led Growth",
+    "Productivity Software"
+   ],
+   "startup_batch": "W20",
+   "mentor_title": "Former Head of Product at Slack and Enterprise SaaS Advisor",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "dashworks__sarah-jenkins",
+   "startup_description": "Your team's intelligent start page.",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 3,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.957,
+   "synergy": 88,
+   "mentor_name": "Elena Rodriguez",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Datlo",
+   "insight": "The mentor's deep experience in product-led growth and UX for data platforms is a perfect match for Datlo's goal of making geointelligence accessible to non-technical users. The biggest gap is the lack of specific regional knowledge of the Brazilian market, which the mentor should address by focusing on global SaaS scaling principles.",
+   "workspace_id": null,
+   "similarity": 0.54,
+   "tags": [
+    "Product-Led Growth",
+    "SaaS UX",
+    "Data Platforms"
+   ],
+   "startup_batch": "S21",
+   "mentor_title": "Head of Product, SaaS Analytics",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "datlo__elena-rodriguez",
+   "startup_description": "Datlo helps companies increase sales and expand through data",
+   "decided_at": null,
+   "startup_country": "BR"
+  },
+  {
+   "grades": {
+    "market_fit": 4,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.872,
+   "synergy": 90,
+   "mentor_name": "Priya Nair",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Edoome",
+   "insight": "The mentor's deep experience in EdTech architecture and scaling makes this a highly relevant pairing for a social learning platform. The mentor should focus on helping the founder transition from a free service model to a sustainable growth or monetization strategy.",
+   "workspace_id": null,
+   "similarity": 0.476,
+   "tags": [
+    "EdTech",
+    "Platform Architecture",
+    "Scaling"
+   ],
+   "startup_batch": "IK12",
+   "mentor_title": "EdTech Founder (2x Exits)",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "edoome__priya-nair",
+   "startup_description": "Edoome is a social learning platform focused on teachers and students…",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.959,
+   "synergy": 98,
+   "mentor_name": "Marcus Vane",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Elto",
+   "insight": "The mentor's deep experience in scaling sales operations at a major enterprise player makes him an ideal guide for Elto's go-to-market strategy. The mentor can specifically help the startup navigate the complexities of integrating their tool into existing enterprise CRM workflows.",
+   "workspace_id": null,
+   "similarity": 0.551,
+   "tags": [
+    "Sales Operations",
+    "B2B Scaling",
+    "CRM Integration",
+    "GTM Strategy"
+   ],
+   "startup_batch": "S21",
+   "mentor_title": "Former VP of Sales Operations at Salesforce",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "elto__marcus-vane",
+   "startup_description": "AI-Powered Parallel Dialer",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.996,
+   "synergy": 100,
+   "mentor_name": "Camila Rojas",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Filadd",
+   "insight": "The mentor's deep specialization in LatAm EdTech and student retention makes this a highly strategic match for scaling. The mentor can specifically help the founder transition from rapid acquisition to sustainable long-term user retention as the user base expands.",
+   "workspace_id": null,
+   "similarity": 0.689,
+   "tags": [
+    "EdTech",
+    "LatAm Growth",
+    "Student Retention",
+    "Community-Led Growth"
+   ],
+   "startup_batch": "S21",
+   "mentor_title": "Head of Growth at EdTech LatAm",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "filadd__camila-rojas",
+   "startup_description": "We help students in Latin America graduate from College.",
+   "decided_at": null,
+   "startup_country": "CL"
+  },
+  {
+   "grades": {
+    "market_fit": 4,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.889,
+   "synergy": 91,
+   "mentor_name": "Sophie Laurent",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Fuell",
+   "insight": "The mentor's direct experience scaling a leading competitor makes this an exceptionally high-value pairing for the startup. The mentor can specifically help the founders refine their go-to-market strategy to better compete against established players like Spendesk.",
+   "workspace_id": null,
+   "similarity": 0.483,
+   "tags": [
+    "Fintech",
+    "B2B SaaS",
+    "Expense Management",
+    "Growth Strategy"
+   ],
+   "startup_batch": "W22",
+   "mentor_title": "Former VP of Growth at Spendesk",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "fuell__sophie-laurent",
+   "startup_description": "All-in-one expense management automation solution",
+   "decided_at": null,
+   "startup_country": "ES"
+  },
+  {
+   "grades": {
+    "market_fit": 3,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.957,
+   "synergy": 88,
+   "mentor_name": "Dr. Naomi Kalu",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Genecis Bio",
+   "insight": "The mentor provides a perfect technical match for the startup's core challenge of scaling bio-based manufacturing processes. The mentor should focus on helping the startup navigate the specific regulatory and supply chain hurdles inherent in the Canadian bioplastics market.",
+   "workspace_id": null,
+   "similarity": 0.543,
+   "tags": [
+    "Biomanufacturing",
+    "Process Scale-up",
+    "Waste-to-Value"
+   ],
+   "startup_batch": "W20",
+   "mentor_title": "Head of Sustainable Manufacturing & Scale-up",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "genecis-bio__dr-naomi-kalu",
+   "startup_description": "Makes guilt-free plastics from food waste",
+   "decided_at": null,
+   "startup_country": "CA"
+  },
+  {
+   "grades": {
+    "market_fit": 4,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.979,
+   "synergy": 94,
+   "mentor_name": "Sophie Laurent",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Gluetrail",
+   "insight": "The mentor's deep operational experience in B2B SaaS revenue engines makes her a perfect match for a revenue planning tool. The mentor can specifically help the founders refine their product-market fit by pressure-testing their revenue modeling features against real-world CRO pain points.",
+   "workspace_id": null,
+   "similarity": 0.627,
+   "tags": [
+    "B2B SaaS",
+    "Revenue Operations",
+    "GTM Strategy",
+    "Financial Forecasting"
+   ],
+   "startup_batch": "W23",
+   "mentor_title": "Former VP of Growth at Spendesk",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "gluetrail__sophie-laurent",
+   "startup_description": "Build and track your Revenue Plan",
+   "decided_at": null,
+   "startup_country": "FR"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.96,
+   "synergy": 98,
+   "mentor_name": "Dr. Alistair Finch",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "GoGoGrandparent",
+   "insight": "The mentor's deep experience in geriatric care systems and regulatory strategy provides a perfect foundation for scaling GoGoGrandparent's service model. The mentor can specifically help the startup navigate the complexities of integrating with broader healthcare delivery systems to expand their B2B partnership potential.",
+   "workspace_id": null,
+   "similarity": 0.552,
+   "tags": [
+    "Geriatric Care",
+    "Assistive Tech",
+    "Regulatory Strategy",
+    "HealthTech Operations"
+   ],
+   "startup_batch": "S16",
+   "mentor_title": "Principal Consultant, Geriatric Care Systems",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "gogograndparent__dr-alistair-finch",
+   "startup_description": "GoGoGrandparent is an automated concierge for seniors and their…",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.974,
+   "synergy": 99,
+   "mentor_name": "Sarah Whitmore",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "GrowthBook",
+   "insight": "The mentor's deep experience in developer-led growth and experimentation loops is a perfect strategic match for GrowthBook's business model. The mentor should focus on helping the founders refine their enterprise sales motion without compromising the open-source developer experience.",
+   "workspace_id": null,
+   "similarity": 0.605,
+   "tags": [
+    "Developer Tools",
+    "Product-Led Growth",
+    "SaaS Scaling"
+   ],
+   "startup_batch": "W22",
+   "mentor_title": "VP of Product-Led Growth at CloudScale",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "growthbook__sarah-whitmore",
+   "startup_description": "Open source feature flagging and A/B testing",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 4,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.95,
+   "synergy": 93,
+   "mentor_name": "Dr. Helena Rossi",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "inSoma Bio",
+   "insight": "The mentor provides an ideal match for the startup's regulatory and clinical development roadmap. The mentor can specifically help the founder bridge the gap between bench-side innovation and the rigorous quality management systems required for FDA approval.",
+   "workspace_id": null,
+   "similarity": 0.516,
+   "tags": [
+    "Regenerative Medicine",
+    "FDA Regulatory Strategy",
+    "Biocompatibility",
+    "Clinical Trials"
+   ],
+   "startup_batch": "S20",
+   "mentor_title": "Former VP of R&D, Regenerative Medicine at Celgene",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "insoma-bio__dr-helena-rossi",
+   "startup_description": "Helping Plastic Surgeons Rebuild Fat",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.896,
+   "synergy": 96,
+   "mentor_name": "Dr. Fiona Abernathy",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Keylika",
+   "insight": "The mentor's deep expertise in FDA regulatory strategy for nanomedicine is perfectly aligned with the startup's need to validate a novel drug delivery platform. The mentor can best assist by helping the founders structure their early-stage clinical trial design to ensure it meets the rigorous standards required for future commercialization.",
+   "workspace_id": null,
+   "similarity": 0.486,
+   "tags": [
+    "FDA Regulatory Strategy",
+    "Nanomedicine",
+    "Clinical Development",
+    "Biotech Commercialization"
+   ],
+   "startup_batch": "S22",
+   "mentor_title": "Former VP of Clinical Development at Genentech",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "keylika__dr-fiona-abernathy",
+   "startup_description": "Redefining the Standard of Care for Iron Deficiency",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.968,
+   "synergy": 99,
+   "mentor_name": "Javier Arriaga",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Konta.com",
+   "insight": "This is an ideal pairing because the mentor's deep experience in scaling fintechs in Mexico directly addresses the startup's core challenges of growth and regulatory compliance. The mentor can specifically help the startup refine its go-to-market strategy to transition from early adopters to mass-market adoption.",
+   "workspace_id": null,
+   "similarity": 0.585,
+   "tags": [
+    "Fintech",
+    "LatAm Growth",
+    "Regulatory Tech",
+    "SaaS Scaling"
+   ],
+   "startup_batch": "S21",
+   "mentor_title": "Former Head of Growth at Nubank & LatAm Fintech Advisor",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "konta-com__javier-arriaga",
+   "startup_description": "Turbotax for México and LATAM",
+   "decided_at": null,
+   "startup_country": "MX"
+  },
+  {
+   "grades": {
+    "market_fit": 4,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.954,
+   "synergy": 93,
+   "mentor_name": "Elena Rodriguez",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Logarithm Labs",
+   "insight": "The mentor's deep experience in transforming complex data infrastructure into intuitive products is a direct match for the startup's core value proposition. The mentor can specifically help the team refine their product-led growth strategy to ensure their 'easy button' approach gains traction with technical users.",
+   "workspace_id": null,
+   "similarity": 0.532,
+   "tags": [
+    "Data Infrastructure",
+    "Product-Led Growth",
+    "UX Strategy"
+   ],
+   "startup_batch": "W20",
+   "mentor_title": "Head of Product, SaaS Analytics",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "logarithm-labs__elena-rodriguez",
+   "startup_description": "Easy button to use data for your daily operations",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.958,
+   "synergy": 98,
+   "mentor_name": "Thiago Alencar",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Malga",
+   "insight": "The mentor possesses deep, relevant expertise in payment orchestration and infrastructure that perfectly aligns with the startup's core product offering. The mentor can specifically help the founder refine their technical roadmap and optimize provider integration strategies to improve transaction success rates.",
+   "workspace_id": null,
+   "similarity": 0.544,
+   "tags": [
+    "Payment Orchestration",
+    "Fintech Infrastructure",
+    "API Strategy"
+   ],
+   "startup_batch": "S21",
+   "mentor_title": "Former Head of Infrastructure at EBANX",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "malga__thiago-alencar",
+   "startup_description": "Malga is an API to accept payments with multiple payment providers",
+   "decided_at": null,
+   "startup_country": "BR"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.982,
+   "synergy": 99,
+   "mentor_name": "Sarah Jenkins-Vance",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Mendable",
+   "insight": "This is an exceptional pairing because the mentor's specific experience at Algolia directly mirrors the core product and customer base of the startup. The mentor can best help by guiding the transition from a technical search tool to a scalable product strategy that differentiates Mendable from generic LLM-based search solutions.",
+   "workspace_id": null,
+   "similarity": 0.636,
+   "tags": [
+    "Search Infrastructure",
+    "Developer Tools",
+    "Product Strategy"
+   ],
+   "startup_batch": "S22",
+   "mentor_title": "Former VP of Product at Algolia",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "mendable__sarah-jenkins-vance",
+   "startup_description": "Allowing developers to search and chat with docs and resources. ",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 4,
+    "domain_fit": 4,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.954,
+   "synergy": 88,
+   "mentor_name": "Sarah Jenkins-Vance",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Mindee",
+   "insight": "The mentor is an excellent match for scaling a developer-centric API product due to her direct experience at a similar company. The mentor can specifically help the startup refine their developer onboarding and API documentation to improve self-service adoption.",
+   "workspace_id": null,
+   "similarity": 0.53,
+   "tags": [
+    "API Economy",
+    "Developer Experience",
+    "B2B SaaS Scaling",
+    "Product Strategy"
+   ],
+   "startup_batch": "W21",
+   "mentor_title": "Former VP of Product at Algolia",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "mindee__sarah-jenkins-vance",
+   "startup_description": "AI Document Understanding API",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.967,
+   "synergy": 99,
+   "mentor_name": "Marcus Chen-Holloway",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Mirrorful",
+   "insight": "This is a high-impact pairing because the mentor possesses deep, relevant domain expertise from a market leader in the exact same design ecosystem. The mentor can specifically help the startup bridge the gap between designer-centric workflows and developer-centric implementation.",
+   "workspace_id": null,
+   "similarity": 0.58,
+   "tags": [
+    "Design Systems",
+    "Product-Led Growth",
+    "Developer Tools"
+   ],
+   "startup_batch": "W23",
+   "mentor_title": "Former Head of Product at Figma and Design Systems Strategist",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "mirrorful__marcus-chen-holloway",
+   "startup_description": "The open-source design system framework",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 4,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.964,
+   "synergy": 94,
+   "mentor_name": "Marcus Thorne-Vance",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Mobydish",
+   "insight": "The mentor's deep expertise in last-mile logistics and unit economics directly addresses the core operational hurdles of a tech-enabled catering service. The mentor should focus on helping the founder transition from manual dispatch processes to fully automated, scalable fulfillment systems.",
+   "workspace_id": null,
+   "similarity": 0.569,
+   "tags": [
+    "Last-Mile Logistics",
+    "Food Tech Operations",
+    "Unit Economics",
+    "Scaling Fulfillment"
+   ],
+   "startup_batch": "W15",
+   "mentor_title": "Former COO of CloudKitchens and Operations Strategist",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "mobydish__marcus-thorne-vance",
+   "startup_description": "MobyDish, a tech-enabled service, allowing anyone to place a catering…",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 4,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.961,
+   "synergy": 93,
+   "mentor_name": "Marcus Thorne",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Nectar",
+   "insight": "The mentor's deep experience in enterprise data governance is exactly what is needed to turn Nectar's data extraction tool into an audit-ready enterprise product. The mentor should focus on helping the founders navigate the specific compliance standards required by large institutional ESG reporting frameworks.",
+   "workspace_id": null,
+   "similarity": 0.555,
+   "tags": [
+    "Data Governance",
+    "ESG Compliance",
+    "Enterprise SaaS",
+    "Data Integrity"
+   ],
+   "startup_batch": "S23",
+   "mentor_title": "Former Head of Data Governance at Salesforce",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "nectar__marcus-thorne",
+   "startup_description": "Making ESG data more auditable",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 4,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.967,
+   "synergy": 94,
+   "mentor_name": "Dr. Priya Kulkarni",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Neodocs",
+   "insight": "The mentor provides critical expertise in navigating the complex regulatory and clinical validation requirements essential for diagnostic hardware. The biggest gap is the potential need for additional support in consumer-facing growth marketing, as the mentor's background is heavily focused on the clinical and regulatory side.",
+   "workspace_id": null,
+   "similarity": 0.579,
+   "tags": [
+    "Digital Health",
+    "Clinical Diagnostics",
+    "Regulatory Strategy",
+    "MedTech"
+   ],
+   "startup_batch": "S21",
+   "mentor_title": "Former Chief Medical Officer, Digital Health Ventures",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "neodocs__dr-priya-kulkarni",
+   "startup_description": "Instant lab tests on your smartphone",
+   "decided_at": null,
+   "startup_country": "IN"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.967,
+   "synergy": 99,
+   "mentor_name": "Marcus Chen-Holloway",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Noya Software",
+   "insight": "This is an exceptional pairing because the mentor has deep, relevant experience in the exact product category the startup is disrupting. The mentor can specifically help the founders navigate the transition from internal tool infrastructure to a standalone commercial product-led growth strategy.",
+   "workspace_id": null,
+   "similarity": 0.581,
+   "tags": [
+    "Design Tools",
+    "Product-Led Growth",
+    "Design Systems",
+    "SaaS Scaling"
+   ],
+   "startup_batch": "W23",
+   "mentor_title": "Former Head of Product at Figma and Design Systems Strategist",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "noya-software__marcus-chen-holloway",
+   "startup_description": "Product design tool that lets everyone design like a designer",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.99,
+   "synergy": 100,
+   "mentor_name": "Vikram Sethi",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Pensil",
+   "insight": "This is an ideal pairing because the mentor possesses direct, high-level experience with the startup's exact target demographic and regional market. The mentor can specifically help the startup navigate the technical and policy nuances of the YouTube ecosystem to optimize their monetization tools.",
+   "workspace_id": null,
+   "similarity": 0.669,
+   "tags": [
+    "Creator Economy",
+    "EdTech",
+    "South Asia Market",
+    "Monetization Strategy"
+   ],
+   "startup_batch": "W21",
+   "mentor_title": "Former Head of Creator Partnerships, South Asia at YouTube",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "pensil__vikram-sethi",
+   "startup_description": "We help YouTube teachers in India monetize their courses",
+   "decided_at": null,
+   "startup_country": "IN"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.954,
+   "synergy": 98,
+   "mentor_name": "Marcus Holloway",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Players' Lounge",
+   "insight": "This is an exceptional pairing because the mentor has direct experience scaling a high-stakes, regulated gaming platform. The mentor can specifically help the startup navigate the complex legal and risk management hurdles that often threaten to stall growth in this sector.",
+   "workspace_id": null,
+   "similarity": 0.529,
+   "tags": [
+    "iGaming",
+    "Regulatory Compliance",
+    "Platform Scaling"
+   ],
+   "startup_batch": "W18",
+   "mentor_title": "Former VP of Operations at DraftKings",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "players-lounge__marcus-holloway",
+   "startup_description": "Win money betting on yourself playing AAA video games",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.993,
+   "synergy": 100,
+   "mentor_name": "Amara Okoro",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Plumter",
+   "insight": "This is an exceptionally strong match because the mentor's regulatory expertise directly mitigates the primary barrier to entry for a cross-border fintech in Africa. The mentor can best assist by helping the startup navigate complex licensing requirements and build the institutional trust necessary to scale.",
+   "workspace_id": null,
+   "similarity": 0.68,
+   "tags": [
+    "Fintech",
+    "Regulatory Compliance",
+    "Cross-border Payments",
+    "African Market"
+   ],
+   "startup_batch": "W22",
+   "mentor_title": "Former Head of Regulatory Affairs at Pan-African Payment Gateway",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "plumter__amara-okoro",
+   "startup_description": "Easy foreign payments for Africa",
+   "decided_at": null,
+   "startup_country": "NG"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 4,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.962,
+   "synergy": 93,
+   "mentor_name": "Sarah Jenkins",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "PlusIdentity",
+   "insight": "The mentor's deep experience with Slack's product ecosystem provides immediate, high-value guidance for a startup currently leveraging Slack as their primary distribution channel. The mentor should focus on helping the founders transition from a simple Slack app to a robust enterprise identity platform without losing their product-led growth momentum.",
+   "workspace_id": null,
+   "similarity": 0.561,
+   "tags": [
+    "Product-Led Growth",
+    "Slack Ecosystem",
+    "Enterprise SaaS",
+    "User Onboarding"
+   ],
+   "startup_batch": "S21",
+   "mentor_title": "Former Head of Product at Slack and Enterprise SaaS Advisor",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "plusidentity__sarah-jenkins",
+   "startup_description": "Password manager + Okta for growing teams",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 4,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.974,
+   "synergy": 94,
+   "mentor_name": "Marcus Sterling-West",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Posh",
+   "insight": "This is an exceptionally strong pairing because the mentor's specific experience in scaling hardware manufacturing directly addresses the startup's most critical operational hurdle. The mentor can best assist by helping the startup navigate the transition from prototype to high-volume production while managing raw material volatility.",
+   "workspace_id": null,
+   "similarity": 0.605,
+   "tags": [
+    "Hardware Scaling",
+    "Supply Chain",
+    "Battery Manufacturing"
+   ],
+   "startup_batch": "W22",
+   "mentor_title": "Head of Supply Chain Strategy at Voltic Manufacturing",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "posh__marcus-sterling-west",
+   "startup_description": "Making sustainable batteries",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 4,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.964,
+   "synergy": 94,
+   "mentor_name": "Dr. Silas Thorne-Vance",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Reverie Labs",
+   "insight": "The mentor provides essential expertise in navigating the complex regulatory and clinical hurdles inherent in brain-penetrant oncology therapies. The mentor can best support the startup by helping them translate their computational drug discovery outputs into a viable, FDA-compliant clinical development plan.",
+   "workspace_id": null,
+   "similarity": 0.57,
+   "tags": [
+    "Translational Oncology",
+    "Regulatory Strategy",
+    "Clinical Development",
+    "Precision Medicine"
+   ],
+   "startup_batch": "W18",
+   "mentor_title": "Head of Translational Oncology & Precision Medicine",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "reverie-labs__dr-silas-thorne-vance",
+   "startup_description": " Engineering next-generation, brain-penetrant cancer therapies.",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.988,
+   "synergy": 100,
+   "mentor_name": "Dr. Evelyn Vance-Wright",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Ribbon Health",
+   "insight": "The mentor's deep institutional knowledge of payer data architecture and compliance is a perfect match for Ribbon's API-first infrastructure model. The mentor can best assist by providing tactical advice on how to overcome the specific procurement hurdles and data integration resistance often faced when selling to large insurance carriers.",
+   "workspace_id": null,
+   "similarity": 0.661,
+   "tags": [
+    "Health Data Infrastructure",
+    "Payer Interoperability",
+    "Enterprise API Strategy",
+    "Healthcare Compliance"
+   ],
+   "startup_batch": "S17",
+   "mentor_title": "Former Chief Data Officer at Blue Cross Blue Shield",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "ribbon-health__dr-evelyn-vance-wright",
+   "startup_description": "Health enterprise API for data on doctors, insurance, costs, & quality",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.975,
+   "synergy": 99,
+   "mentor_name": "Marcus Sterling-Vance",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Ridecell",
+   "insight": "The mentor's deep operational background in logistics and autonomous systems provides immediate, high-value strategic guidance for Ridecell's complex enterprise integrations. The biggest potential gap is the mentor's transition from a corporate VP role to the agile, high-growth requirements of a scaling SaaS startup.",
+   "workspace_id": null,
+   "similarity": 0.611,
+   "tags": [
+    "Fleet Management",
+    "B2B Enterprise SaaS",
+    "Logistics Automation",
+    "Mobility-as-a-Service"
+   ],
+   "startup_batch": "W12",
+   "mentor_title": "Former VP of Operations at Global Logistics Systems",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "ridecell__marcus-sterling-vance",
+   "startup_description": "Fleet Transformation Cloud-Automate to Maximize 🌎 usage &…",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 3,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.965,
+   "synergy": 89,
+   "mentor_name": "Amara Okoro",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "SALT",
+   "insight": "The mentor is an excellent match for the startup's core technical and regulatory challenges in the cross-border payments space. The biggest gap is the regional difference, so the mentor should focus on universal compliance frameworks rather than specific Indian regulatory nuances.",
+   "workspace_id": null,
+   "similarity": 0.571,
+   "tags": [
+    "Cross-Border Payments",
+    "Regulatory Compliance",
+    "Fintech Strategy"
+   ],
+   "startup_batch": "W22",
+   "mentor_title": "Former Head of Regulatory Affairs at Pan-African Payment Gateway",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "salt__amara-okoro",
+   "startup_description": "B2B Cross-Border Payment & Compliance Platform",
+   "decided_at": null,
+   "startup_country": "IN"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.981,
+   "synergy": 99,
+   "mentor_name": "Marcus Sterling",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Sero",
+   "insight": "The mentor possesses deep, relevant experience in the exact operational challenges Sero aims to solve for its users. The primary gap to address is ensuring the mentor adapts his enterprise-level methodology to the constraints and speed of an early-stage startup environment.",
+   "workspace_id": null,
+   "similarity": 0.631,
+   "tags": [
+    "Revenue Operations",
+    "SaaS GTM",
+    "Cross-functional Alignment"
+   ],
+   "startup_batch": "W22",
+   "mentor_title": "Former VP of Revenue Operations at Salesforce",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "sero__marcus-sterling",
+   "startup_description": "Align Sales Customer Success & Support on one stack",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.959,
+   "synergy": 98,
+   "mentor_name": "Elias Thorne",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "ShipBob",
+   "insight": "This is an exceptional pairing because the mentor has direct experience scaling the exact infrastructure that ShipBob integrates with daily. The mentor can specifically help ShipBob navigate the transition from a software-first approach to the high-stakes operational demands of physical fulfillment at scale.",
+   "workspace_id": null,
+   "similarity": 0.549,
+   "tags": [
+    "Logistics Scaling",
+    "E-commerce Infrastructure",
+    "Supply Chain Operations"
+   ],
+   "startup_batch": "S14",
+   "mentor_title": "Former VP of Supply Chain at Shopify",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "shipbob__elias-thorne",
+   "startup_description": "Providing Amazon level logistics to e-commerce businesses. ",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.973,
+   "synergy": 99,
+   "mentor_name": "Dr. Marcus Thorne-Vance",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Sleep Reset",
+   "insight": "The mentor's deep expertise in digital therapeutics and clinical validation makes him a perfect strategic advisor for a clinically-backed app like Sleep Reset. The mentor can specifically help the founder navigate the transition from initial traction to long-term clinical credibility and sustainable health-tech scaling.",
+   "workspace_id": null,
+   "similarity": 0.601,
+   "tags": [
+    "Digital Therapeutics",
+    "Behavioral Health",
+    "Clinical Validation",
+    "Health Tech Scaling"
+   ],
+   "startup_batch": "W17",
+   "mentor_title": "Former Chief Medical Officer at Wellthier, Digital Therapeutics Advisor",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "sleep-reset__dr-marcus-thorne-vance",
+   "startup_description": "Sleep Reset is a clinically proven CBT-i program for better sleep",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.991,
+   "synergy": 100,
+   "mentor_name": "Mateo Valenzuela",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Somos",
+   "insight": "This is an exceptionally strong match due to the mentor's specific experience scaling infrastructure within the exact region and industry of the startup. The mentor can provide immediate value by helping the startup navigate the complex regulatory and operational challenges inherent in Latin American telecommunications.",
+   "workspace_id": null,
+   "similarity": 0.673,
+   "tags": [
+    "Telecom Infrastructure",
+    "Latin America",
+    "Regulatory Strategy",
+    "Network Scaling"
+   ],
+   "startup_batch": "W21",
+   "mentor_title": "Former Head of Infrastructure at Movistar LatAm",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "somos__mateo-valenzuela",
+   "startup_description": "Internet for the urban developing world.",
+   "decided_at": null,
+   "startup_country": "CO"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.956,
+   "synergy": 98,
+   "mentor_name": "Ananya Deshmukh",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Streak",
+   "insight": "This is an exceptional match due to the mentor's direct experience with Indian payment regulations and child-centric product design. The mentor can provide immediate value by helping the startup navigate the complex compliance requirements for youth-focused financial products.",
+   "workspace_id": null,
+   "similarity": 0.537,
+   "tags": [
+    "Fintech",
+    "India Market",
+    "Payment Infrastructure",
+    "Child-centric UX"
+   ],
+   "startup_batch": "W22",
+   "mentor_title": "Former Head of Product, Global Payments at Razorpay",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "streak__ananya-deshmukh",
+   "startup_description": "A neo-banking platform for children in India",
+   "decided_at": null,
+   "startup_country": "IN"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.968,
+   "synergy": 99,
+   "mentor_name": "Julianne St. Claire",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "The Mercer Club",
+   "insight": "The mentor's direct experience at the industry benchmark makes this an ideal match for operational scaling. The mentor should focus on helping the founder transition from manual processes to the automated systems required for sustainable unit economics.",
+   "workspace_id": null,
+   "similarity": 0.585,
+   "tags": [
+    "Circular Fashion",
+    "Reverse Logistics",
+    "Subscription Models"
+   ],
+   "startup_batch": "W20",
+   "mentor_title": "Former Head of Operations at Rent the Runway",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "the-mercer-club__julianne-st-claire",
+   "startup_description": "The Mercer Club is a subscription service that allows men to rent…",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 4,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.967,
+   "synergy": 94,
+   "mentor_name": "Jonathan Sterling-Wells",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "Tranch",
+   "insight": "This is an elite pairing because the mentor's deep experience with Stripe's payment architecture is directly applicable to the technical challenges of building a B2B checkout product. The mentor can best assist by helping the team navigate the complexities of scaling their payment infrastructure while maintaining rigorous risk and fraud controls.",
+   "workspace_id": null,
+   "similarity": 0.578,
+   "tags": [
+    "Fintech Infrastructure",
+    "Payment Architecture",
+    "B2B Payments",
+    "SaaS Scaling"
+   ],
+   "startup_batch": "S22",
+   "mentor_title": "Former Head of Infrastructure at Stripe",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "tranch__jonathan-sterling-wells",
+   "startup_description": "The B2B Checkout offering Pay Now and Pay Later for SaaS and Services",
+   "decided_at": null,
+   "startup_country": "US"
+  },
+  {
+   "grades": {
+    "market_fit": 5,
+    "domain_fit": 5,
+    "need_fit": 5
+   },
+   "similarity_percentile": 0.965,
+   "synergy": 99,
+   "mentor_name": "Robert Halloway",
+   "status": "pending",
+   "reject_reason": null,
+   "startup_name": "True Link",
+   "insight": "The mentor's deep specialization in elder-care financial technology provides immediate, high-value strategic guidance for True Link's specific product and regulatory challenges. The mentor can best assist by helping the startup navigate the nuances of scaling trust-based financial products within the highly regulated US elder-care market.",
+   "workspace_id": null,
+   "similarity": 0.574,
+   "tags": [
+    "ElderTech",
+    "Fintech",
+    "Regulatory Compliance",
+    "Wealth Management"
+   ],
+   "startup_batch": "S13",
+   "mentor_title": "Former Head of Product at ElderSafe Financial",
+   "created_at": "2026-10-24T23:41:54.216753+00:00",
+   "match_id": "true-link__robert-halloway",
+   "startup_description": "Financial Services for Financial Caregivers. ",
+   "decided_at": null,
+   "startup_country": "US"
+  }
+ ],
+ "workspaces": [],
+ "mentors": [
+  {
+   "name": "Amara Okoro",
+   "bio": "With over a decade of experience navigating the complex landscape of cross-border financial regulations and central bank compliance across Sub-Saharan Africa, I specialize in helping fintechs scale securely. I offer strategic guidance on building robust institutional relationships and streamlining international treasury operations for high-growth startups.",
+   "industry_tags": [
+    "Fintech",
+    "Regulatory Compliance",
+    "Cross-border Payments",
+    "Banking Infrastructure"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Regulatory Strategy",
+    "Cross-Border Compliance",
+    "Treasury Management",
+    "Market Expansion",
+    "Institutional Partnerships"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Regulatory Affairs at Pan-African Payment Gateway",
+   "availability_hours": 8,
+   "doc_id": "amara_okoro"
+  },
+  {
+   "name": "Ananya Deshmukh",
+   "bio": "Ananya brings over a decade of experience in scaling complex payment infrastructures and navigating India's rigorous regulatory landscape for digital finance. She specializes in guiding fintech startups through product-market fit hurdles and implementing secure, child-centric UX design principles.",
+   "industry_tags": [
+    "Fintech",
+    "Payments",
+    "Regulatory Compliance",
+    "Consumer Banking"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Product Strategy",
+    "API Infrastructure",
+    "Financial Regulation",
+    "Growth Hacking",
+    "User Retention"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Product, Global Payments at Razorpay",
+   "availability_hours": 6,
+   "doc_id": "ananya_deshmukh"
+  },
+  {
+   "name": "Arjun Mehta",
+   "bio": "Arjun brings over two decades of experience navigating complex international banking regulations and cross-border liquidity management. He specializes in helping fintech founders bridge the gap between aggressive product scaling and stringent global compliance frameworks.",
+   "industry_tags": [
+    "Banking",
+    "Regulatory Technology",
+    "Global Trade",
+    "Treasury Operations"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Regulatory Compliance",
+    "Cross-Border Liquidity Management",
+    "Fintech Strategy",
+    "Banking Partnerships",
+    "Risk Mitigation"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Global Treasury & Regulatory Strategy at HSBC",
+   "availability_hours": 6,
+   "doc_id": "arjun_mehta"
+  },
+  {
+   "name": "Beatriz Soler",
+   "bio": "With over a decade of experience scaling payment infrastructure and operational workflows, I help fintech founders navigate the complexities of cross-border financial compliance and automated scaling. I focus on building resilient internal systems that turn back-office friction into a competitive advantage for rapid-growth startups.",
+   "industry_tags": [
+    "Fintech",
+    "SaaS",
+    "Operational Scaling",
+    "B2B Payments"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Financial Compliance",
+    "Go-to-Market Strategy",
+    "Operational Efficiency",
+    "B2B SaaS Growth"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Operations at Stripe EMEA",
+   "availability_hours": 6,
+   "doc_id": "beatriz_soler"
+  },
+  {
+   "name": "Budi Santoso",
+   "bio": "With over 15 years of experience optimizing last-mile logistics and regional distribution networks across Southeast Asia, Budi specializes in scaling operational efficiency for hyper-local e-commerce models. He offers deep insights into navigating the complexities of tier 2 city supply chains and building sustainable unit economics for fresh produce delivery.",
+   "industry_tags": [
+    "Logistics",
+    "Supply Chain Management",
+    "Operations",
+    "Last-mile Delivery",
+    "Hyper-local Commerce"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Last-mile optimization",
+    "Inventory management",
+    "Regional distribution strategy",
+    "Unit economics scaling",
+    "Cold chain infrastructure"
+   ],
+   "linkedin": null,
+   "title": "Former COO of Logistik Nusantara & Supply Chain Advisor",
+   "availability_hours": 8,
+   "doc_id": "budi_santoso"
+  },
+  {
+   "name": "Camila Rojas",
+   "bio": "With over a decade of experience scaling digital education platforms across emerging markets, I specialize in student retention strategies and community-led growth models. I offer hands-on mentorship to help founders navigate the unique friction points of the Latin American academic ecosystem.",
+   "industry_tags": [
+    "EdTech",
+    "Growth Hacking",
+    "User Retention",
+    "LatAm Markets"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Product-Led Growth",
+    "Community Building",
+    "Customer Acquisition Strategy",
+    "B2C SaaS Metrics"
+   ],
+   "linkedin": null,
+   "title": "Head of Growth at EdTech LatAm",
+   "availability_hours": 6,
+   "doc_id": "camila_rojas"
+  },
+  {
+   "name": "David Sterling-Vance",
+   "bio": "With over two decades of experience optimizing massive warehouse networks, I specialize in integrating emerging automation technologies into legacy supply chain environments. I help robotics startups navigate the complexities of enterprise procurement cycles and operational scaling to ensure seamless adoption on the factory floor.",
+   "industry_tags": [
+    "Supply Chain Optimization",
+    "Logistics Automation",
+    "Enterprise Software",
+    "Industrial IoT"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Warehouse Operations",
+    "B2B Sales Strategy",
+    "Operational Scaling",
+    "Enterprise Procurement",
+    "Workflow Integration"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Supply Chain Operations at Global Logistics Corp",
+   "availability_hours": 6,
+   "doc_id": "david_sterling_vance"
+  },
+  {
+   "name": "Dr. Alistair Finch",
+   "bio": "Dr. Finch spent two decades leading operational strategy for nationwide home-care networks and integrated health delivery systems. He specializes in helping assistive tech startups navigate complex healthcare regulations and optimize user experience for the aging population.",
+   "industry_tags": [
+    "Elder Care",
+    "HealthTech",
+    "Operations Strategy",
+    "Regulatory Compliance"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Healthcare Operations",
+    "B2B Partnerships",
+    "User-Centric Design",
+    "Regulatory Strategy",
+    "Scaling Service Platforms"
+   ],
+   "linkedin": null,
+   "title": "Principal Consultant, Geriatric Care Systems",
+   "availability_hours": 6,
+   "doc_id": "dr__alistair_finch"
+  },
+  {
+   "name": "Dr. Elena Vance",
+   "bio": "With over two decades of experience bridging the gap between high-throughput genomics and clinical development, Elena specializes in scaling AI-driven R&D pipelines. She offers strategic guidance on navigating regulatory hurdles for novel therapeutics and optimizing target validation workflows for early-stage biotech ventures.",
+   "industry_tags": [
+    "Biotechnology",
+    "Computational Biology",
+    "Clinical Development",
+    "Drug Pipeline Strategy"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Genomic Data Analysis",
+    "Target Validation Strategy",
+    "FDA Regulatory Pathways",
+    "Translational Medicine",
+    "R&D Pipeline Scaling"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Computational Biology at Genentech",
+   "availability_hours": 8,
+   "doc_id": "dr__elena_vance"
+  },
+  {
+   "name": "Dr. Evelyn Vance-Wright",
+   "bio": "With over two decades of experience navigating the complexities of health insurance data interoperability and regulatory compliance, I specialize in helping infrastructure startups scale their enterprise integrations. I provide strategic guidance on navigating the payer landscape and optimizing data architecture to meet rigorous industry standards.",
+   "industry_tags": [
+    "Health Insurance",
+    "Data Infrastructure",
+    "Enterprise SaaS",
+    "Interoperability",
+    "Healthcare Policy"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Payer Relations",
+    "Enterprise API Strategy",
+    "Regulatory Compliance (HIPAA)",
+    "Data Governance",
+    "B2B Sales Cycles"
+   ],
+   "linkedin": null,
+   "title": "Former Chief Data Officer at Blue Cross Blue Shield",
+   "availability_hours": 6,
+   "doc_id": "dr__evelyn_vance_wright"
+  },
+  {
+   "name": "Dr. Fiona Abernathy",
+   "bio": "With over two decades of experience navigating FDA regulatory pathways for novel therapeutics and nanomedicine, I specialize in bridging the gap between bench research and clinical commercialization. I help startups refine their clinical trial strategies and establish robust quality management systems to accelerate market entry.",
+   "industry_tags": [
+    "Clinical Trials",
+    "Regulatory Affairs",
+    "Biopharmaceuticals",
+    "Commercialization Strategy",
+    "HealthTech"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "FDA Regulatory Strategy",
+    "Clinical Trial Design",
+    "Quality Assurance",
+    "Go-to-Market Strategy",
+    "Biotech Fundraising"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Clinical Development at Genentech",
+   "availability_hours": 8,
+   "doc_id": "dr__fiona_abernathy"
+  },
+  {
+   "name": "Dr. Helena Rossi",
+   "bio": "Dr. Rossi brings over two decades of experience in transitioning bench-side tissue engineering therapies through rigorous FDA clinical trials. She specializes in helping early-stage biotech founders navigate the complexities of biocompatibility testing and scalable manufacturing processes.",
+   "industry_tags": [
+    "Regenerative Medicine",
+    "Clinical Trials",
+    "FDA Regulatory Strategy",
+    "Biomanufacturing"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Pre-clinical study design",
+    "FDA 510(k) pathway navigation",
+    "Quality Management Systems",
+    "Translational medicine strategy"
+   ],
+   "linkedin": null,
+   "title": "Former VP of R&D, Regenerative Medicine at Celgene",
+   "availability_hours": 6,
+   "doc_id": "dr__helena_rossi"
+  },
+  {
+   "name": "Dr. Julianna Vance-Kovacs",
+   "bio": "With a background in clinical psychology and behavioral economics, I specialize in designing digital interventions that foster authentic human connection. I help early-stage founders leverage habit-loop mechanics and user-centric design to drive sustainable engagement in mental wellness platforms.",
+   "industry_tags": [
+    "Digital Health",
+    "Behavioral Science",
+    "User Engagement",
+    "Psychology"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Behavioral Design",
+    "Product-Market Fit",
+    "User Retention Strategies",
+    "Clinical Validation",
+    "Ethical Data Privacy"
+   ],
+   "linkedin": null,
+   "title": "Behavioral Scientist & Digital Health Consultant",
+   "availability_hours": 6,
+   "doc_id": "dr__julianna_vance_kovacs"
+  },
+  {
+   "name": "Dr. L. Wong",
+   "bio": "Former academic turned blockchain architect. Advised on DeFi protocol design for 5 fintech startups with combined TVL of $200M.",
+   "industry_tags": [
+    "DeFi",
+    "Smart Contracts",
+    "Web3 Security"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "DeFi",
+    "Smart Contracts",
+    "Web3 Security",
+    "Blockchain"
+   ],
+   "linkedin": null,
+   "title": "Blockchain & DeFi Architect",
+   "availability_hours": 6,
+   "doc_id": "dr__l__wong"
+  },
+  {
+   "name": "Dr. Marcus Thorne-Vance",
+   "bio": "With over 15 years of experience scaling evidence-based behavioral health platforms, I specialize in navigating the complex intersection of clinical efficacy and consumer-facing product growth. I help founders bridge the gap between rigorous clinical validation and successful market adoption to ensure sustainable long-term impact.",
+   "industry_tags": [
+    "Digital Therapeutics",
+    "Behavioral Health",
+    "Healthcare Strategy",
+    "Clinical Validation",
+    "Product Scaling"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Clinical Trial Design",
+    "Regulatory Roadmap Strategy",
+    "B2C Health Marketing",
+    "Retention Analytics",
+    "Healthcare Partnership Development"
+   ],
+   "linkedin": null,
+   "title": "Former Chief Medical Officer at Wellthier, Digital Therapeutics Advisor",
+   "availability_hours": 6,
+   "doc_id": "dr__marcus_thorne_vance"
+  },
+  {
+   "name": "Dr. Naomi Kalu",
+   "bio": "Dr. Kalu brings over fifteen years of experience in chemical engineering and industrial scaling of bio-based materials. She specializes in helping biotech startups navigate the complex transition from laboratory pilot programs to full-scale commercial production.",
+   "industry_tags": [
+    "Chemical Engineering",
+    "Bio-manufacturing",
+    "Circular Economy",
+    "Supply Chain Optimization"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Process Scale-up",
+    "Techno-economic Analysis",
+    "Bioreactor Optimization",
+    "Regulatory Compliance",
+    "Waste-to-Value Strategy"
+   ],
+   "linkedin": null,
+   "title": "Head of Sustainable Manufacturing & Scale-up",
+   "availability_hours": 6,
+   "doc_id": "dr__naomi_kalu"
+  },
+  {
+   "name": "Dr. Poo Kuan Hoong",
+   "bio": "ESG strategist with 20 years in sustainability consulting. Helped 12 companies achieve carbon neutrality certification in ASEAN.",
+   "industry_tags": [
+    "ESG Reporting",
+    "Carbon Markets",
+    "Sustainability"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "ESG Reporting",
+    "Carbon Markets",
+    "Sustainability",
+    "Policy"
+   ],
+   "linkedin": null,
+   "title": "Sustainability & ESG Strategist",
+   "availability_hours": 7,
+   "doc_id": "dr__poo_kuan_hoong"
+  },
+  {
+   "name": "Dr. Priya Kulkarni",
+   "bio": "With over 15 years of experience bridging clinical diagnostics and digital health transformation, I specialize in navigating complex regulatory landscapes for medical hardware. I offer startups strategic guidance on clinical validation protocols and scaling diagnostic tech within emerging markets.",
+   "industry_tags": [
+    "Digital Health",
+    "Regulatory Affairs",
+    "HealthTech",
+    "Clinical Diagnostics"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "FDA/CDSCO Regulatory Strategy",
+    "Clinical Validation",
+    "Healthcare Go-to-Market Strategy",
+    "Product-Market Fit for MedTech"
+   ],
+   "linkedin": null,
+   "title": "Former Chief Medical Officer, Digital Health Ventures",
+   "availability_hours": 8,
+   "doc_id": "dr__priya_kulkarni"
+  },
+  {
+   "name": "Dr. Silas Thorne-Vance",
+   "bio": "With over two decades of experience bridging computational genomics and clinical trial design, I specialize in navigating the regulatory pathways for novel oncology therapeutics. I offer startups strategic guidance on translating preclinical AI-driven insights into actionable, human-centric clinical development programs.",
+   "industry_tags": [
+    "Oncology",
+    "Clinical Trials",
+    "Precision Medicine",
+    "Regulatory Strategy",
+    "Translational Science"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Clinical Trial Design",
+    "FDA Regulatory Strategy",
+    "Biomarker Development",
+    "Pharmacokinetics",
+    "Oncology Drug Pipeline"
+   ],
+   "linkedin": null,
+   "title": "Head of Translational Oncology & Precision Medicine",
+   "availability_hours": 6,
+   "doc_id": "dr__silas_thorne_vance"
+  },
+  {
+   "name": "Ehtisham Raza",
+   "bio": "15 years building AI-powered fraud detection systems and cybersecurity infrastructure for fintech companies across Southeast Asia. Has scaled 3 startups to Series B.",
+   "industry_tags": [
+    "AI Security",
+    "Fintech",
+    "B2B"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Fraud Detection",
+    "AI Architecture",
+    "Security Protocols",
+    "Enterprise SaaS"
+   ],
+   "linkedin": null,
+   "title": "AI Security Architect & Serial Founder",
+   "availability_hours": 8,
+   "doc_id": "ehtisham_raza"
+  },
+  {
+   "name": "Elena Rodriguez",
+   "bio": "With over a decade of experience scaling enterprise data platforms, I specialize in transforming complex technical infrastructure into intuitive user experiences. I offer startups strategic guidance on product-led growth and the architectural shifts required to move from early-stage MVP to robust production environments.",
+   "industry_tags": [
+    "SaaS",
+    "Product Management",
+    "Cloud Infrastructure",
+    "UX Strategy"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Product-Led Growth",
+    "API Strategy",
+    "Customer Discovery",
+    "Go-to-Market Strategy",
+    "Data Governance"
+   ],
+   "linkedin": null,
+   "title": "Head of Product, SaaS Analytics",
+   "availability_hours": 6,
+   "doc_id": "elena_rodriguez"
+  },
+  {
+   "name": "Elias Thorne",
+   "bio": "Elias brings over two decades of expertise in scaling distributed fulfillment networks and optimizing global supply chain infrastructure. He offers strategic guidance on operational efficiency and scaling logistics platforms to meet rapid e-commerce demand.",
+   "industry_tags": [
+    "Supply Chain Management",
+    "Operations",
+    "SaaS",
+    "E-commerce Infrastructure"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Warehouse Automation",
+    "Last-Mile Delivery Optimization",
+    "Inventory Management Systems",
+    "Operational Scaling"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Supply Chain at Shopify",
+   "availability_hours": 6,
+   "doc_id": "elias_thorne"
+  },
+  {
+   "name": "Esther Tan",
+   "bio": "Product strategist who has launched three clinical AI products into regulated healthcare markets in ASEAN and Australia.",
+   "industry_tags": [
+    "Health AI",
+    "ML Diagnostics",
+    "Clinical Data"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Health AI",
+    "ML Diagnostics",
+    "Clinical Data",
+    "MedTech"
+   ],
+   "linkedin": null,
+   "title": "Health AI Product Strategist",
+   "availability_hours": 5,
+   "doc_id": "esther_tan"
+  },
+  {
+   "name": "Faiz Hassan",
+   "bio": "Ecosystem builder with expertise in B2B SaaS scaling, developer tool ecosystems, and cloud infrastructure for Southeast Asian markets.",
+   "industry_tags": [
+    "B2B",
+    "SaaS",
+    "Developer Tools"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Growth Strategy",
+    "Cloud Infrastructure",
+    "Developer Ecosystems",
+    "Market Expansion"
+   ],
+   "linkedin": null,
+   "title": "B2B SaaS Growth Lead",
+   "availability_hours": 10,
+   "doc_id": "faiz_hassan"
+  },
+  {
+   "name": "Hernando Cruz",
+   "bio": "Zero-trust architect who has designed security frameworks for 3 unicorn startups. Previously red-teamed for a Fortune 500 financial institution.",
+   "industry_tags": [
+    "Zero-Trust",
+    "Penetration Testing",
+    "Cloud Security"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Zero-Trust",
+    "Penetration Testing",
+    "Cloud Security"
+   ],
+   "linkedin": null,
+   "title": "Cybersecurity & Zero-Trust Architect",
+   "availability_hours": 8,
+   "doc_id": "hernando_cruz"
+  },
+  {
+   "name": "Javier Arriaga",
+   "bio": "Javier brings over a decade of experience scaling high-growth fintech platforms across emerging markets by optimizing user acquisition and regulatory compliance frameworks. He offers strategic guidance on navigating the complex tax-tech landscape in Mexico and building localized product-market fit for mass-market adoption.",
+   "industry_tags": [
+    "Fintech",
+    "Growth Strategy",
+    "Emerging Markets",
+    "Regulatory Tech"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Go-to-market strategy",
+    "Customer acquisition cost optimization",
+    "Fintech regulatory navigation",
+    "Scaling SaaS operations",
+    "Product localization"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Growth at Nubank & LatAm Fintech Advisor",
+   "availability_hours": 8,
+   "doc_id": "javier_arriaga"
+  },
+  {
+   "name": "Jonathan Sterling-Wells",
+   "bio": "With over a decade of experience scaling global payment architectures, I specialize in navigating the complexities of banking APIs and recurring billing systems. I offer strategic guidance on building robust, high-trust financial platforms and optimizing merchant acquisition strategies for early-stage fintechs.",
+   "industry_tags": [
+    "Fintech",
+    "Payments Infrastructure",
+    "API Strategy",
+    "SaaS Scaling",
+    "Regulatory Compliance"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Payment Gateway Integration",
+    "Subscription Billing Logic",
+    "Risk & Fraud Mitigation",
+    "API Product Management",
+    "Go-to-Market Strategy"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Infrastructure at Stripe",
+   "availability_hours": 6,
+   "doc_id": "jonathan_sterling_wells"
+  },
+  {
+   "name": "Jordan Kessler",
+   "bio": "Jordan led critical infrastructure scaling initiatives that protected global enterprises from sophisticated identity-based cyber threats. He leverages this deep technical background to help early-stage security founders refine their architecture and navigate the complex compliance requirements of the B2B SaaS landscape.",
+   "industry_tags": [
+    "Cybersecurity",
+    "Cloud Infrastructure",
+    "DevOps",
+    "Enterprise SaaS",
+    "Zero Trust Architecture"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Product-Market Fit",
+    "Enterprise Sales Strategy",
+    "SOC2 Compliance",
+    "Scalable System Architecture",
+    "Go-To-Market Execution"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Engineering at Cloudflare",
+   "availability_hours": 6,
+   "doc_id": "jordan_kessler"
+  },
+  {
+   "name": "Julian Vane",
+   "bio": "Julian spent over six years scaling design infrastructure tools and helping teams bridge the gap between design and development workflows. He specializes in advising open-source founders on product-led growth strategies and building sustainable developer communities.",
+   "industry_tags": [
+    "Product-Led Growth",
+    "Developer Experience",
+    "Design Systems",
+    "Community Building"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Developer Relations",
+    "Open Source Monetization",
+    "Product Strategy",
+    "Technical Documentation",
+    "Go-To-Market Execution"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Product at Figma",
+   "availability_hours": 6,
+   "doc_id": "julian_vane"
+  },
+  {
+   "name": "Julianne St. Claire",
+   "bio": "With over a decade of experience scaling circular fashion logistics, I specialize in optimizing inventory turnover and customer acquisition for subscription-based models. I help early-stage founders navigate the complex operational hurdles of reverse logistics and sustainable retail growth.",
+   "industry_tags": [
+    "Circular Economy",
+    "Logistics & Operations",
+    "Subscription Models",
+    "Retail Technology"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Inventory Management",
+    "Reverse Logistics",
+    "Growth Strategy",
+    "Unit Economics",
+    "Customer Lifecycle Management"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Operations at Rent the Runway",
+   "availability_hours": 6,
+   "doc_id": "julianne_st__claire"
+  },
+  {
+   "name": "Leong Lai Fong",
+   "bio": "Former regulatory advisor with deep expertise in ESG compliance frameworks and RegTech automation pipelines across ASEAN financial markets.",
+   "industry_tags": [
+    "RegTech",
+    "ESG",
+    "Financial Services"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Regulatory Compliance",
+    "ESG Frameworks",
+    "Automation",
+    "Policy Advisory"
+   ],
+   "linkedin": null,
+   "title": "RegTech Advisor & Former Bank Negara Regulatory Lead",
+   "availability_hours": 6,
+   "doc_id": "leong_lai_fong"
+  },
+  {
+   "name": "Luciana Ferraz",
+   "bio": "Luciana has over a decade of experience scaling B2B SaaS platforms across Latin American markets by leveraging advanced predictive analytics. She offers startups strategic guidance on optimizing sales funnels and integrating data-driven insights into their core value proposition.",
+   "industry_tags": [
+    "SaaS",
+    "Revenue Operations",
+    "Market Expansion",
+    "Data Analytics"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Go-to-Market Strategy",
+    "Customer Acquisition Modeling",
+    "Sales Pipeline Optimization",
+    "Data-Driven Decision Making"
+   ],
+   "linkedin": null,
+   "title": "Head of Growth & Revenue Strategy at ScaleUp LatAm",
+   "availability_hours": 6,
+   "doc_id": "luciana_ferraz"
+  },
+  {
+   "name": "Marcus Chen-Holloway",
+   "bio": "With over a decade of experience scaling intuitive design interfaces, I specialize in transforming complex technical workflows into accessible user experiences. I offer startups strategic guidance on product-led growth and building robust design systems that empower non-expert users.",
+   "industry_tags": [
+    "Product-Led Growth",
+    "UX/UI Design",
+    "SaaS Scaling",
+    "Developer Experience",
+    "Product Strategy"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Product-Led Growth Strategy",
+    "User Interface Accessibility",
+    "Design System Architecture",
+    "Go-to-Market Strategy",
+    "SaaS Product Roadmap"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Product at Figma and Design Systems Strategist",
+   "availability_hours": 8,
+   "doc_id": "marcus_chen_holloway"
+  },
+  {
+   "name": "Marcus Holloway",
+   "bio": "With over a decade of experience scaling high-growth real-money gaming platforms, I specialize in navigating complex regulatory landscapes and optimizing user acquisition funnels. I offer startups strategic guidance on balancing aggressive growth with robust compliance and risk management frameworks.",
+   "industry_tags": [
+    "iGaming",
+    "FinTech",
+    "Sports Betting",
+    "User Acquisition"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Regulatory Compliance",
+    "Growth Hacking",
+    "Risk Management",
+    "Monetization Strategy",
+    "Platform Scaling"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Operations at DraftKings",
+   "availability_hours": 8,
+   "doc_id": "marcus_holloway"
+  },
+  {
+   "name": "Marcus Sterling",
+   "bio": "With over 15 years of experience scaling revenue organizations, I specialize in unifying cross-functional data siloes to drive predictable growth. I help early-stage B2B founders implement streamlined operational frameworks that bridge the gap between sales and post-sales teams.",
+   "industry_tags": [
+    "Revenue Operations",
+    "GTM Strategy",
+    "Enterprise SaaS",
+    "Data Analytics"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Revenue Operations Architecture",
+    "Churn Reduction Strategies",
+    "Customer Lifecycle Management",
+    "Cross-functional Process Optimization"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Revenue Operations at Salesforce",
+   "availability_hours": 6,
+   "doc_id": "marcus_sterling"
+  },
+  {
+   "name": "Marcus Sterling-Vance",
+   "bio": "With over two decades of experience scaling autonomous supply chain infrastructure, I specialize in navigating the complexities of B2B enterprise integration. I offer strategic guidance on optimizing fleet utilization and building robust partnerships within the mobility-as-a-service ecosystem.",
+   "industry_tags": [
+    "Logistics",
+    "Autonomous Systems",
+    "Supply Chain",
+    "Operations Strategy"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Enterprise SaaS Sales",
+    "Operational Scaling",
+    "IoT Systems Integration",
+    "Fleet Management Optimization",
+    "B2B Go-to-Market Strategy"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Operations at Global Logistics Systems",
+   "availability_hours": 8,
+   "doc_id": "marcus_sterling_vance"
+  },
+  {
+   "name": "Marcus Sterling-West",
+   "bio": "With over two decades of experience scaling high-volume manufacturing lines in the EV sector, I specialize in streamlining production for hardware-heavy climate startups. I offer strategic guidance on navigating complex raw material supply chains and transitioning from lab-scale prototypes to industrial-scale production.",
+   "industry_tags": [
+    "Manufacturing",
+    "Supply Chain",
+    "EV Infrastructure",
+    "Hardware",
+    "Operations"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Manufacturing Scaling",
+    "Supply Chain Optimization",
+    "Hardware Lifecycle Management",
+    "Procurement Strategy",
+    "Process Engineering"
+   ],
+   "linkedin": null,
+   "title": "Head of Supply Chain Strategy at Voltic Manufacturing",
+   "availability_hours": 6,
+   "doc_id": "marcus_sterling_west"
+  },
+  {
+   "name": "Marcus Thorne",
+   "bio": "With over two decades of experience scaling enterprise data infrastructure and compliance frameworks, I specialize in helping startups navigate the complexities of data integrity and regulatory reporting. I offer founders strategic guidance on building trust-based software architectures that meet rigorous institutional audit standards.",
+   "industry_tags": [
+    "SaaS",
+    "Data Governance",
+    "Enterprise Software",
+    "Compliance",
+    "FinTech"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Enterprise Sales Strategy",
+    "Data Governance Frameworks",
+    "Regulatory Compliance",
+    "Product-Market Fit",
+    "Scalable Architecture"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Data Governance at Salesforce",
+   "availability_hours": 6,
+   "doc_id": "marcus_thorne"
+  },
+  {
+   "name": "Marcus Thorne-Bennett",
+   "bio": "With over 15 years of experience scaling donation platforms and fintech infrastructure, I specialize in navigating the complex intersection of regulatory compliance and user-centric donor engagement. I offer strategic guidance on building sustainable revenue models for social impact startups looking to bridge the gap between traditional philanthropy and modern digital finance.",
+   "industry_tags": [
+    "Fintech",
+    "Nonprofit Tech",
+    "Growth Strategy",
+    "Product Scaling"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Donor Acquisition Strategies",
+    "Regulatory Compliance",
+    "SaaS Pricing Models",
+    "Impact Measurement",
+    "Go-to-Market Strategy"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Growth at DonorDrive",
+   "availability_hours": 6,
+   "doc_id": "marcus_thorne_bennett"
+  },
+  {
+   "name": "Marcus Thorne-Smith",
+   "bio": "With over twenty years of experience optimizing complex supply chain networks, I specialize in scaling novel freight technologies from pilot programs to global operations. I offer founders strategic guidance on navigating regulatory hurdles and integrating autonomous systems into existing logistics infrastructure.",
+   "industry_tags": [
+    "Logistics",
+    "Supply Chain Management",
+    "Autonomous Systems",
+    "Aviation Operations"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Network Optimization",
+    "Regulatory Compliance",
+    "Operations Scaling",
+    "Freight Economics",
+    "Strategic Partnerships"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Logistics Engineering at FedEx Express",
+   "availability_hours": 8,
+   "doc_id": "marcus_thorne_smith"
+  },
+  {
+   "name": "Marcus Thorne-Vance",
+   "bio": "With over a decade of experience scaling ghost kitchen operations and last-mile delivery logistics, I specialize in optimizing unit economics for tech-heavy food service ventures. I offer deep insights into supply chain automation and fleet management to help founders bridge the gap between prototype and profitable scale.",
+   "industry_tags": [
+    "Logistics & Supply Chain",
+    "Food Tech",
+    "Operations Management",
+    "Last-Mile Delivery"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Unit Economics Modeling",
+    "Automated Fulfillment",
+    "Go-to-Market Strategy",
+    "Operational Scalability"
+   ],
+   "linkedin": null,
+   "title": "Former COO of CloudKitchens and Operations Strategist",
+   "availability_hours": 8,
+   "doc_id": "marcus_thorne_vance"
+  },
+  {
+   "name": "Marcus Vane",
+   "bio": "With over two decades of experience scaling high-velocity sales organizations, I specialize in integrating automated workflows to drive revenue efficiency. I offer strategic guidance on go-to-market execution and optimizing AI-driven sales stacks for early-stage B2B startups.",
+   "industry_tags": [
+    "Sales Operations",
+    "Go-To-Market Strategy",
+    "Enterprise Software",
+    "Revenue Operations",
+    "Scaling"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Sales Pipeline Optimization",
+    "CRM Integration Strategy",
+    "B2B Customer Acquisition",
+    "Product-Market Fit Analysis"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Sales Operations at Salesforce",
+   "availability_hours": 8,
+   "doc_id": "marcus_vane"
+  },
+  {
+   "name": "Mateo Valenzuela",
+   "bio": "With over two decades of experience scaling telecommunications infrastructure across emerging markets, I specialize in navigating regulatory landscapes and deploying cost-effective last-mile connectivity. I offer strategic guidance on technical scalability and operational resilience for startups aiming to bridge the digital divide in Latin America.",
+   "industry_tags": [
+    "Telecommunications",
+    "Infrastructure",
+    "Emerging Markets",
+    "Public Policy"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Network Architecture",
+    "Regulatory Compliance",
+    "Go-to-Market Strategy",
+    "CAPEX Optimization",
+    "Strategic Partnerships"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Infrastructure at Movistar LatAm",
+   "availability_hours": 6,
+   "doc_id": "mateo_valenzuela"
+  },
+  {
+   "name": "Priya Nair",
+   "bio": "EdTech founder with two exits. Expertise in learning platform architecture, curriculum design technology, and educational marketplace scaling.",
+   "industry_tags": [
+    "EdTech",
+    "Marketplace",
+    "Consumer"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Platform Architecture",
+    "Curriculum Tech",
+    "Marketplace Scaling",
+    "Product Strategy"
+   ],
+   "linkedin": null,
+   "title": "EdTech Founder (2x Exits)",
+   "availability_hours": 8,
+   "doc_id": "priya_nair"
+  },
+  {
+   "name": "Razif Kamaruddin",
+   "bio": "CTO background in machine learning infrastructure, LLM deployment, and NLP systems at enterprise scale. Previously at Google Brain.",
+   "industry_tags": [
+    "AI/ML",
+    "NLP",
+    "Infrastructure"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "LLM Deployment",
+    "NLP Systems",
+    "ML Infrastructure",
+    "Deep Learning"
+   ],
+   "linkedin": null,
+   "title": "ML Infrastructure Lead, ex-Google Brain",
+   "availability_hours": 6,
+   "doc_id": "razif_kamaruddin"
+  },
+  {
+   "name": "Ricardo Mendes",
+   "bio": "With over two decades of experience navigating the complexities of Brazilian banking infrastructure and regulatory compliance, I specialize in helping fintechs bridge the gap between disruptive technology and legacy financial systems. I offer strategic guidance on scaling API-first products and navigating the unique data security requirements of the Latin American financial landscape.",
+   "industry_tags": [
+    "Banking Infrastructure",
+    "Regulatory Compliance",
+    "Digital Transformation",
+    "Strategy"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Open Banking Regulation",
+    "API Strategy",
+    "Enterprise Sales",
+    "Risk Management",
+    "Go-to-Market Strategy"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Digital Banking at Itaú Unibanco",
+   "availability_hours": 6,
+   "doc_id": "ricardo_mendes"
+  },
+  {
+   "name": "Robert Halloway",
+   "bio": "With over 15 years of experience in the intersection of wealth management and elder care technology, Robert specializes in designing secure financial tools for vulnerable populations. He offers startups strategic guidance on navigating complex regulatory environments while maintaining a user-centric approach for caregivers.",
+   "industry_tags": [
+    "Fintech",
+    "ElderTech",
+    "Wealth Management",
+    "Regulatory Compliance"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Product Strategy",
+    "Regulatory Compliance",
+    "User Experience Design",
+    "Financial Inclusion",
+    "Market Entry"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Product at ElderSafe Financial",
+   "availability_hours": 8,
+   "doc_id": "robert_halloway"
+  },
+  {
+   "name": "Sarah Chen",
+   "bio": "Deep tech investor with expertise in climate tech, sustainability metrics, and green energy startup scaling across ASEAN.",
+   "industry_tags": [
+    "Climate Tech",
+    "Sustainability",
+    "ESG"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Climate Strategy",
+    "ESG Metrics",
+    "Venture Scaling",
+    "Green Energy"
+   ],
+   "linkedin": null,
+   "title": "Climate Tech Investor",
+   "availability_hours": 4,
+   "doc_id": "sarah_chen"
+  },
+  {
+   "name": "Sarah Jenkins",
+   "bio": "With over a decade of experience scaling enterprise productivity tools, I specialize in helping startups refine their core value propositions and user onboarding flows. I offer actionable insights on product-led growth strategies to help Dashworks become an indispensable part of the modern digital workspace.",
+   "industry_tags": [
+    "Product-Led Growth",
+    "Enterprise SaaS",
+    "Productivity Software",
+    "User Experience"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Product Roadmap Strategy",
+    "Customer Acquisition",
+    "Enterprise Onboarding",
+    "SaaS Pricing Models"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Product at Slack and Enterprise SaaS Advisor",
+   "availability_hours": 6,
+   "doc_id": "sarah_jenkins"
+  },
+  {
+   "name": "Sarah Jenkins-Vance",
+   "bio": "With a deep background in scaling search-as-a-service platforms, I specialize in optimizing technical documentation workflows and developer experience. I help early-stage B2B startups refine their product-market fit and implement robust search infrastructure.",
+   "industry_tags": [
+    "SaaS",
+    "API Economy",
+    "Search Infrastructure",
+    "Developer Experience"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Product Strategy",
+    "Developer Relations",
+    "Search Engine Optimization",
+    "Go-to-Market Strategy",
+    "API Design"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Product at Algolia",
+   "availability_hours": 8,
+   "doc_id": "sarah_jenkins_vance"
+  },
+  {
+   "name": "Sarah Jenkins-Wu",
+   "bio": "With over a decade of experience scaling global language-learning platforms, I specialize in user acquisition and retention strategies for marketplace models. I help startups navigate the complexities of international expansion and product-led growth to achieve sustainable engagement.",
+   "industry_tags": [
+    "EdTech",
+    "Marketplaces",
+    "Consumer Apps"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Growth Hacking",
+    "International Expansion",
+    "User Retention Metrics",
+    "Marketplace Liquidity"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Growth at Duolingo",
+   "availability_hours": 8,
+   "doc_id": "sarah_jenkins_wu"
+  },
+  {
+   "name": "Sarah MacLeod",
+   "bio": "With over 15 years of experience navigating the complexities of Canadian mortgage underwriting and regulatory compliance, I help fintech startups streamline their approval workflows. I provide strategic guidance on scaling digital lending platforms while maintaining rigorous risk management standards.",
+   "industry_tags": [
+    "Fintech",
+    "Banking",
+    "Regulatory Technology",
+    "Digital Lending"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Mortgage Underwriting",
+    "Regulatory Compliance",
+    "Go-to-Market Strategy",
+    "Risk Mitigation",
+    "Lender Relations"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Lending Strategy at Equitable Bank",
+   "availability_hours": 8,
+   "doc_id": "sarah_macleod"
+  },
+  {
+   "name": "Sarah Whitmore",
+   "bio": "With over a decade of experience scaling developer-focused SaaS platforms, I specialize in building high-velocity experimentation loops that drive user acquisition. I help founders bridge the gap between technical open-source adoption and sustainable enterprise revenue growth.",
+   "industry_tags": [
+    "SaaS",
+    "Product-Led Growth",
+    "Developer Experience",
+    "Data Strategy"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Product-Led Growth Strategy",
+    "Go-to-Market Execution",
+    "Metrics & KPI Optimization",
+    "Developer Community Building"
+   ],
+   "linkedin": null,
+   "title": "VP of Product-Led Growth at CloudScale",
+   "availability_hours": 6,
+   "doc_id": "sarah_whitmore"
+  },
+  {
+   "name": "Saurabh Mishra",
+   "bio": "Director-level compliance expert with regulatory experience across India, Singapore, and Malaysia's central banking frameworks.",
+   "industry_tags": [
+    "RegTech",
+    "ESG Compliance",
+    "Automation"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "RegTech",
+    "ESG Compliance",
+    "Automation",
+    "Policy"
+   ],
+   "linkedin": null,
+   "title": "RegTech & Compliance Director",
+   "availability_hours": 8,
+   "doc_id": "saurabh_mishra"
+  },
+  {
+   "name": "Sophie Laurent",
+   "bio": "With over a decade of experience scaling B2B SaaS revenue engines, I specialize in bridging the gap between financial forecasting and operational execution. I help early-stage founders build robust go-to-market frameworks that ensure their revenue plans are both ambitious and actionable.",
+   "industry_tags": [
+    "SaaS",
+    "B2B Growth",
+    "Revenue Operations",
+    "Go-To-Market Strategy"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Revenue Modeling",
+    "Sales Pipeline Architecture",
+    "Unit Economics",
+    "Go-To-Market Strategy",
+    "SaaS Metrics"
+   ],
+   "linkedin": null,
+   "title": "Former VP of Growth at Spendesk",
+   "availability_hours": 6,
+   "doc_id": "sophie_laurent"
+  },
+  {
+   "name": "Soren Lindholm",
+   "bio": "With a background in scaling enterprise-grade SaaS infrastructure, I specialize in helping developer-centric startups navigate the transition from product-market fit to high-volume commercial expansion. I offer strategic guidance on API monetization, developer experience optimization, and navigating the complexities of B2B sales cycles.",
+   "industry_tags": [
+    "SaaS",
+    "Cloud Infrastructure",
+    "Product Strategy",
+    "Developer Relations",
+    "Enterprise Software"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "API Monetization",
+    "Developer Experience (DX)",
+    "Go-to-Market Strategy",
+    "Enterprise Sales",
+    "Product Roadmap Scaling"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Product at CloudScale Data",
+   "availability_hours": 6,
+   "doc_id": "soren_lindholm"
+  },
+  {
+   "name": "Tadesse Gebre-Meskel",
+   "bio": "With over fifteen years of experience managing complex medical supply chains across challenging terrains, I specialize in bridging the gap between urban hubs and rural health facilities. I offer startups strategic guidance on navigating regulatory frameworks and optimizing last-mile distribution networks to ensure reliable patient access.",
+   "industry_tags": [
+    "Logistics",
+    "HealthTech",
+    "Supply Chain Management",
+    "Public Health",
+    "Emerging Markets"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Last-mile distribution",
+    "Regulatory compliance",
+    "Medical supply chain optimization",
+    "Cross-border logistics",
+    "Public-private partnerships"
+   ],
+   "linkedin": null,
+   "title": "Director of Logistics & Supply Chain, East Africa Health Network",
+   "availability_hours": 6,
+   "doc_id": "tadesse_gebre_meskel"
+  },
+  {
+   "name": "Thiago Alencar",
+   "bio": "With over a decade of experience scaling cross-border payment architectures, I specialize in navigating the complexities of regional regulatory landscapes and technical payment orchestration. I help B2B fintech founders optimize their provider integrations to reduce churn and maximize transaction success rates.",
+   "industry_tags": [
+    "Fintech",
+    "Infrastructure",
+    "Payments",
+    "Cloud Architecture"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "API Strategy",
+    "Payment Orchestration",
+    "Regulatory Compliance",
+    "Technical Due Diligence",
+    "Scalability"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Infrastructure at EBANX",
+   "availability_hours": 6,
+   "doc_id": "thiago_alencar"
+  },
+  {
+   "name": "Vikram Sethi",
+   "bio": "Vikram spent over a decade scaling creator ecosystems and community-driven monetization strategies across emerging markets. He leverages this deep expertise to help ed-tech platforms build sustainable revenue models for independent educators.",
+   "industry_tags": [
+    "EdTech",
+    "Creator Economy",
+    "Digital Monetization",
+    "Community Building"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Creator Acquisition Strategy",
+    "SaaS Pricing Models",
+    "Market Expansion",
+    "Go-to-Market Strategy"
+   ],
+   "linkedin": null,
+   "title": "Former Head of Creator Partnerships, South Asia at YouTube",
+   "availability_hours": 6,
+   "doc_id": "vikram_sethi"
+  },
+  {
+   "name": "Vriraj Singh",
+   "bio": "Senior AI scientist with a track record in building enterprise-grade machine learning infrastructure and adversarial AI systems.",
+   "industry_tags": [
+    "Fraud Detection",
+    "AI Architecture",
+    "Security Protocols"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "Fraud Detection",
+    "AI Architecture",
+    "Security Protocols"
+   ],
+   "linkedin": null,
+   "title": "Senior AI Infrastructure Scientist",
+   "availability_hours": 6,
+   "doc_id": "vriraj_singh"
+  },
+  {
+   "name": "Weiyuan Liu",
+   "bio": "AI researcher turned investor with a background in predictive diagnostics, clinical machine learning models, and health data infrastructure at scale.",
+   "industry_tags": [
+    "Health AI",
+    "MedTech",
+    "Deep Learning"
+   ],
+   "partnerships": 0,
+   "status": "Available",
+   "skills": [
+    "ML Diagnostics",
+    "Clinical Data",
+    "Predictive Analytics",
+    "Health Infrastructure"
+   ],
+   "linkedin": null,
+   "title": "Health AI Researcher & Investor",
+   "availability_hours": 5,
+   "doc_id": "weiyuan_liu"
+  }
+ ],
+ "stats": {
+  "startups": 50,
+  "mentors": 61
+ }
+}

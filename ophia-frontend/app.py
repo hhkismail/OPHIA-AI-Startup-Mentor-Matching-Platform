@@ -5,6 +5,7 @@
 
 import streamlit as st
 import api_client
+import evaluation_page
 from mock_data import (
     PENDING_MATCHES,
     INITIAL_WORKSPACES,
@@ -53,6 +54,12 @@ def init_state():
                 st.session_state.mentors = mentors
                 st.session_state.stats = stats
                 st.session_state.data_source = "live"
+        elif (snapshot := api_client.load_snapshot()) is not None:
+            # Public demo: real exported output, read-only, no backend or cloud calls
+            for key in ("pending_matches", "workspaces", "mentors", "stats"):
+                st.session_state[key] = snapshot[key]
+            st.session_state.snapshot_date = snapshot["exported_at"]
+            st.session_state.data_source = "snapshot"
 
 init_state()
 
@@ -322,7 +329,7 @@ def render_topbar(current_page):
     c_left, c_right = st.columns([6, 4])
 
     with c_left:
-        sub_l, sub_d, sub_m, _ = st.columns([1.5, 1.2, 1.2, 3.1])
+        sub_l, sub_d, sub_m, sub_e, _ = st.columns([1.5, 1.2, 1.2, 1.4, 1.7])
 
         with sub_l:
             st.markdown('<div class="brand-btn-box">', unsafe_allow_html=True)
@@ -347,12 +354,20 @@ def render_topbar(current_page):
                 st.rerun()
             st.markdown('</div>', unsafe_allow_html=True)
 
+        with sub_e:
+            cls = "nav-btn-active" if current_page == "evaluation" else ""
+            st.markdown(f'<div class="{cls}">', unsafe_allow_html=True)
+            if st.button("Evaluation", key="nav_eval"):
+                st.session_state.page = "evaluation"
+                st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
+
     with c_right:
         live = st.session_state.data_source == "live"
         st.markdown(f'''
         <div style="display:flex; gap:0.7rem; align-items:center; justify-content:flex-end;">
             <div class="{'pill-solid' if live else 'pill-outline'}">
-                {'🟢 Live data' if live else 'Demo data'}
+                {'🟢 Live data' if live else '📸 Snapshot' if st.session_state.data_source == 'snapshot' else 'Demo data'}
             </div>
         </div>
         ''', unsafe_allow_html=True)
@@ -397,8 +412,9 @@ def approve_matches(selected_matches: list):
 
 
 def read_only() -> bool:
-    """Live data but no admin key: the backend would refuse every change."""
-    return st.session_state.data_source == "live" and not api_client.API_KEY
+    """Snapshot, or live data without an admin key (the backend would refuse changes)."""
+    source = st.session_state.data_source
+    return source == "snapshot" or (source == "live" and not api_client.API_KEY)
 
 
 def complete_milestone(index: int, day: int):
@@ -431,6 +447,11 @@ def render_dashboard():
         else:
             st.caption("Demo mode: sample data, nothing is saved. "
                        "Set OPHIA_API_URL in .env to use the live backend.")
+    elif st.session_state.data_source == "snapshot":
+        st.info(f"📸 Read-only snapshot of real OPHIA output, exported {st.session_state.snapshot_date}: "
+                "AI-suggested matches with their Gemini grades, from the live system on Google Cloud. "
+                "Mentors are AI-generated; startups are from the public YC dataset. "
+                "See the Evaluation tab for how match quality was measured.")
     elif read_only():
         st.caption("Read-only: showing live data. Set OPHIA_API_KEY in .env to approve, "
                    "reject and update workspaces.")
@@ -825,5 +846,7 @@ render_topbar(st.session_state.page)
 
 if st.session_state.page == "mentors":
     render_mentors()
+elif st.session_state.page == "evaluation":
+    evaluation_page.render()
 else:
     render_dashboard()

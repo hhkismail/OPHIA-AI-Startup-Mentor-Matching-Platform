@@ -50,6 +50,19 @@ ophia-frontend (Streamlit) ◄──► ophia-backend/app.py (FastAPI) ◄──
 
 ---
 
+## Public demo (snapshot)
+
+The public dashboard runs on Streamlit Community Cloud from `ophia-frontend/app.py` and
+shows `ophia-frontend/snapshot.json`: real output exported from the live system (AI
+suggestions with their Gemini grades). It is read-only and never calls Google Cloud, so
+visitors cost nothing. The **Evaluation** tab shows how match quality was measured.
+
+To refresh it after changes: `python ophia-frontend/export_snapshot.py` (reads Firestore
+anonymously, so no Gemini calls), then commit `snapshot.json`.
+
+The dashboard picks its data source automatically: the live backend if `OPHIA_API_URL` is
+set, otherwise the snapshot if present, otherwise built-in sample data.
+
 ## Quick Start — demo mode (no keys needed)
 
 ```bash
